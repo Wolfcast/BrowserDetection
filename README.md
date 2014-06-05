@@ -10,21 +10,23 @@ Always keep in mind that `HTTP_USER_AGENT` can be easily spoofed by the user.
 Features
 --------
 
+The [Wolfcast](http://wolfcast.com/) BrowserDetection PHP class is the most accurate detection class. **It has been tested with 14249 different user agent strings and it he a 99.951% accuracy ratio!**
+
 Detects the following broswers:
   * Amaya
   * Android
   * Bingbot
   * BlackBerry
   * BlackBerry Tablet OS
-  * Chrome
+  * Chrome 0.2 - 35.0+
   * Firebird
-  * Firefox
+  * Firefox 0.10 - 29.0+
   * Galeon
   * GNU IceCat
   * GNU IceWeasel
   * Googlebot
   * iCab
-  * Internet Explorer
+  * Internet Explorer 1.0 - 11.0+
   * Internet Explorer Mobile
   * Konqueror
   * Lynx
@@ -35,11 +37,11 @@ Detects the following broswers:
   * Netscape
   * Nokia Browser
   * OmniWeb
-  * Opera
+  * Opera 4.02 - 12.0+
   * Opera Mini
   * Opera Mobile
   * Phoenix
-  * Safari
+  * Safari 1.0 - 6.0+
   * W3C Validator
   * Yahoo! Multimedia
   * Yahoo! Slurp
@@ -74,6 +76,8 @@ Usage
 -----
 
 ```
+require_once('BrowserDetection.php');
+
 $browser = new BrowserDetection();
 $userBrowserName = $browser->getBrowser();
 $userBrowserVer = $browser->getVersion();
