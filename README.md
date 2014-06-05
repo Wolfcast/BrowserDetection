@@ -10,7 +10,7 @@ Always keep in mind that `HTTP_USER_AGENT` can be easily spoofed by the user.
 Features
 --------
 
-The [Wolfcast](http://wolfcast.com/) BrowserDetection PHP class is the most accurate detection class. **It has been tested with 14250 different user agent strings and it he a 99.95% accuracy ratio!**
+The [Wolfcast](http://wolfcast.com/) BrowserDetection PHP class is the most accurate detection class. **It has been tested with 14250 different user agent strings and it have a 99.95% accuracy ratio!**
 
 Detects the following broswers:
   * Amaya
