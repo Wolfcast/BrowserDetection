@@ -42,7 +42,7 @@ Detects the following broswers:
   * Opera Mobile
   * Phoenix
   * Safari 1.0 - 6.0+
-  * W3C Validator
+  * W3C Validator (W3C-checklink, Jigsaw, W3C-mobileOK & W3C_Validator)
   * Yahoo! Multimedia
   * Yahoo! Slurp
 
