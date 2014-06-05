@@ -14,7 +14,7 @@
  *
  * @package BrowserDetection
  * @version 2.1
- * @last-modified June 4, 2014
+ * @last-modified June 5, 2014
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2014, Wolfcast
  * @link http://wolfcast.com/
@@ -65,7 +65,7 @@
  *
  * @package BrowserDetection
  * @version 2.1
- * @last-modified June 4, 2014
+ * @last-modified June 5, 2014
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2014, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -108,7 +108,6 @@ class BrowserDetection
     const BROWSER_UNKNOWN = 'unknown';
     const BROWSER_W3CVALIDATOR = 'W3C Validator';
     const BROWSER_YAHOO_MM = 'Yahoo! Multimedia';
-    const OPERATING_SYSTEM_UNKNOWN = 'unknown';
     const PLATFORM_ANDROID = 'Android';
     const PLATFORM_BEOS = 'BeOS';
     const PLATFORM_BLACKBERRY = 'BlackBerry';
@@ -139,7 +138,6 @@ class BrowserDetection
     private $_isAol = false;
     private $_isMobile = false;
     private $_isRobot = false;
-    private $_os = '';
     private $_platform = '';
     private $_version = '';
 
@@ -1232,7 +1230,6 @@ class BrowserDetection
         $this->_isAol = false;
         $this->_isMobile = false;
         $this->_isRobot = false;
-        $this->_os = self::OPERATING_SYSTEM_UNKNOWN;
         $this->_platform = self::PLATFORM_UNKNOWN;
         $this->_version = self::VERSION_UNKNOWN;
     }
