@@ -10,7 +10,7 @@ Always keep in mind that `HTTP_USER_AGENT` can be easily spoofed by the user.
 Features
 --------
 
-The [Wolfcast](http://wolfcast.com/) BrowserDetection PHP class is the most accurate detection class. **It has been tested with 14249 different user agent strings and it he a 99.951% accuracy ratio!**
+The [Wolfcast](http://wolfcast.com/) BrowserDetection PHP class is the most accurate detection class. **It has been tested with 14250 different user agent strings and it he a 99.95% accuracy ratio!**
 
 Detects the following broswers:
   * Amaya
@@ -41,7 +41,7 @@ Detects the following broswers:
   * Opera Mini
   * Opera Mobile
   * Phoenix
-  * Safari 1.0 - 6.0+
+  * Safari 1.0 - 7.0+
   * W3C Validator (W3C-checklink, Jigsaw, W3C-mobileOK & W3C_Validator)
   * Yahoo! Multimedia
   * Yahoo! Slurp
