@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package BrowserDetection
- * @version 2.1
- * @last-modified June 5, 2014
+ * @version 2.1.1
+ * @last-modified June 11, 2014
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2014, Wolfcast
  * @link http://wolfcast.com/
@@ -36,6 +36,9 @@
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
+ *
+ * 2014-07-11:
+ *  + Version 2.1.1. Better detection of mobile devices and platforms.
  *
  * 2014-06-04:
  *  + Version 2.1. Added IE 11+ support.
@@ -64,8 +67,8 @@
  *  + Better Mozilla detection
  *
  * @package BrowserDetection
- * @version 2.1
- * @last-modified June 5, 2014
+ * @version 2.1.1
+ * @last-modified June 11, 2014
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2014, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -1061,7 +1064,7 @@ class BrowserDetection
      */
     protected function checkPlatform()
     {
-        /* Desktop platforms */
+        /* Mobile platforms */
         if (stripos($this->_agent, 'Windows Phone') !== false ||      /* Check Windows Phone (formerly Windows Mobile) before Windows */
             stripos($this->_agent, 'IEMobile') !== false) {
             $this->_platform = self::PLATFORM_WINDOWS_PHONE;
@@ -1069,8 +1072,6 @@ class BrowserDetection
         } else if (stripos($this->_agent, 'Windows CE') !== false) {  /* Check Windows CE before Windows */
             $this->_platform = self::PLATFORM_WINDOWS_CE;
             $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Windows') !== false) {
-            $this->_platform = self::PLATFORM_WINDOWS;
         } else if (stripos($this->_agent, 'iPhone') !== false) {      /* Check iPad/iPod/iPhone before Macintosh */
             $this->_platform = self::PLATFORM_IPHONE;
             $this->setMobile(true);
@@ -1080,18 +1081,6 @@ class BrowserDetection
         } else if (stripos($this->_agent, 'iPod') !== false) {
             $this->_platform = self::PLATFORM_IPOD;
             $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Macintosh') !== false) {
-            $this->_platform = self::PLATFORM_MACINTOSH;
-        } else if (stripos($this->_agent, 'Linux') !== false) {
-            $this->_platform = self::PLATFORM_LINUX;
-        } else if (stripos($this->_agent, 'FreeBSD') !== false) {
-            $this->_platform = self::PLATFORM_FREEBSD;
-        } else if (stripos($this->_agent, 'OpenBSD') !== false) {
-            $this->_platform = self::PLATFORM_OPENBSD;
-        } else if (stripos($this->_agent, 'NetBSD') !== false) {
-            $this->_platform = self::PLATFORM_NETBSD;
-
-        /* Mobile platforms */
         } else if (stripos($this->_agent, 'Android') !== false) {
             $this->_platform = self::PLATFORM_ANDROID;
             $this->setMobile(true);
@@ -1106,6 +1095,20 @@ class BrowserDetection
         } else if (stripos($this->_agent, 'Nokia') !== false) {
             $this->_platform = self::PLATFORM_NOKIA;
             $this->setMobile(true);
+
+        /* Desktop platforms */
+        } else if (stripos($this->_agent, 'Windows') !== false) {
+            $this->_platform = self::PLATFORM_WINDOWS;
+        } else if (stripos($this->_agent, 'Macintosh') !== false) {
+            $this->_platform = self::PLATFORM_MACINTOSH;
+        } else if (stripos($this->_agent, 'Linux') !== false) {
+            $this->_platform = self::PLATFORM_LINUX;
+        } else if (stripos($this->_agent, 'FreeBSD') !== false) {
+            $this->_platform = self::PLATFORM_FREEBSD;
+        } else if (stripos($this->_agent, 'OpenBSD') !== false) {
+            $this->_platform = self::PLATFORM_OPENBSD;
+        } else if (stripos($this->_agent, 'NetBSD') !== false) {
+            $this->_platform = self::PLATFORM_NETBSD;
 
         /* Discontinued */
         } else if (stripos($this->_agent, 'OpenSolaris') !== false) {
