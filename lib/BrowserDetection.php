@@ -14,7 +14,7 @@
  *
  * @package BrowserDetection
  * @version 2.1.1
- * @last-modified June 11, 2014
+ * @last-modified September 2, 2014
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2014, Wolfcast
  * @link http://wolfcast.com/
@@ -32,7 +32,7 @@
  *     echo 'You have FireFox version 5 or greater.';
  * }
  *
- * The class is an updated version of Chris Schuld's Browser class version 1.9 which is unmaintaned since August 20th,
+ * The class is an updated version of Chris Schuld's Browser class version 1.9 which is unmaintained since August 20th,
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
@@ -68,7 +68,7 @@
  *
  * @package BrowserDetection
  * @version 2.1.1
- * @last-modified June 11, 2014
+ * @last-modified September 2, 2014
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2014, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -78,6 +78,7 @@
  */
 class BrowserDetection
 {
+
     const BROWSER_AMAYA = 'Amaya';
     const BROWSER_ANDROID = 'Android';
     const BROWSER_BINGBOT = 'Bingbot';
@@ -165,7 +166,7 @@ class BrowserDetection
     public function __toString()
     {
         $result = '<strong>Browser name:</strong> ' . $this->getBrowser() . '<br />' . PHP_EOL .
-                  '<strong>Browser version:</strong> ' . $this->getVersion() . '<br />' . PHP_EOL;
+                '<strong>Browser version:</strong> ' . $this->getVersion() . '<br />' . PHP_EOL;
 
         if ($this->isInIECompatibilityView()) {
             $result .= '<strong>Compatibility view mode:</strong> ' . $this->getIECompatibilityView() . '<br />' . PHP_EOL;
@@ -278,7 +279,7 @@ class BrowserDetection
     }
 
     /**
-     * Get the name of the platform on which the browser is runned on (such as Windows, Apple, iPhone, etc.). All of the
+     * Get the name of the platform on which the browser is run on (such as Windows, Apple, iPhone, etc.). All of the
      * return values are class constants. You can compare them like this:
      * $myBrowserInstance->getPlatform() == BrowserDetection::PLATFORM_ANDROID.
      * @return string Returns the name of the platform or BrowserDetection::PLATFORM_UNKNOWN if unknown.
@@ -480,7 +481,7 @@ class BrowserDetection
     {
         //Safari heavily matches with Firefox, ensure that Safari is filtered out...
         if (preg_match('/.*Firefox[ (\/]*([a-z0-9.-]*)/i', $this->_agent, $matches) &&
-            stripos($this->_agent, 'Safari') === false) {
+                stripos($this->_agent, 'Safari') === false) {
             $this->setBrowser(self::BROWSER_FIREFOX);
             $this->setVersion($matches[1]);
             $this->setMobile(false);
@@ -563,8 +564,8 @@ class BrowserDetection
 
         //Several browsers uses IE compatibility UAs filter these browsers out (but after testing for IE Mobile)
         if (stripos($this->_agent, 'Opera') !== false ||
-            stripos($this->_agent, 'BlackBerry') !== false ||
-            stripos($this->_agent, 'Nokia') !== false) {
+                stripos($this->_agent, 'BlackBerry') !== false ||
+                stripos($this->_agent, 'Nokia') !== false) {
             return false;
         }
 
@@ -715,7 +716,7 @@ class BrowserDetection
      */
     protected function checkBrowserNetscape()
     {
-        //BlackBerry & Nokia UAs can confilict with Netscape UAs
+        //BlackBerry & Nokia UAs can conflict with Netscape UAs
         if (stripos($this->_agent, 'BlackBerry') !== false || stripos($this->_agent, 'Nokia') !== false) {
             return false;
         }
@@ -741,8 +742,10 @@ class BrowserDetection
 
                     if (strtolower(substr($version, -4)) == '-sgi') {
                         $version = substr($version, 0, -4);
-                    } else if (strtolower(substr($version, -4)) == 'gold') {
-                        $version = substr($version, 0, -4) . ' Gold'; //Doubles spaces (if any) will be normalized by setVersion()
+                    } else {
+                        if (strtolower(substr($version, -4)) == 'gold') {
+                            $version = substr($version, 0, -4) . ' Gold'; //Doubles spaces (if any) will be normalized by setVersion()
+                        }
                     }
                 }
             }
@@ -866,7 +869,7 @@ class BrowserDetection
                $this->checkBrowserIceWeasel() ||
                $this->checkBrowserGaleon() ||           /* Galeon is based on Firefox and needs to be tested before Firefox is tested */
                $this->checkBrowserFirefox() ||
-               /* Current browsers that don't need to be tetected in any special order */
+               /* Current browsers that don't need to be detected in any special order */
                $this->checkBrowserKonqueror() ||
                $this->checkBrowserLynx() ||
                $this->checkBrowserAmaya() ||
@@ -883,7 +886,7 @@ class BrowserDetection
                $this->checkBrowserW3CValidator() ||
                /* WebKit base check (after most other checks) */
                $this->checkBrowserSafari() ||
-               /* Deprecated browsers that don't need to be tetected in any special order */
+               /* Deprecated browsers that don't need to be detected in any special order */
                $this->checkBrowserFirebird() ||
                $this->checkBrowserPhoenix() ||
                /* Mozilla is such an open standard that it must be checked last */
@@ -949,7 +952,7 @@ class BrowserDetection
      * @param mixed $uaNameToLookFor The string (or array of strings) representing the browser name to find in the user
      * agent.
      * @param string $userAgent The user agent string to work with.
-     * @param string $browserName The litteral browser name. Always use a class constant!
+     * @param string $browserName The literal browser name. Always use a class constant!
      * @param boolean $isMobile Determines if the browser is from a mobile device.
      * @param boolean $isRobot Determines if the browser is a robot or not.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
@@ -1065,14 +1068,14 @@ class BrowserDetection
     protected function checkPlatform()
     {
         /* Mobile platforms */
-        if (stripos($this->_agent, 'Windows Phone') !== false ||      /* Check Windows Phone (formerly Windows Mobile) before Windows */
-            stripos($this->_agent, 'IEMobile') !== false) {
+        if (stripos($this->_agent, 'Windows Phone') !== false ||     /* Check Windows Phone (formerly Windows Mobile) before Windows */
+                stripos($this->_agent, 'IEMobile') !== false) {
             $this->_platform = self::PLATFORM_WINDOWS_PHONE;
             $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Windows CE') !== false) {  /* Check Windows CE before Windows */
+        } else if (stripos($this->_agent, 'Windows CE') !== false) { /* Check Windows CE before Windows */
             $this->_platform = self::PLATFORM_WINDOWS_CE;
             $this->setMobile(true);
-        } else if (stripos($this->_agent, 'iPhone') !== false) {      /* Check iPad/iPod/iPhone before Macintosh */
+        } else if (stripos($this->_agent, 'iPhone') !== false) {     /* Check iPad/iPod/iPhone before Macintosh */
             $this->_platform = self::PLATFORM_IPHONE;
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'iPad') !== false) {
@@ -1088,8 +1091,8 @@ class BrowserDetection
             $this->_platform = self::PLATFORM_SYMBIAN;
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'BlackBerry') !== false ||
-                   stripos($this->_agent, 'BB10') !== false ||
-                   stripos($this->_agent, 'RIM Tablet OS') !== false) {
+                stripos($this->_agent, 'BB10') !== false ||
+                stripos($this->_agent, 'RIM Tablet OS') !== false) {
             $this->_platform = self::PLATFORM_BLACKBERRY;
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Nokia') !== false) {
@@ -1135,7 +1138,7 @@ class BrowserDetection
      * @param mixed $uaNameToLookFor The string (or array of strings) representing the browser name to find in the user
      * agent.
      * @param string $userAgent The user agent string to work with.
-     * @param string $browserName The litteral browser name. Always use a class constant!
+     * @param string $browserName The literal browser name. Always use a class constant!
      * @param boolean $isMobile Determines if the browser is from a mobile device.
      * @param boolean $isRobot Determines if the browser is a robot or not.
      * @param string $separator The separator string used to split the browser name and the version number in the user
@@ -1259,61 +1262,74 @@ class BrowserDetection
 
         switch ($verParts[0]) {
             case 419: $result = '2.0.4';
-            break;
+                break;
             case 417: $result = '2.0.3';
-            break;
+                break;
             case 416: $result = '2.0.2';
-            break;
+                break;
 
-            case 412: if ($verParts[1] >= 5) {
-                          $result = '2.0.1';
-                      } else {
-                          $result = '2.0';
-                      }
-            break;
+            case 412:
+                if ($verParts[1] >= 5) {
+                    $result = '2.0.1';
+                } else {
+                    $result = '2.0';
+                }
+                break;
 
-            case 312: if ($verParts[1] >= 5) {
-                         $result = '1.3.2';
-                     } else if ($verParts[1] >= 3) {
-                         $result = '1.3.1';
-                     } else {
-                         $result = '1.3';
-                     }
-            break;
+            case 312:
+                if ($verParts[1] >= 5) {
+                    $result = '1.3.2';
+                } else {
+                    if ($verParts[1] >= 3) {
+                        $result = '1.3.1';
+                    } else {
+                        $result = '1.3';
+                    }
+                }
+                break;
 
-            case 125: if ($verParts[1] >= 11) {
-                         $result = '1.2.4';
-                     } else if ($verParts[1] >= 9) {
-                         $result = '1.2.3';
-                     } else if ($verParts[1] >= 7) {
-                         $result = '1.2.2';
-                     } else {
-                         $result = '1.2';
-                     }
-            break;
+            case 125:
+                if ($verParts[1] >= 11) {
+                    $result = '1.2.4';
+                } else {
+                    if ($verParts[1] >= 9) {
+                        $result = '1.2.3';
+                    } else {
+                        if ($verParts[1] >= 7) {
+                            $result = '1.2.2';
+                        } else {
+                            $result = '1.2';
+                        }
+                    }
+                }
+                break;
 
-            case 100: if ($verParts[1] >= 1) {
-                          $result = '1.1.1';
-                      } else {
-                          $result = '1.1';
-                      }
-            break;
+            case 100:
+                if ($verParts[1] >= 1) {
+                    $result = '1.1.1';
+                } else {
+                    $result = '1.1';
+                }
+                break;
 
-            case 85: if ($verParts[1] >= 8) {
-                         $result = '1.0.3';
-                     } else if ($verParts[1] >= 7) {
-                         $result = '1.0.2';
-                     } else {
-                         $result = '1.0';
-                     }
-            break;
+            case 85:
+                if ($verParts[1] >= 8) {
+                    $result = '1.0.3';
+                } else {
+                    if ($verParts[1] >= 7) {
+                        $result = '1.0.2';
+                    } else {
+                        $result = '1.0';
+                    }
+                }
+                break;
 
             case 73: $result = '0.9';
-            break;
+                break;
             case 51: $result = '0.8.1';
-            break;
+                break;
             case 48: $result = '0.8';
-            break;
+                break;
 
             default: $result = '';
         }
@@ -1421,76 +1437,88 @@ class BrowserDetection
 
         switch ($verParts[0]) {
             case 419: $result = '2.0.4';
-            break;
+                break;
 
-            case 418: if ($verParts[1] >= 8) {
-                          $result = '2.0.4';
-                      } else {
-                          $result = '2.0.3';
-                      }
-            break;
+            case 418:
+                if ($verParts[1] >= 8) {
+                    $result = '2.0.4';
+                } else {
+                    $result = '2.0.3';
+                }
+                break;
 
             case 417: $result = '2.0.3';
-            break;
+                break;
 
             case 416: $result = '2.0.2';
-            break;
+                break;
 
-            case 412: if ($verParts[1] >= 7) {
-                          $result = '2.0.1';
-                      } else {
-                          $result = '2.0';
-                      }
-            break;
+            case 412:
+                if ($verParts[1] >= 7) {
+                    $result = '2.0.1';
+                } else {
+                    $result = '2.0';
+                }
+                break;
 
-            case 312: if ($verParts[1] >= 8) {
-                          $result = '1.3.2';
-                      } else if ($verParts[1] >= 5) {
-                          $result = '1.3.1';
-                      } else {
-                          $result = '1.3';
-                      }
-            break;
+            case 312:
+                if ($verParts[1] >= 8) {
+                    $result = '1.3.2';
+                } else {
+                    if ($verParts[1] >= 5) {
+                        $result = '1.3.1';
+                    } else {
+                        $result = '1.3';
+                    }
+                }
+                break;
 
-            case 125: if ($this->compareVersions('5.4', $verParts[1] . '.' . $verParts[2]) === 1) {
-                          $result = '1.2.4'; //125.5.5+
-                      } else if ($verParts[1] >= 4) {
-                          $result = '1.2.3';
-                      } else if ($verParts[1] >= 2) {
-                          $result = '1.2.2';
-                      } else {
-                          $result = '1.2';
-                      }
-            break;
+            case 125:
+                if ($this->compareVersions('5.4', $verParts[1] . '.' . $verParts[2]) === 1) {
+                    $result = '1.2.4'; //125.5.5+
+                } else {
+                    if ($verParts[1] >= 4) {
+                        $result = '1.2.3';
+                    } else {
+                        if ($verParts[1] >= 2) {
+                            $result = '1.2.2';
+                        } else {
+                            $result = '1.2';
+                        }
+                    }
+                }
+                break;
 
-                      //WebKit 100 can be either Safari 1.1 (Safari build 100) or 1.1.1 (Safari build 100.1)
-                      //for this reason, check the Safari build before the WebKit build.
+            //WebKit 100 can be either Safari 1.1 (Safari build 100) or 1.1.1 (Safari build 100.1)
+            //for this reason, check the Safari build before the WebKit build.
             case 100: $result = '1.1.1';
-            break;
+                break;
 
-            case 85: if ($verParts[1] >= 8) {
-                         $result = '1.0.3';
-                     } else if ($verParts[1] >= 7) {
-                         //WebKit 85.7 can be either Safari 1.0 (Safari build 85.5) or 1.0.2 (Safari build 85.7)
-                         //for this reason, check the Safari build before the WebKit build.
-                         $result = '1.0.2';
-                     } else {
-                         $result = '1.0';
-                     }
-            break;
+            case 85:
+                if ($verParts[1] >= 8) {
+                    $result = '1.0.3';
+                } else {
+                    if ($verParts[1] >= 7) {
+                        //WebKit 85.7 can be either Safari 1.0 (Safari build 85.5) or 1.0.2 (Safari build 85.7)
+                        //for this reason, check the Safari build before the WebKit build.
+                        $result = '1.0.2';
+                    } else {
+                        $result = '1.0';
+                    }
+                }
+                break;
 
             case 73: $result = '0.9';
-            break;
+                break;
             case 51: $result = '0.8.1';
-            break;
+                break;
             case 48: $result = '0.8';
-            break;
+                break;
 
             default: $result = '';
         }
 
         return $result;
     }
-}
 
-?>
+}
