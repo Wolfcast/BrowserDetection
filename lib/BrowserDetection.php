@@ -835,6 +835,12 @@ class BrowserDetection
             }
         }
 
+        if (!$found && $this->checkSimpleBrowserUA('Chrome', $this->_agent, self::BROWSER_CHROME) ) {
+            if ($this->checkSimpleBrowserUA('OPR/', $this->_agent, self::BROWSER_OPERA)) {
+                return true;
+            }
+        }
+
         return $found;
     }
 
@@ -859,8 +865,8 @@ class BrowserDetection
                /* Major browsers and browsers that need to be detected in a special order */
                $this->checkBrowserMsnTv() ||            /* MSN TV is based on IE so we must check for MSN TV before IE */
                $this->checkBrowserInternetExplorer() ||
+               $this->checkBrowserOpera() ||            /* Opera be checked before Firefox, Netscape and Chrome to avoid conflicts */
                $this->checkBrowserChrome() ||           /* Chrome must be checked before Netscaoe and Mozilla to avoid conflicts */
-               $this->checkBrowserOpera() ||            /* Opera be checked before Firefox and Netscape to avoid conflicts */
                $this->checkBrowserOmniWeb() ||          /* OmniWeb must be checked before Safari (on which it's based on) and Netscape (since it have Mozilla UAs) */
                $this->checkBrowserIcab() ||             /* Check iCab before Netscape since iCab have Mozilla UAs */
                $this->checkBrowserNetPositive() ||      /* Check NetPositive before Netscape since NetPositive have Mozilla UAs */
