@@ -112,6 +112,7 @@ class BrowserDetection
     const BROWSER_UNKNOWN = 'unknown';
     const BROWSER_W3CVALIDATOR = 'W3C Validator';
     const BROWSER_YAHOO_MM = 'Yahoo! Multimedia';
+    const BROWSER_EDGE = 'Edge';
     const PLATFORM_ANDROID = 'Android';
     const PLATFORM_BEOS = 'BeOS';
     const PLATFORM_BLACKBERRY = 'BlackBerry';
@@ -853,6 +854,16 @@ class BrowserDetection
     {
         return $this->checkSimpleBrowserUA('Phoenix', $this->_agent, self::BROWSER_PHOENIX);
     }
+    
+    /**
+     * Determine if the browser is Microsoft Edge or not.
+     * @access protected
+     * @return boolean Returns true if the browser is Phoenix, false otherwise.
+     */
+    protected function checkBrowserEdge()
+    {
+        return $this->checkSimpleBrowserUA('Edge', $this->_agent, self::BROWSER_EDGE);
+    }
 
     /**
      * Determine what is the browser used by the user.
@@ -865,6 +876,7 @@ class BrowserDetection
                /* Major browsers and browsers that need to be detected in a special order */
                $this->checkBrowserMsnTv() ||            /* MSN TV is based on IE so we must check for MSN TV before IE */
                $this->checkBrowserInternetExplorer() ||
+               $this->checkBrowserEdge() ||             /* Microsoft Edge must be checked before Firefox, Safari and Chrome to avoid conflicts */
                $this->checkBrowserOpera() ||            /* Opera be checked before Firefox, Netscape and Chrome to avoid conflicts */
                $this->checkBrowserChrome() ||           /* Chrome must be checked before Netscaoe and Mozilla to avoid conflicts */
                $this->checkBrowserOmniWeb() ||          /* OmniWeb must be checked before Safari (on which it's based on) and Netscape (since it have Mozilla UAs) */
