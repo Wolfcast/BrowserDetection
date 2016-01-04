@@ -19,6 +19,7 @@ Detects the following broswers:
   * BlackBerry
   * BlackBerry Tablet OS
   * Chrome 0.2 - 35.0+
+  * Edge
   * Firebird
   * Firefox 0.10 - 29.0+
   * Galeon

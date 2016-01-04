@@ -12,11 +12,11 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
- * @package BrowserDetection
- * @version 2.1.1
- * @last-modified September 2, 2014
+ * @package Browser_Detection
+ * @version 2.2.0
+ * @last-modified January 4, 2016
  * @author Alexandre Valiquette
- * @copyright Copyright (c) 2014, Wolfcast
+ * @copyright Copyright (c) 2016, Wolfcast
  * @link http://wolfcast.com/
  */
 
@@ -37,11 +37,17 @@
  *
  * Updates:
  *
+ * 2016-01-04:
+ *  + Version 2.2.0. Added support for Microsoft Edge.
+ *
+ * 2014-12-30:
+ *  + Version 2.1.2. Better detection of Opera.
+ *
  * 2014-07-11:
  *  + Version 2.1.1. Better detection of mobile devices and platforms.
  *
  * 2014-06-04:
- *  + Version 2.1. Added IE 11+ support.
+ *  + Version 2.1. Added support for IE 11+.
  *
  * 2013-05-27:
  *  + Version 2.0 is (almost) a complete rewrite based on Chris Schuld's Browser class version 1.9 plus changes below
@@ -66,11 +72,11 @@
  *  + Better Opera version parsing
  *  + Better Mozilla detection
  *
- * @package BrowserDetection
- * @version 2.1.1
- * @last-modified September 2, 2014
+ * @package Browser_Detection
+ * @version 2.2.0
+ * @last-modified January 4, 2016
  * @author Alexandre Valiquette, Chris Schuld, Gary White
- * @copyright Copyright (c) 2014, Wolfcast
+ * @copyright Copyright (c) 2016, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
  * @link http://wolfcast.com/
  * @link http://chrisschuld.com/
@@ -79,11 +85,15 @@
 class BrowserDetection
 {
 
+    /**#@+
+     * Constant for the name of the Web browser.
+     */
     const BROWSER_AMAYA = 'Amaya';
     const BROWSER_ANDROID = 'Android';
     const BROWSER_BINGBOT = 'Bingbot';
     const BROWSER_BLACKBERRY = 'BlackBerry';
     const BROWSER_CHROME = 'Chrome';
+    const BROWSER_EDGE = 'Edge';
     const BROWSER_FIREBIRD = 'Firebird';
     const BROWSER_FIREFOX = 'Firefox';
     const BROWSER_GALEON = 'Galeon';
@@ -112,6 +122,11 @@ class BrowserDetection
     const BROWSER_UNKNOWN = 'unknown';
     const BROWSER_W3CVALIDATOR = 'W3C Validator';
     const BROWSER_YAHOO_MM = 'Yahoo! Multimedia';
+    /**#@-*/
+
+    /**#@+
+     * Constant for the name of the platform of the Web browser.
+     */
     const PLATFORM_ANDROID = 'Android';
     const PLATFORM_BEOS = 'BeOS';
     const PLATFORM_BLACKBERRY = 'BlackBerry';
@@ -132,17 +147,72 @@ class BrowserDetection
     const PLATFORM_WINDOWS = 'Windows';
     const PLATFORM_WINDOWS_CE = 'Windows CE';
     const PLATFORM_WINDOWS_PHONE = 'Windows Phone';
+    /**#@-*/
+
+    /**
+     * Version unknown constant.
+     */
     const VERSION_UNKNOWN = 'unknown';
 
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_agent = '';
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_aolVersion = '';
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_browserName = '';
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_compatibilityViewName = '';
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_compatibilityViewVer = '';
+
+    /**
+     * @var boolean
+     * @access private
+     */
     private $_isAol = false;
+
+    /**
+     * @var boolean
+     * @access private
+     */
     private $_isMobile = false;
+
+    /**
+     * @var boolean
+     * @access private
+     */
     private $_isRobot = false;
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_platform = '';
+
+    /**
+     * @var string
+     * @access private
+     */
     private $_version = '';
 
 
@@ -200,7 +270,8 @@ class BrowserDetection
      * Compare two version number strings.
      * @param string $sourceVer The source version number.
      * @param string $compareVer The version number to compare with the source version number.
-     * @return int Returns 1 if $sourceVer < $compareVer, 0 if $sourceVer == $compareVer or -1 if $sourceVer > $compareVer.
+     * @return int Returns 1 if $sourceVer < $compareVer, 0 if $sourceVer == $compareVer or -1 if $sourceVer >
+     * $compareVer.
      */
     public function compareVersions($sourceVer, $compareVer)
     {
@@ -264,7 +335,7 @@ class BrowserDetection
      * Explorer 8, IE can be put in compatibility mode to make websites that were created for older browsers, especially
      * IE 6 and 7, look better in IE 8+ which renders web pages closer to the standards and thus differently from those
      * older versions of IE.
-     * @param bool $asArray Determines if the return value must be an array (true) or a string (false).
+     * @param boolean $asArray Determines if the return value must be an array (true) or a string (false).
      * @return mixed If a string was requested, the function returns the name and version of the browser emulated in the
      * compatibility view mode or an empty string if the browser is not in compatibility view mode. If an array was
      * requested, an array with the keys 'browser' and 'version' is returned.
@@ -459,6 +530,16 @@ class BrowserDetection
     protected function checkBrowserChrome()
     {
         return $this->checkSimpleBrowserUA('Chrome', $this->_agent, self::BROWSER_CHROME);
+    }
+
+    /**
+     * Determine if the browser is Edge or not.
+     * @access protected
+     * @return boolean Returns true if the browser is Edge, false otherwise.
+     */
+    protected function checkBrowserEdge()
+    {
+        return $this->checkSimpleBrowserUA('Edge', $this->_agent, self::BROWSER_EDGE);
     }
 
     /**
@@ -865,7 +946,8 @@ class BrowserDetection
                /* Major browsers and browsers that need to be detected in a special order */
                $this->checkBrowserMsnTv() ||            /* MSN TV is based on IE so we must check for MSN TV before IE */
                $this->checkBrowserInternetExplorer() ||
-               $this->checkBrowserOpera() ||            /* Opera be checked before Firefox, Netscape and Chrome to avoid conflicts */
+               $this->checkBrowserOpera() ||            /* Opera must be checked before Firefox, Netscape and Chrome to avoid conflicts */
+               $this->checkBrowserEdge() ||             /* Edge must be checked before Firefox, Safari and Chrome to avoid conflicts */
                $this->checkBrowserChrome() ||           /* Chrome must be checked before Netscaoe and Mozilla to avoid conflicts */
                $this->checkBrowserOmniWeb() ||          /* OmniWeb must be checked before Safari (on which it's based on) and Netscape (since it have Mozilla UAs) */
                $this->checkBrowserIcab() ||             /* Check iCab before Netscape since iCab have Mozilla UAs */
