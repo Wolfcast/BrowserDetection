@@ -73,8 +73,6 @@ Demo and full documentation
 
 You can try the [live demo](http://wolfcast.com/open-source/browser-detection/tutorial.php) of the class and you can read the [documentation](http://wolfcast.com/open-source/browser-detection/doc/Browser_Detection/BrowserDetection.html).
 
-A full
-
 Installation
 ------------
 
