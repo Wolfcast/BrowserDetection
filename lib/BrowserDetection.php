@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.2.0
- * @last-modified January 4, 2016
+ * @version 2.3.0
+ * @last-modified February 11, 2016
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2016, Wolfcast
  * @link http://wolfcast.com/
@@ -28,8 +28,9 @@
  * Typical usage:
  *
  * $browser = new BrowserDetection();
- * if ($browser->getBrowser() == BrowserDetection::BROWSER_FIREFOX && $browser->getVersion() >= 5) {
- *     echo 'You have FireFox version 5 or greater.';
+ * if ($browser->getName() == BrowserDetection::BROWSER_FIREFOX &&
+ *     $browser->compareVersions($browser->getVersion(), '5.0') >= 0) {
+ *     echo 'You are using FireFox version 5 or greater.';
  * }
  *
  * The class is an updated version of Chris Schuld's Browser class version 1.9 which is unmaintained since August 20th,
@@ -37,20 +38,28 @@
  *
  * Updates:
  *
- * 2016-01-04:
- *  + Version 2.2.0. Added support for Microsoft Edge.
+ * 2016-02-11: Version 2.3.0
+ *  + WARNING! Breaking change: public method getBrowser() is renamed to getName().
+ *  + WARNING! Breaking change: changed the compareVersions() return values to be more in line with other libraries.
+ *  + You can now get the exact platform version (name or version numbers) on which the browser is run on with
+ *    getPlatformVersion(). Only working with Windows operating systems at the moment.
+ *  + You can now determine if the browser is executed from a 64-bit platform with is64bitPlatform().
+ *  + Better detection of mobile platform for Googlebot.
  *
- * 2014-12-30:
- *  + Version 2.1.2. Better detection of Opera.
+ * 2016-01-04: Version 2.2.0
+ *  + Added support for Microsoft Edge.
  *
- * 2014-07-11:
- *  + Version 2.1.1. Better detection of mobile devices and platforms.
+ * 2014-12-30: Version 2.1.2
+ *  + Better detection of Opera.
  *
- * 2014-06-04:
- *  + Version 2.1. Added support for IE 11+.
+ * 2014-07-11: Version 2.1.1
+ *  + Better detection of mobile devices and platforms.
  *
- * 2013-05-27:
- *  + Version 2.0 is (almost) a complete rewrite based on Chris Schuld's Browser class version 1.9 plus changes below
+ * 2014-06-04: Version 2.1
+ *  + Added support for IE 11+.
+ *
+ * 2013-05-27: Version 2.0 which is (almost) a complete rewrite based on Chris Schuld's Browser class version 1.9 plus
+ * changes below.
  *  + Added support for Opera Mobile
  *  + Added support for the Windows Phone (formerly Windows Mobile) platform
  *  + Added support for BlackBerry Tablet OS and BlackBerry 10
@@ -73,12 +82,13 @@
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.2.0
- * @last-modified January 4, 2016
+ * @version 2.3.0
+ * @last-modified February 11, 2016
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2016, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
  * @link http://wolfcast.com/
+ * @link http://wolfcast.com/open-source/browser-detection/tutorial.php
  * @link http://chrisschuld.com/
  * @link http://www.apptools.com/phptools/browser/
  */
@@ -144,6 +154,7 @@ class BrowserDetection
     const PLATFORM_SUNOS = 'SunOS';
     const PLATFORM_SYMBIAN = 'Symbian';
     const PLATFORM_UNKNOWN = 'unknown';
+    const PLATFORM_VERSION_UNKNOWN = 'unknown';
     const PLATFORM_WINDOWS = 'Windows';
     const PLATFORM_WINDOWS_CE = 'Windows CE';
     const PLATFORM_WINDOWS_PHONE = 'Windows Phone';
@@ -189,6 +200,12 @@ class BrowserDetection
      * @var boolean
      * @access private
      */
+    private $_is64bit = false;
+
+    /**
+     * @var boolean
+     * @access private
+     */
     private $_isAol = false;
 
     /**
@@ -208,6 +225,12 @@ class BrowserDetection
      * @access private
      */
     private $_platform = '';
+
+    /**
+     * @var string
+     * @access private
+     */
+    private $_platformVersion = '';
 
     /**
      * @var string
@@ -235,29 +258,27 @@ class BrowserDetection
      */
     public function __toString()
     {
-        $result = '<strong>Browser name:</strong> ' . $this->getBrowser() . '<br />' . PHP_EOL .
-                '<strong>Browser version:</strong> ' . $this->getVersion() . '<br />' . PHP_EOL;
+        $result = '';
 
-        if ($this->isInIECompatibilityView()) {
-            $result .= '<strong>Compatibility view mode:</strong> ' . $this->getIECompatibilityView() . '<br />' . PHP_EOL;
-        }
-        if ($this->isAol()) {
-            $result .= '<strong>AOL version:</strong> ' . $this->getAolVersion() . '<br />' . PHP_EOL;
-        }
-        if ($this->isChromeFrame()) {
-            $result .= '<strong>Is Google Chrome Frame:</strong> Yes<br />' . PHP_EOL;
-        }
+        $values = array();
+        $values[] = array('label' => 'User agent', 'value' => $this->getUserAgent());
+        $values[] = array('label' => 'Browser name', 'value' => $this->getName());
+        $values[] = array('label' => 'Browser version', 'value' => $this->getVersion());
+        $values[] = array('label' => 'Platform family', 'value' => $this->getPlatform());
+        $values[] = array('label' => 'Platform version', 'value' => $this->getPlatformVersion(true));
+        $values[] = array('label' => 'Platform version name', 'value' => $this->getPlatformVersion());
+        $values[] = array('label' => 'Platform is 64-bit', 'value' => $this->is64bitPlatform() ? 'true' : 'false');
+        $values[] = array('label' => 'Is mobile', 'value' => $this->isMobile() ? 'true' : 'false');
+        $values[] = array('label' => 'Is robot', 'value' => $this->isRobot() ? 'true' : 'false');
+        $values[] = array('label' => 'IE is in compatibility view', 'value' => $this->isInIECompatibilityView() ? 'true' : 'false');
+        $values[] = array('label' => 'Emulated IE version', 'value' => $this->isInIECompatibilityView() ? $this->getIECompatibilityView() : 'Not applicable');
+        $values[] = array('label' => 'Is Chrome Frame', 'value' => $this->isChromeFrame() ? 'true' : 'false');
+        $values[] = array('label' => 'Is AOL optimized', 'value' => $this->isAol() ? 'true' : 'false');
+        $values[] = array('label' => 'AOL version', 'value' => $this->isAol() ? $this->getAolVersion() : 'Not applicable');
 
-        $result .= '<strong>Platform:</strong> ' . $this->getPlatform() . '<br />' . PHP_EOL;
-
-        if ($this->isRobot()) {
-            $result .= '<strong>Is a robot:</strong> Yes<br />' . PHP_EOL;
+        foreach ($values as $currVal) {
+            $result .= '<strong>' . htmlspecialchars($currVal['label'], ENT_NOQUOTES) . ':</strong> ' . $currVal['value'] . '<br />' . PHP_EOL;
         }
-        if ($this->isMobile()) {
-            $result .= '<strong>Is on a mobile device:</strong> Yes<br />' . PHP_EOL;
-        }
-
-        $result .= '<strong>Browser user agent:</strong> ' . $this->getUserAgent() . '<br />' . PHP_EOL;
 
         return $result;
     }
@@ -270,7 +291,7 @@ class BrowserDetection
      * Compare two version number strings.
      * @param string $sourceVer The source version number.
      * @param string $compareVer The version number to compare with the source version number.
-     * @return int Returns 1 if $sourceVer < $compareVer, 0 if $sourceVer == $compareVer or -1 if $sourceVer >
+     * @return int Returns -1 if $sourceVer < $compareVer, 0 if $sourceVer == $compareVer or 1 if $sourceVer >
      * $compareVer.
      */
     public function compareVersions($sourceVer, $compareVer)
@@ -299,10 +320,10 @@ class BrowserDetection
 
         foreach ($sourceVer as $i => $srcVerPart) {
             if ($srcVerPart > $compareVer[$i]) {
-                return -1;
+                return 1;
             } else {
                 if ($srcVerPart < $compareVer[$i]) {
-                    return 1;
+                    return -1;
                 }
             }
         }
@@ -322,10 +343,10 @@ class BrowserDetection
 
     /**
      * Get the name of the browser. All of the return values are class constants. You can compare them like this:
-     * $myBrowserInstance->getBrowser() == BrowserDetection::BROWSER_FIREFOX.
+     * $myBrowserInstance->getName() == BrowserDetection::BROWSER_FIREFOX.
      * @return string Returns the name of the browser.
      */
-    public function getBrowser()
+    public function getName()
     {
         return $this->_browserName;
     }
@@ -350,14 +371,49 @@ class BrowserDetection
     }
 
     /**
-     * Get the name of the platform on which the browser is run on (such as Windows, Apple, iPhone, etc.). All of the
-     * return values are class constants. You can compare them like this:
+     * Get the name of the platform family on which the browser is run on (such as Windows, Apple, iPhone, etc.). All of
+     * the return values are class constants. You can compare them like this:
      * $myBrowserInstance->getPlatform() == BrowserDetection::PLATFORM_ANDROID.
      * @return string Returns the name of the platform or BrowserDetection::PLATFORM_UNKNOWN if unknown.
      */
     public function getPlatform()
     {
         return $this->_platform;
+    }
+
+    /**
+     * Get the platform version on which the browser is run on. It can be returned as a string number like 'NT 6.3' or
+     * as a name like 'Windows 8.1'. When returning version string numbers for Windows NT OS families the number is
+     * prefixed by 'NT ' to differentiate from older Windows 3.x & 9x release. At the moment only the Windows operating
+     * systems is supported.
+     * @param boolean $returnVersionNumbers Determines if the return value must be versions numbers as a string (true)
+     * or the version name (false).
+     * @param boolean $returnServerFlavor Since some Windows NT versions have the same values, this flag determines if
+     * the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use version 6.3.
+     * @return string Returns the version name/version numbers of the platform or the constant PLATFORM_VERSION_UNKNOWN
+     * if unknown.
+     */
+    public function getPlatformVersion($returnVersionNumbers = false, $returnServerFlavor = false)
+    {
+        if ($this->_platformVersion == self::PLATFORM_VERSION_UNKNOWN || $this->_platformVersion == '') {
+            return self::PLATFORM_VERSION_UNKNOWN;
+        }
+
+        if ($returnVersionNumbers) {
+            return $this->_platformVersion;
+        } else {
+            switch ($this->getPlatform()) {
+                case self::PLATFORM_WINDOWS:
+                    if (substr($this->_platformVersion, 0, 3) == 'NT ') {
+                        return $this->windowsNTVerToStr(substr($this->_platformVersion, 3), $returnServerFlavor);
+                    } else {
+                        return $this->windowsVerToStr($this->_platformVersion);
+                    }
+                break;
+
+                default: return self::PLATFORM_VERSION_UNKNOWN;
+            }
+        }
     }
 
     /**
@@ -376,6 +432,16 @@ class BrowserDetection
     public function getVersion()
     {
         return $this->_version;
+    }
+
+    /**
+     * Determine if the browser is executed from a 64-bit platform. Keep in mind that not all platforms/browsers report
+     * this and the result may not always be accurate.
+     * @return boolean Returns true if the browser is executed from a 64-bit platform.
+     */
+    public function is64bitPlatform()
+    {
+        return $this->_is64bit;
     }
 
     /**
@@ -592,7 +658,15 @@ class BrowserDetection
      */
     protected function checkBrowserGooglebot()
     {
-        return $this->checkSimpleBrowserUA('Googlebot', $this->_agent, self::BROWSER_GOOGLEBOT, false, true);
+        if ($this->checkSimpleBrowserUA('Googlebot', $this->_agent, self::BROWSER_GOOGLEBOT, false, true)) {
+            if (strpos(strtolower($this->_agent), 'googlebot-mobile') !== false) {
+                $this->setMobile(true);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -689,7 +763,7 @@ class BrowserDetection
                     preg_match_all('/MSIE\s*([^\s;$]+)/i', $this->_agent, $foundVersions);
                     foreach ($foundVersions[1] as $currVer) {
                         //Keep the lowest MSIE version for the emulated version (in compatibility view mode)
-                        if ($emulatedVer == '' || $this->compareVersions($emulatedVer, $currVer) == -1) {
+                        if ($emulatedVer == '' || $this->compareVersions($emulatedVer, $currVer) == 1) {
                             $emulatedVer = $currVer;
                         }
                     }
@@ -706,7 +780,7 @@ class BrowserDetection
                 preg_match_all('/MSIE\s+([^\s;$]+)/i', $this->_agent, $foundVersions);
                 foreach ($foundVersions[1] as $currVer) {
                     //Keep the highest MSIE version
-                    if ($version == '' || $this->compareVersions($version, $currVer) == 1) {
+                    if ($version == '' || $this->compareVersions($version, $currVer) == -1) {
                         $version = $currVer;
                     }
                 }
@@ -938,6 +1012,7 @@ class BrowserDetection
     /**
      * Determine what is the browser used by the user.
      * @access protected
+     * @return boolean Returns true if the browser has been identified, false otherwise.
      */
     protected function checkBrowsers()
     {
@@ -1158,65 +1233,109 @@ class BrowserDetection
         /* Mobile platforms */
         if (stripos($this->_agent, 'Windows Phone') !== false ||     /* Check Windows Phone (formerly Windows Mobile) before Windows */
                 stripos($this->_agent, 'IEMobile') !== false) {
-            $this->_platform = self::PLATFORM_WINDOWS_PHONE;
+            $this->setPlatform(self::PLATFORM_WINDOWS_PHONE);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Windows CE') !== false) { /* Check Windows CE before Windows */
-            $this->_platform = self::PLATFORM_WINDOWS_CE;
+            $this->setPlatform(self::PLATFORM_WINDOWS_CE);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'iPhone') !== false) {     /* Check iPad/iPod/iPhone before Macintosh */
-            $this->_platform = self::PLATFORM_IPHONE;
+            $this->setPlatform(self::PLATFORM_IPHONE);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'iPad') !== false) {
-            $this->_platform = self::PLATFORM_IPAD;
+            $this->setPlatform(self::PLATFORM_IPAD);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'iPod') !== false) {
-            $this->_platform = self::PLATFORM_IPOD;
+            $this->setPlatform(self::PLATFORM_IPOD);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Android') !== false) {
-            $this->_platform = self::PLATFORM_ANDROID;
+            $this->setPlatform(self::PLATFORM_ANDROID);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Symbian') !== false) {
-            $this->_platform = self::PLATFORM_SYMBIAN;
+            $this->setPlatform(self::PLATFORM_SYMBIAN);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'BlackBerry') !== false ||
                 stripos($this->_agent, 'BB10') !== false ||
                 stripos($this->_agent, 'RIM Tablet OS') !== false) {
-            $this->_platform = self::PLATFORM_BLACKBERRY;
+            $this->setPlatform(self::PLATFORM_BLACKBERRY);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Nokia') !== false) {
-            $this->_platform = self::PLATFORM_NOKIA;
+            $this->setPlatform(self::PLATFORM_NOKIA);
             $this->setMobile(true);
 
         /* Desktop platforms */
         } else if (stripos($this->_agent, 'Windows') !== false) {
-            $this->_platform = self::PLATFORM_WINDOWS;
+            $this->setPlatform(self::PLATFORM_WINDOWS);
         } else if (stripos($this->_agent, 'Macintosh') !== false) {
-            $this->_platform = self::PLATFORM_MACINTOSH;
+            $this->setPlatform(self::PLATFORM_MACINTOSH);
         } else if (stripos($this->_agent, 'Linux') !== false) {
-            $this->_platform = self::PLATFORM_LINUX;
+            $this->setPlatform(self::PLATFORM_LINUX);
         } else if (stripos($this->_agent, 'FreeBSD') !== false) {
-            $this->_platform = self::PLATFORM_FREEBSD;
+            $this->setPlatform(self::PLATFORM_FREEBSD);
         } else if (stripos($this->_agent, 'OpenBSD') !== false) {
-            $this->_platform = self::PLATFORM_OPENBSD;
+            $this->setPlatform(self::PLATFORM_OPENBSD);
         } else if (stripos($this->_agent, 'NetBSD') !== false) {
-            $this->_platform = self::PLATFORM_NETBSD;
+            $this->setPlatform(self::PLATFORM_NETBSD);
 
         /* Discontinued */
         } else if (stripos($this->_agent, 'OpenSolaris') !== false) {
-            $this->_platform = self::PLATFORM_OPENSOLARIS;
+            $this->setPlatform(self::PLATFORM_OPENSOLARIS);
         } else if (stripos($this->_agent, 'OS/2') !== false) {
-            $this->_platform = self::PLATFORM_OS2;
+            $this->setPlatform(self::PLATFORM_OS2);
         } else if (stripos($this->_agent, 'BeOS') !== false) {
-            $this->_platform = self::PLATFORM_BEOS;
+            $this->setPlatform(self::PLATFORM_BEOS);
         } else if (stripos($this->_agent, 'SunOS') !== false) {
-            $this->_platform = self::PLATFORM_SUNOS;
+            $this->setPlatform(self::PLATFORM_SUNOS);
 
         /* Generic */
         } else if (stripos($this->_agent, 'Win') !== false) {
-            $this->_platform = self::PLATFORM_WINDOWS;
+            $this->setPlatform(self::PLATFORM_WINDOWS);
         } else if (stripos($this->_agent, 'Mac') !== false) {
-            $this->_platform = self::PLATFORM_MACINTOSH;
+            $this->setPlatform(self::PLATFORM_MACINTOSH);
         }
+
+        //Check if it's a 64-bit platform
+        if (stripos($this->_agent, 'WOW64') !== false || stripos($this->_agent, 'Win64') !== false) {
+            $this->set64bit(true);
+        }
+
+        $this->checkPlatformVersion();
+    }
+
+    /**
+     * Determine the user's platform version.
+     * @access protected
+     */
+    protected function checkPlatformVersion()
+    {
+        //https://support.microsoft.com/en-us/kb/158238
+
+        $result = '';
+
+        switch ($this->getPlatform()) {
+            case self::PLATFORM_WINDOWS:
+                if (preg_match('/Windows NT\s*([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
+                    //Windows NT family
+                    $result = 'NT ' . $foundVersion[1];
+                } else {
+                    //Windows 3.x / 9x family
+                    if (stripos($this->_agent, 'Windows ME') !== false) {
+                        $result = '4.90.3000'; //Windows Me version range from 4.90.3000 to 4.90.3000A
+                    } else if (stripos($this->_agent, 'Windows 98') !== false) {
+                        $result = '4.10'; //Windows 98 version range from 4.10.1998 to 4.10.2222B
+                    } else if (stripos($this->_agent, 'Windows 95') !== false) {
+                        $result = '4.00'; //Windows 95 version range from 4.00.950 to 4.03.1214
+                    } else if (preg_match('/Windows 3\.([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
+                        $result = '3.' . $foundVersion[1];
+                    }
+                }
+
+            break;
+        }
+
+        if (trim($result) == '') {
+            $result = self::PLATFORM_VERSION_UNKNOWN;
+        }
+        $this->setPlatformVersion($result);
     }
 
     /**
@@ -1321,10 +1440,12 @@ class BrowserDetection
         $this->_browserName = self::BROWSER_UNKNOWN;
         $this->_compatibilityViewName = '';
         $this->_compatibilityViewVer = '';
+        $this->_is64bit = false;
         $this->_isAol = false;
         $this->_isMobile = false;
         $this->_isRobot = false;
         $this->_platform = self::PLATFORM_UNKNOWN;
+        $this->_platformVersion = self::PLATFORM_VERSION_UNKNOWN;
         $this->_version = self::VERSION_UNKNOWN;
     }
 
@@ -1426,6 +1547,16 @@ class BrowserDetection
     }
 
     /**
+     * Set if the browser is executed from a 64-bit platform.
+     * @access protected
+     * @param boolean $is64bit Value that tells if the browser is executed from a 64-bit platform.
+     */
+    protected function set64bit($is64bit)
+    {
+        $this->_is64bit = $is64bit == true;
+    }
+
+    /**
      * Set the browser to be from AOL or not.
      * @access protected
      * @param boolean $isAol Value that tells if the browser is AOL or not.
@@ -1454,7 +1585,7 @@ class BrowserDetection
      */
     protected function setBrowser($browserName)
     {
-        return $this->_browserName = $browserName;
+        $this->_browserName = $browserName;
     }
 
     /**
@@ -1474,7 +1605,17 @@ class BrowserDetection
      */
     protected function setPlatform($platform)
     {
-        return $this->_platform = $platform;
+        $this->_platform = $platform;
+    }
+
+    /**
+     * Set the platform version on which the browser is on.
+     * @access protected
+     * @param string $platformVer The version numbers of the platform.
+     */
+    protected function setPlatformVersion($platformVer)
+    {
+        $this->_platformVersion = $platformVer;
     }
 
     /**
@@ -1562,7 +1703,7 @@ class BrowserDetection
                 break;
 
             case 125:
-                if ($this->compareVersions('5.4', $verParts[1] . '.' . $verParts[2]) === 1) {
+                if ($this->compareVersions('5.4', $verParts[1] . '.' . $verParts[2]) == -1) {
                     $result = '1.2.4'; //125.5.5+
                 } else {
                     if ($verParts[1] >= 4) {
@@ -1609,4 +1750,77 @@ class BrowserDetection
         return $result;
     }
 
+    /**
+     * Convert the Windows NT family version numbers to the operating system name. For instance '5.1' returns
+     * 'Windows XP'.
+     * @access protected
+     * @param string $winVer The Windows NT family version numbers as a string.
+     * @param boolean $returnServerFlavor Since some Windows NT versions have the same values, this flag determines if
+     * the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use version 6.3.
+     * @return string The operating system name or the constant PLATFORM_VERSION_UNKNOWN if nothing match the version
+     * numbers.
+     */
+    protected function windowsNTVerToStr($winVer, $returnServerFlavor = false)
+    {
+        //https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
+
+        $cleanWinVer = explode('.', $winVer);
+        while (count($cleanWinVer) > 2) {
+            array_pop($cleanWinVer);
+        }
+        $cleanWinVer = implode('.', $cleanWinVer);
+
+        if ($this->compareVersions($cleanWinVer, '11') >= 0) {
+            //Future versions of Windows
+            return self::PLATFORM_WINDOWS . ' ' . $winVer;
+        } else if ($this->compareVersions($cleanWinVer, '10') >= 0) {
+            //Current version of Windows
+            return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2016') : (self::PLATFORM_WINDOWS . ' 10');
+        } else if ($this->compareVersions($cleanWinVer, '7') < 0) {
+            if ($this->compareVersions($cleanWinVer, '6.3') == 0) {
+                return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2012 R2') : (self::PLATFORM_WINDOWS . ' 8.1');
+            } else if ($this->compareVersions($cleanWinVer, '6.2') == 0) {
+                return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2012') : (self::PLATFORM_WINDOWS . ' 8');
+            } else if ($this->compareVersions($cleanWinVer, '6.1') == 0) {
+                return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2008 R2') : (self::PLATFORM_WINDOWS . ' 7');
+            } else if ($this->compareVersions($cleanWinVer, '6') == 0) {
+                return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2008') : (self::PLATFORM_WINDOWS . ' Vista');
+            } else if ($this->compareVersions($cleanWinVer, '5.2') == 0) {
+                return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2003 / ' . self::PLATFORM_WINDOWS . ' Server 2003 R2') : (self::PLATFORM_WINDOWS . ' XP x64 Edition');
+            } else if ($this->compareVersions($cleanWinVer, '5.1') == 0) {
+                return self::PLATFORM_WINDOWS . ' XP';
+            } else if ($this->compareVersions($cleanWinVer, '5') == 0) {
+                return self::PLATFORM_WINDOWS . ' 2000';
+            } else if ($this->compareVersions($cleanWinVer, '5') < 0 && $this->compareVersions($cleanWinVer, '3') >= 0) {
+                return self::PLATFORM_WINDOWS . ' NT ' . $winVer;
+            }
+        }
+
+        return self::PLATFORM_VERSION_UNKNOWN; //Invalid Windows NT version
+    }
+
+    /**
+     * Convert the Windows 3.x & 9x family version numbers to the operating system name. For instance '4.10.1998'
+     * returns 'Windows 98'.
+     * @access protected
+     * @param string $winVer The Windows 3.x or 9x family version numbers as a string.
+     * @return string The operating system name or the constant PLATFORM_VERSION_UNKNOWN if nothing match the version
+     * numbers.
+     */
+    protected function windowsVerToStr($winVer)
+    {
+        //https://support.microsoft.com/en-us/kb/158238
+
+        if ($this->compareVersions($winVer, '4.90') >= 0 && $this->compareVersions($winVer, '4.91') < 0) {
+            return self::PLATFORM_WINDOWS . ' Me'; //Normally range from 4.90.3000 to 4.90.3000A
+        } else if ($this->compareVersions($winVer, '4.10') >= 0 && $this->compareVersions($winVer, '4.11') < 0) {
+            return self::PLATFORM_WINDOWS . ' 98'; //Normally range from 4.10.1998 to 4.10.2222B
+        } else if ($this->compareVersions($winVer, '4') >= 0 && $this->compareVersions($winVer, '4.04') < 0) {
+            return self::PLATFORM_WINDOWS . ' 95'; //Normally range from 4.00.950 to 4.03.1214
+        } else if ($this->compareVersions($winVer, '3.1') == 0 || $this->compareVersions($winVer, '3.11') == 0) {
+            return self::PLATFORM_WINDOWS . ' ' . $winVer;
+        } else {
+            return self::PLATFORM_VERSION_UNKNOWN; //Invalid Windows version
+        }
+    }
 }
