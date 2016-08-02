@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.3.0
- * @last-modified February 11, 2016
+ * @version 2.4.0
+ * @last-modified August 2, 2016
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2016, Wolfcast
  * @link http://wolfcast.com/
@@ -38,6 +38,12 @@
  *
  * Updates:
  *
+ * 2016-08-02: Version 2.4.0
+ *  + Platform version and platform version name are now supported for Android.
+ *  + Added support for the Samsung Internet browser.
+ *  + Added support for the Vivaldi browser.
+ *  + Better support for legacy Windows versions.
+ *
  * 2016-02-11: Version 2.3.0
  *  + WARNING! Breaking change: public method getBrowser() is renamed to getName().
  *  + WARNING! Breaking change: changed the compareVersions() return values to be more in line with other libraries.
@@ -55,10 +61,10 @@
  * 2014-07-11: Version 2.1.1
  *  + Better detection of mobile devices and platforms.
  *
- * 2014-06-04: Version 2.1
+ * 2014-06-04: Version 2.1.0
  *  + Added support for IE 11+.
  *
- * 2013-05-27: Version 2.0 which is (almost) a complete rewrite based on Chris Schuld's Browser class version 1.9 plus
+ * 2013-05-27: Version 2.0.0 which is (almost) a complete rewrite based on Chris Schuld's Browser class version 1.9 plus
  * changes below.
  *  + Added support for Opera Mobile
  *  + Added support for the Windows Phone (formerly Windows Mobile) platform
@@ -82,8 +88,8 @@
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.3.0
- * @last-modified February 11, 2016
+ * @version 2.4.0
+ * @last-modified August 2, 2016
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2016, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -127,9 +133,11 @@ class BrowserDetection
     const BROWSER_OPERA_MOBILE = 'Opera Mobile';
     const BROWSER_PHOENIX = 'Phoenix';
     const BROWSER_SAFARI = 'Safari';
+    const BROWSER_SAMSUNG = 'Samsung Internet';
     const BROWSER_SLURP = 'Yahoo! Slurp';
     const BROWSER_TABLET_OS = 'BlackBerry Tablet OS';
     const BROWSER_UNKNOWN = 'unknown';
+    const BROWSER_VIVALDI = 'Vivaldi';
     const BROWSER_W3CVALIDATOR = 'W3C Validator';
     const BROWSER_YAHOO_MM = 'Yahoo! Multimedia';
     /**#@-*/
@@ -384,12 +392,13 @@ class BrowserDetection
     /**
      * Get the platform version on which the browser is run on. It can be returned as a string number like 'NT 6.3' or
      * as a name like 'Windows 8.1'. When returning version string numbers for Windows NT OS families the number is
-     * prefixed by 'NT ' to differentiate from older Windows 3.x & 9x release. At the moment only the Windows operating
-     * systems is supported.
+     * prefixed by 'NT ' to differentiate from older Windows 3.x & 9x release. At the moment only the Windows and
+     * Android operating systems are supported.
      * @param boolean $returnVersionNumbers Determines if the return value must be versions numbers as a string (true)
      * or the version name (false).
      * @param boolean $returnServerFlavor Since some Windows NT versions have the same values, this flag determines if
      * the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use version 6.3.
+     * This parameter is only useful when testing for Windows.
      * @return string Returns the version name/version numbers of the platform or the constant PLATFORM_VERSION_UNKNOWN
      * if unknown.
      */
@@ -409,6 +418,10 @@ class BrowserDetection
                     } else {
                         return $this->windowsVerToStr($this->_platformVersion);
                     }
+                break;
+
+                case self::PLATFORM_ANDROID:
+                    return $this->androidVerToStr($this->_platformVersion);
                 break;
 
                 default: return self::PLATFORM_VERSION_UNKNOWN;
@@ -516,6 +529,46 @@ class BrowserDetection
 
     //--- PROTECTED MEMBERS --------------------------------------------------------------------------------------------
 
+
+    /**
+     * Convert the Android version numbers to the operating system name. For instance '1.6' returns 'Donut'.
+     * @access protected
+     * @param string $androidVer The Android version numbers as a string.
+     * @return string The operating system name or the constant PLATFORM_VERSION_UNKNOWN if nothing match the version
+     * numbers.
+     */
+    protected function androidVerToStr($androidVer)
+    {
+        //https://en.wikipedia.org/wiki/Android_version_history
+
+        if ($this->compareVersions($androidVer, '7') >= 0 && $this->compareVersions($androidVer, '8') < 0) {
+            return 'Nougat';
+        } else if ($this->compareVersions($androidVer, '6') >= 0 && $this->compareVersions($androidVer, '7') < 0) {
+            return 'Marshmallow';
+        } else if ($this->compareVersions($androidVer, '5') >= 0 && $this->compareVersions($androidVer, '6') < 0) {
+            return 'Lollipop';
+        } else if ($this->compareVersions($androidVer, '4.4') >= 0 || $this->compareVersions($androidVer, '5') < 0) {
+            return 'KitKat';
+        } else if ($this->compareVersions($androidVer, '4.1') >= 0 || $this->compareVersions($androidVer, '4.4') < 0) {
+            return 'Jelly Bean';
+        } else if ($this->compareVersions($androidVer, '4') >= 0 || $this->compareVersions($androidVer, '4.1') < 0) {
+            return 'Ice Cream Sandwich';
+        } else if ($this->compareVersions($androidVer, '3') >= 0 || $this->compareVersions($androidVer, '4') < 0) {
+            return 'Honeycomb';
+        } else if ($this->compareVersions($androidVer, '2.3') >= 0 || $this->compareVersions($androidVer, '3') < 0) {
+            return 'Gingerbread';
+        } else if ($this->compareVersions($androidVer, '2.2') >= 0 || $this->compareVersions($androidVer, '2.3') < 0) {
+            return 'Froyo';
+        } else if ($this->compareVersions($androidVer, '2') >= 0 || $this->compareVersions($androidVer, '2.2') < 0) {
+            return 'Eclair';
+        } else if ($this->compareVersions($androidVer, '1.6') >= 0 || $this->compareVersions($androidVer, '2') < 0) {
+            return 'Donut';
+        } else if ($this->compareVersions($androidVer, '1.5') >= 0 || $this->compareVersions($androidVer, '1.6') < 0) {
+            return 'Cupcake';
+        } else {
+            return self::PLATFORM_VERSION_UNKNOWN; //Unknown/unnamed Android version
+        }
+    }
 
     /**
      * Determine if the browser is the Amaya Web editor or not.
@@ -1023,6 +1076,8 @@ class BrowserDetection
                $this->checkBrowserInternetExplorer() ||
                $this->checkBrowserOpera() ||            /* Opera must be checked before Firefox, Netscape and Chrome to avoid conflicts */
                $this->checkBrowserEdge() ||             /* Edge must be checked before Firefox, Safari and Chrome to avoid conflicts */
+               $this->checkBrowserVivaldi() ||          /* Vivaldi must be checked before Chrome and Safari to avoid conflicts */
+               $this->checkBrowserSamsung() ||          /* Samsung Internet browser must be checked before Chrome and Safari to avoid conflicts */
                $this->checkBrowserChrome() ||           /* Chrome must be checked before Netscaoe and Mozilla to avoid conflicts */
                $this->checkBrowserOmniWeb() ||          /* OmniWeb must be checked before Safari (on which it's based on) and Netscape (since it have Mozilla UAs) */
                $this->checkBrowserIcab() ||             /* Check iCab before Netscape since iCab have Mozilla UAs */
@@ -1099,6 +1154,16 @@ class BrowserDetection
     }
 
     /**
+     * Determine if the browser is the Samsung Internet browser or not.
+     * @access protected
+     * @return boolean Returns true if the browser is the the Samsung Internet browser, false otherwise.
+     */
+    protected function checkBrowserSamsung()
+    {
+        return $this->checkSimpleBrowserUA('SamsungBrowser', $this->_agent, self::BROWSER_SAMSUNG, true);
+    }
+
+    /**
      * Determine if the browser is the Yahoo! Slurp crawler or not.
      * @access protected
      * @return boolean Returns true if the browser is Yahoo! Slurp, false otherwise.
@@ -1146,6 +1211,16 @@ class BrowserDetection
         }
 
         return false;
+    }
+
+    /**
+     * Determine if the browser is Vivaldi or not.
+     * @access protected
+     * @return boolean Returns true if the browser is Vivaldi, false otherwise.
+     */
+    protected function checkBrowserVivaldi()
+    {
+        return $this->checkSimpleBrowserUA('Vivaldi', $this->_agent, self::BROWSER_VIVALDI);
     }
 
     /**
@@ -1318,7 +1393,7 @@ class BrowserDetection
                     $result = 'NT ' . $foundVersion[1];
                 } else {
                     //Windows 3.x / 9x family
-                    if (stripos($this->_agent, 'Windows ME') !== false) {
+                    if (stripos($this->_agent, 'Win 9x 4.90') !== false || stripos($this->_agent, 'Windows ME') !== false) {
                         $result = '4.90.3000'; //Windows Me version range from 4.90.3000 to 4.90.3000A
                     } else if (stripos($this->_agent, 'Windows 98') !== false) {
                         $result = '4.10'; //Windows 98 version range from 4.10.1998 to 4.10.2222B
@@ -1326,9 +1401,16 @@ class BrowserDetection
                         $result = '4.00'; //Windows 95 version range from 4.00.950 to 4.03.1214
                     } else if (preg_match('/Windows 3\.([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
                         $result = '3.' . $foundVersion[1];
+                    } else if (stripos($this->_agent, 'Win16') !== false) {
+                        $result = '3.1';
                     }
                 }
+            break;
 
+            case self::PLATFORM_ANDROID:
+                if (preg_match('/Android\s+([^\s;$]+)/i', $this->_agent, $foundVersion)) {
+                    $result = $foundVersion[1];
+                }
             break;
         }
 
@@ -1819,6 +1901,8 @@ class BrowserDetection
             return self::PLATFORM_WINDOWS . ' 95'; //Normally range from 4.00.950 to 4.03.1214
         } else if ($this->compareVersions($winVer, '3.1') == 0 || $this->compareVersions($winVer, '3.11') == 0) {
             return self::PLATFORM_WINDOWS . ' ' . $winVer;
+        } else if ($this->compareVersions($winVer, '3.10') == 0) {
+            return self::PLATFORM_WINDOWS . ' 3.1';
         } else {
             return self::PLATFORM_VERSION_UNKNOWN; //Invalid Windows version
         }
