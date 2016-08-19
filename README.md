@@ -18,10 +18,10 @@ Detects the following broswers:
   * Bingbot
   * BlackBerry
   * BlackBerry Tablet OS
-  * Chrome 0.2 - 48+
+  * Chrome 0.2 - 52+
   * Edge
   * Firebird
-  * Firefox 0.10 - 44+
+  * Firefox 0.10 - 48+
   * Galeon
   * GNU IceCat
   * GNU IceWeasel
@@ -38,7 +38,7 @@ Detects the following broswers:
   * Netscape
   * Nokia Browser
   * OmniWeb
-  * Opera 4.02 - 35+
+  * Opera 4.02 - 39+
   * Opera Mini
   * Opera Mobile
   * Phoenix

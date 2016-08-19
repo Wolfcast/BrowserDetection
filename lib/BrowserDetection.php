@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.4.0
- * @last-modified August 2, 2016
+ * @version 2.5.0
+ * @last-modified August 19, 2016
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2016, Wolfcast
  * @link http://wolfcast.com/
@@ -37,6 +37,10 @@
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
+ *
+ * 2016-08-19: Version 2.5.0
+ *  + Platform version and platform version name are now supported for Mac.
+ *  + Fixed platform version name for Android.
  *
  * 2016-08-02: Version 2.4.0
  *  + Platform version and platform version name are now supported for Android.
@@ -88,8 +92,8 @@
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.4.0
- * @last-modified August 2, 2016
+ * @version 2.5.0
+ * @last-modified August 19, 2016
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2016, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -420,6 +424,10 @@ class BrowserDetection
                     }
                 break;
 
+                case self::PLATFORM_MACINTOSH:
+                    return $this->macVerToStr($this->_platformVersion);
+                break;
+
                 case self::PLATFORM_ANDROID:
                     return $this->androidVerToStr($this->_platformVersion);
                 break;
@@ -547,23 +555,23 @@ class BrowserDetection
             return 'Marshmallow';
         } else if ($this->compareVersions($androidVer, '5') >= 0 && $this->compareVersions($androidVer, '6') < 0) {
             return 'Lollipop';
-        } else if ($this->compareVersions($androidVer, '4.4') >= 0 || $this->compareVersions($androidVer, '5') < 0) {
+        } else if ($this->compareVersions($androidVer, '4.4') >= 0 && $this->compareVersions($androidVer, '5') < 0) {
             return 'KitKat';
-        } else if ($this->compareVersions($androidVer, '4.1') >= 0 || $this->compareVersions($androidVer, '4.4') < 0) {
+        } else if ($this->compareVersions($androidVer, '4.1') >= 0 && $this->compareVersions($androidVer, '4.4') < 0) {
             return 'Jelly Bean';
-        } else if ($this->compareVersions($androidVer, '4') >= 0 || $this->compareVersions($androidVer, '4.1') < 0) {
+        } else if ($this->compareVersions($androidVer, '4') >= 0 && $this->compareVersions($androidVer, '4.1') < 0) {
             return 'Ice Cream Sandwich';
-        } else if ($this->compareVersions($androidVer, '3') >= 0 || $this->compareVersions($androidVer, '4') < 0) {
+        } else if ($this->compareVersions($androidVer, '3') >= 0 && $this->compareVersions($androidVer, '4') < 0) {
             return 'Honeycomb';
-        } else if ($this->compareVersions($androidVer, '2.3') >= 0 || $this->compareVersions($androidVer, '3') < 0) {
+        } else if ($this->compareVersions($androidVer, '2.3') >= 0 && $this->compareVersions($androidVer, '3') < 0) {
             return 'Gingerbread';
-        } else if ($this->compareVersions($androidVer, '2.2') >= 0 || $this->compareVersions($androidVer, '2.3') < 0) {
+        } else if ($this->compareVersions($androidVer, '2.2') >= 0 && $this->compareVersions($androidVer, '2.3') < 0) {
             return 'Froyo';
-        } else if ($this->compareVersions($androidVer, '2') >= 0 || $this->compareVersions($androidVer, '2.2') < 0) {
+        } else if ($this->compareVersions($androidVer, '2') >= 0 && $this->compareVersions($androidVer, '2.2') < 0) {
             return 'Eclair';
-        } else if ($this->compareVersions($androidVer, '1.6') >= 0 || $this->compareVersions($androidVer, '2') < 0) {
+        } else if ($this->compareVersions($androidVer, '1.6') >= 0 && $this->compareVersions($androidVer, '2') < 0) {
             return 'Donut';
-        } else if ($this->compareVersions($androidVer, '1.5') >= 0 || $this->compareVersions($androidVer, '1.6') < 0) {
+        } else if ($this->compareVersions($androidVer, '1.5') >= 0 && $this->compareVersions($androidVer, '1.6') < 0) {
             return 'Cupcake';
         } else {
             return self::PLATFORM_VERSION_UNKNOWN; //Unknown/unnamed Android version
@@ -1382,8 +1390,6 @@ class BrowserDetection
      */
     protected function checkPlatformVersion()
     {
-        //https://support.microsoft.com/en-us/kb/158238
-
         $result = '';
 
         switch ($this->getPlatform()) {
@@ -1393,6 +1399,7 @@ class BrowserDetection
                     $result = 'NT ' . $foundVersion[1];
                 } else {
                     //Windows 3.x / 9x family
+                    //https://support.microsoft.com/en-us/kb/158238
                     if (stripos($this->_agent, 'Win 9x 4.90') !== false || stripos($this->_agent, 'Windows ME') !== false) {
                         $result = '4.90.3000'; //Windows Me version range from 4.90.3000 to 4.90.3000A
                     } else if (stripos($this->_agent, 'Windows 98') !== false) {
@@ -1404,6 +1411,14 @@ class BrowserDetection
                     } else if (stripos($this->_agent, 'Win16') !== false) {
                         $result = '3.1';
                     }
+                }
+            break;
+
+            case self::PLATFORM_MACINTOSH:
+                if (preg_match('/Mac OS X\s*([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
+                    $result = str_replace('_', '.', $foundVersion[1]);
+                } else if (stripos($this->_agent, 'Mac OS X') !== false) {
+                    $result = '10';
                 }
             break;
 
@@ -1498,6 +1513,50 @@ class BrowserDetection
         }
 
         return $cleanVer;
+    }
+
+    /**
+     * Convert the macOS version numbers to the operating system name. For instance '10.7' returns 'Mac OS X Lion'.
+     * @access protected
+     * @param string $macVer The macOS version numbers as a string.
+     * @return string The operating system name or the constant PLATFORM_VERSION_UNKNOWN if nothing match the version
+     * numbers.
+     */
+    protected function macVerToStr($macVer)
+    {
+        //https://en.wikipedia.org/wiki/OS_X#Release_history
+
+        if ($this->_platformVersion === '10') {
+            return 'Mac OS X'; //Unspecified Mac OS X version
+        } else if ($this->compareVersions($macVer, '10.12') >= 0 && $this->compareVersions($macVer, '10.13') < 0) {
+            return 'macOS Sierra';
+        } else if ($this->compareVersions($macVer, '10.11') >= 0 && $this->compareVersions($macVer, '10.12') < 0) {
+            return 'OS X El Capitan';
+        } else if ($this->compareVersions($macVer, '10.10') >= 0 && $this->compareVersions($macVer, '10.11') < 0) {
+            return 'OS X Yosemite';
+        } else if ($this->compareVersions($macVer, '10.9') >= 0 && $this->compareVersions($macVer, '10.10') < 0) {
+            return 'OS X Mavericks';
+        } else if ($this->compareVersions($macVer, '10.8') >= 0 && $this->compareVersions($macVer, '10.9') < 0) {
+            return 'OS X Mountain Lion';
+        } else if ($this->compareVersions($macVer, '10.7') >= 0 && $this->compareVersions($macVer, '10.8') < 0) {
+            return 'Mac OS X Lion';
+        } else if ($this->compareVersions($macVer, '10.6') >= 0 && $this->compareVersions($macVer, '10.7') < 0) {
+            return 'Mac OS X Snow Leopard';
+        } else if ($this->compareVersions($macVer, '10.5') >= 0 && $this->compareVersions($macVer, '10.6') < 0) {
+            return 'Mac OS X Leopard';
+        } else if ($this->compareVersions($macVer, '10.4') >= 0 && $this->compareVersions($macVer, '10.5') < 0) {
+            return 'Mac OS X Tiger';
+        } else if ($this->compareVersions($macVer, '10.3') >= 0 && $this->compareVersions($macVer, '10.4') < 0) {
+            return 'Mac OS X Panther';
+        } else if ($this->compareVersions($macVer, '10.2') >= 0 && $this->compareVersions($macVer, '10.3') < 0) {
+            return 'Mac OS X Jaguar';
+        } else if ($this->compareVersions($macVer, '10.1') >= 0 && $this->compareVersions($macVer, '10.2') < 0) {
+            return 'Mac OS X Puma';
+        } else if ($this->compareVersions($macVer, '10.0') >= 0 && $this->compareVersions($macVer, '10.1') < 0) {
+            return 'Mac OS X Cheetah';
+        } else {
+            return self::PLATFORM_VERSION_UNKNOWN; //Unknown/unnamed Mac OS version
+        }
     }
 
     /**
