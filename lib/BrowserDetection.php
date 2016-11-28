@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.5.0
- * @last-modified August 19, 2016
+ * @version 2.5.1
+ * @last-modified November 28, 2016
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2016, Wolfcast
  * @link http://wolfcast.com/
@@ -37,6 +37,9 @@
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
+ *
+ * 2016-11-28: Version 2.5.1
+ *  + Better detection of 64-bit platforms.
  *
  * 2016-08-19: Version 2.5.0
  *  + Platform version and platform version name are now supported for Mac.
@@ -92,8 +95,8 @@
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.5.0
- * @last-modified August 19, 2016
+ * @version 2.5.1
+ * @last-modified November 28, 2016
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2016, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -256,8 +259,8 @@ class BrowserDetection
 
     /**
      * BrowserDetection class constructor.
-     * @param string $useragent The user agent to work with. Leave empty for the current user agent (contained in
-     * $_SERVER['HTTP_USER_AGENT']).
+     * @param string $useragent (optional) The user agent to work with. Leave empty for the current user agent
+     * (contained in $_SERVER['HTTP_USER_AGENT']).
      */
     public function __construct($useragent = '')
     {
@@ -368,7 +371,7 @@ class BrowserDetection
      * Explorer 8, IE can be put in compatibility mode to make websites that were created for older browsers, especially
      * IE 6 and 7, look better in IE 8+ which renders web pages closer to the standards and thus differently from those
      * older versions of IE.
-     * @param boolean $asArray Determines if the return value must be an array (true) or a string (false).
+     * @param boolean $asArray (optional) Determines if the return value must be an array (true) or a string (false).
      * @return mixed If a string was requested, the function returns the name and version of the browser emulated in the
      * compatibility view mode or an empty string if the browser is not in compatibility view mode. If an array was
      * requested, an array with the keys 'browser' and 'version' is returned.
@@ -398,11 +401,11 @@ class BrowserDetection
      * as a name like 'Windows 8.1'. When returning version string numbers for Windows NT OS families the number is
      * prefixed by 'NT ' to differentiate from older Windows 3.x & 9x release. At the moment only the Windows and
      * Android operating systems are supported.
-     * @param boolean $returnVersionNumbers Determines if the return value must be versions numbers as a string (true)
-     * or the version name (false).
-     * @param boolean $returnServerFlavor Since some Windows NT versions have the same values, this flag determines if
-     * the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use version 6.3.
-     * This parameter is only useful when testing for Windows.
+     * @param boolean $returnVersionNumbers (optional) Determines if the return value must be versions numbers as a
+     * string (true) or the version name (false).
+     * @param boolean $returnServerFlavor (optional) Since some Windows NT versions have the same values, this flag
+     * determines if the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use
+     * version 6.3. This parameter is only useful when testing for Windows.
      * @return string Returns the version name/version numbers of the platform or the constant PLATFORM_VERSION_UNKNOWN
      * if unknown.
      */
@@ -422,15 +425,15 @@ class BrowserDetection
                     } else {
                         return $this->windowsVerToStr($this->_platformVersion);
                     }
-                break;
+                    break;
 
                 case self::PLATFORM_MACINTOSH:
                     return $this->macVerToStr($this->_platformVersion);
-                break;
+                    break;
 
                 case self::PLATFORM_ANDROID:
                     return $this->androidVerToStr($this->_platformVersion);
-                break;
+                    break;
 
                 default: return self::PLATFORM_VERSION_UNKNOWN;
             }
@@ -516,7 +519,7 @@ class BrowserDetection
 
     /**
      * Set the user agent to use with the class.
-     * @param string $agentString The value of the user agent. If an empty string is sent (default),
+     * @param string $agentString (optional) The value of the user agent. If an empty string is sent (default),
      * $_SERVER['HTTP_USER_AGENT'] will be used.
      */
     public function setUserAgent($agentString = '')
@@ -779,9 +782,7 @@ class BrowserDetection
         }
 
         //Several browsers uses IE compatibility UAs filter these browsers out (but after testing for IE Mobile)
-        if (stripos($this->_agent, 'Opera') !== false ||
-                stripos($this->_agent, 'BlackBerry') !== false ||
-                stripos($this->_agent, 'Nokia') !== false) {
+        if ($this->containString($this->_agent, array('Opera', 'BlackBerry', 'Nokia'))) {
             return false;
         }
 
@@ -798,7 +799,7 @@ class BrowserDetection
         }
 
         //Test for Internet Explorer 2+
-        if (stripos($this->_agent, 'MSIE') !== false || stripos($this->_agent, 'Trident') !== false) {
+        if ($this->containString($this->_agent, array('MSIE', 'Trident'))) {
             $version = '';
 
             if (stripos($this->_agent, 'Trident') !== false) {
@@ -933,7 +934,7 @@ class BrowserDetection
     protected function checkBrowserNetscape()
     {
         //BlackBerry & Nokia UAs can conflict with Netscape UAs
-        if (stripos($this->_agent, 'BlackBerry') !== false || stripos($this->_agent, 'Nokia') !== false) {
+        if ($this->containString($this->_agent, array('BlackBerry', 'Nokia'))) {
             return false;
         }
 
@@ -985,7 +986,7 @@ class BrowserDetection
      */
     protected function checkBrowserNokia()
     {
-        if (stripos($this->_agent, 'Nokia5800') !== false || stripos($this->_agent, 'Nokia5530') !== false || stripos($this->_agent, 'Nokia5230') !== false) {
+        if ($this->containString($this->_agent, array('Nokia5800', 'Nokia5530', 'Nokia5230'))) {
             $this->setBrowser(self::BROWSER_NOKIA);
             $this->setVersion('7.0');
             $this->setMobile(true);
@@ -1189,8 +1190,8 @@ class BrowserDetection
      * agent.
      * @param string $userAgent The user agent string to work with.
      * @param string $browserName The literal browser name. Always use a class constant!
-     * @param boolean $isMobile Determines if the browser is from a mobile device.
-     * @param boolean $isRobot Determines if the browser is a robot or not.
+     * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
+     * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
     protected function checkBrowserUAWithVersion($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false)
@@ -1314,8 +1315,7 @@ class BrowserDetection
     protected function checkPlatform()
     {
         /* Mobile platforms */
-        if (stripos($this->_agent, 'Windows Phone') !== false ||     /* Check Windows Phone (formerly Windows Mobile) before Windows */
-                stripos($this->_agent, 'IEMobile') !== false) {
+        if ($this->containString($this->_agent, array('Windows Phone', 'IEMobile'))) { /* Check Windows Phone (formerly Windows Mobile) before Windows */
             $this->setPlatform(self::PLATFORM_WINDOWS_PHONE);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Windows CE') !== false) { /* Check Windows CE before Windows */
@@ -1336,9 +1336,7 @@ class BrowserDetection
         } else if (stripos($this->_agent, 'Symbian') !== false) {
             $this->setPlatform(self::PLATFORM_SYMBIAN);
             $this->setMobile(true);
-        } else if (stripos($this->_agent, 'BlackBerry') !== false ||
-                stripos($this->_agent, 'BB10') !== false ||
-                stripos($this->_agent, 'RIM Tablet OS') !== false) {
+        } else if ($this->containString($this->_agent, array('BlackBerry', 'BB10', 'RIM Tablet OS'))) {
             $this->setPlatform(self::PLATFORM_BLACKBERRY);
             $this->setMobile(true);
         } else if (stripos($this->_agent, 'Nokia') !== false) {
@@ -1377,7 +1375,8 @@ class BrowserDetection
         }
 
         //Check if it's a 64-bit platform
-        if (stripos($this->_agent, 'WOW64') !== false || stripos($this->_agent, 'Win64') !== false) {
+        if ($this->containString($this->_agent, array('WOW64', 'Win64', 'AMD64', 'x86_64', 'x86-64', 'ia64', 'IRIX64',
+                'ppc64', 'sparc64', 'x64;', 'x64_64'))) {
             $this->set64bit(true);
         }
 
@@ -1400,7 +1399,8 @@ class BrowserDetection
                 } else {
                     //Windows 3.x / 9x family
                     //https://support.microsoft.com/en-us/kb/158238
-                    if (stripos($this->_agent, 'Win 9x 4.90') !== false || stripos($this->_agent, 'Windows ME') !== false) {
+
+                    if ($this->containString($this->_agent, array('Win 9x 4.90', 'Windows ME'))) {
                         $result = '4.90.3000'; //Windows Me version range from 4.90.3000 to 4.90.3000A
                     } else if (stripos($this->_agent, 'Windows 98') !== false) {
                         $result = '4.10'; //Windows 98 version range from 4.10.1998 to 4.10.2222B
@@ -1412,7 +1412,7 @@ class BrowserDetection
                         $result = '3.1';
                     }
                 }
-            break;
+                break;
 
             case self::PLATFORM_MACINTOSH:
                 if (preg_match('/Mac OS X\s*([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
@@ -1420,13 +1420,13 @@ class BrowserDetection
                 } else if (stripos($this->_agent, 'Mac OS X') !== false) {
                     $result = '10';
                 }
-            break;
+                break;
 
             case self::PLATFORM_ANDROID:
                 if (preg_match('/Android\s+([^\s;$]+)/i', $this->_agent, $foundVersion)) {
                     $result = $foundVersion[1];
                 }
-            break;
+                break;
         }
 
         if (trim($result) == '') {
@@ -1443,10 +1443,10 @@ class BrowserDetection
      * agent.
      * @param string $userAgent The user agent string to work with.
      * @param string $browserName The literal browser name. Always use a class constant!
-     * @param boolean $isMobile Determines if the browser is from a mobile device.
-     * @param boolean $isRobot Determines if the browser is a robot or not.
-     * @param string $separator The separator string used to split the browser name and the version number in the user
-     * agent.
+     * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
+     * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
+     * @param string $separator (optional) The separator string used to split the browser name and the version number in
+     * the user agent.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
     protected function checkSimpleBrowserUA($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false, $separator = '/')
@@ -1475,6 +1475,37 @@ class BrowserDetection
                 $this->setMobile($isMobile);
                 $this->setRobot($isRobot);
 
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Find if one or more substring is contained in a string.
+     * @param string $haystack The string to search in.
+     * @param mixed $needle The string to search for. Can be a string or an array of strings if multiples values are to
+     * be searched.
+     * @param boolean $insensitive (optional) Determines if we do a case-sensitive search (false) or a case-insensitive one
+     * (true).
+     * @return boolean Returns true if the needle (or one of the needles) has been found in the haystack, false
+     * otherwise.
+     */
+    protected function containString($haystack, $needle, $insensitive = true)
+    {
+        if (!is_array($needle)) {
+            $needle = array($needle);
+        }
+
+        foreach ($needle as $currNeedle) {
+            if ($insensitive) {
+                $found = stripos($haystack, $currNeedle) !== false;
+            } else {
+                $found = strpos($haystack, $currNeedle) !== false;
+            }
+
+            if ($found) {
                 return true;
             }
         }
@@ -1732,7 +1763,7 @@ class BrowserDetection
     /**
      * Set the browser to be from a mobile device or not.
      * @access protected
-     * @param boolean $isMobile Value that tells if the browser is on a mobile device or not.
+     * @param boolean $isMobile (optional) Value that tells if the browser is on a mobile device or not.
      */
     protected function setMobile($isMobile = true)
     {
@@ -1762,7 +1793,7 @@ class BrowserDetection
     /**
      * Set the browser to be a robot (crawler) or not.
      * @access protected
-     * @param boolean $isRobot Value that tells if the browser is a robot or not.
+     * @param boolean $isRobot (optional) Value that tells if the browser is a robot or not.
      */
     protected function setRobot($isRobot = true)
     {
@@ -1896,8 +1927,9 @@ class BrowserDetection
      * 'Windows XP'.
      * @access protected
      * @param string $winVer The Windows NT family version numbers as a string.
-     * @param boolean $returnServerFlavor Since some Windows NT versions have the same values, this flag determines if
-     * the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use version 6.3.
+     * @param boolean $returnServerFlavor (optional) Since some Windows NT versions have the same values, this flag
+     * determines if the Server flavor is returned or not. For instance Windows 8.1 and Windows Server 2012 R2 both use
+     * version 6.3.
      * @return string The operating system name or the constant PLATFORM_VERSION_UNKNOWN if nothing match the version
      * numbers.
      */
