@@ -1,5 +1,5 @@
 <?php
-
+BrowserDetection
 /**
  * Browser detection class file.
  * This file contains everything required to use the BrowserDetection class.
