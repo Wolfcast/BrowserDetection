@@ -38,6 +38,9 @@
  *
  * Updates:
  *
+ * 2017-02-01: Version 2.6.0
+ *  + Platform version and platform version name are now supported for iOS (tested with iPad & iPhone).
+ *
  * 2016-11-28: Version 2.5.1
  *  + Better detection of 64-bit platforms.
  *
@@ -95,10 +98,10 @@
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.5.1
- * @last-modified November 28, 2016
+ * @version 2.6.0
+ * @last-modified Februari 1, 2017
  * @author Alexandre Valiquette, Chris Schuld, Gary White
- * @copyright Copyright (c) 2016, Wolfcast
+ * @copyright Copyright (c) 2017, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
  * @link http://wolfcast.com/
  * @link http://wolfcast.com/open-source/browser-detection/tutorial.php
@@ -429,6 +432,18 @@ class BrowserDetection
 
                 case self::PLATFORM_MACINTOSH:
                     return $this->macVerToStr($this->_platformVersion);
+                    break;
+                    
+                case self::PLATFORM_IPAD:
+                    return $this->iOSVerToStr($this->_platformVersion);
+                    break;
+				
+				case self::PLATFORM_IPHONE:
+                    return $this->iOSVerToStr($this->_platformVersion);
+                    break;
+
+				case self::PLATFORM_IPOD:
+                    return $this->iOSVerToStr($this->_platformVersion);
                     break;
 
                 case self::PLATFORM_ANDROID:
@@ -1421,7 +1436,13 @@ class BrowserDetection
                     $result = '10';
                 }
                 break;
-
+            
+            case self::PLATFORM_IPAD:
+                if (preg_match('/OS\s*([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
+                    $result = str_replace('_', '.', $foundVersion[1]);
+                }
+                break;
+            
             case self::PLATFORM_ANDROID:
                 if (preg_match('/Android\s+([^\s;$]+)/i', $this->_agent, $foundVersion)) {
                     $result = $foundVersion[1];
@@ -1587,6 +1608,29 @@ class BrowserDetection
             return 'Mac OS X Cheetah';
         } else {
             return self::PLATFORM_VERSION_UNKNOWN; //Unknown/unnamed Mac OS version
+        }
+    }
+    
+    /**
+     * Convert the iOS version numbers to the operating system name. For instance everything from '4' or above returns 'iOS'.
+     * @access protected
+     * @param string $iOSVer The iOS version numbers as a string.
+     * @return string The operating system name or the constant PLATFORM_VERSION_UNKNOWN if nothing match the version
+     * numbers.
+     */
+    protected function iOSVerToStr($iOSVer)
+    {
+        //https://en.wikipedia.org/wiki/IOS_version_history
+        
+        if ($this->_platformVersion <= '4') {
+          return 'iOS';
+        }
+        else if ($this->_platformVersion >= '3')
+        {
+          return 'iPhone OS OS';
+        }
+        else {
+          return PLATFORM_VERSION_UNKNOWN; //Unknown iOS version
         }
     }
 
