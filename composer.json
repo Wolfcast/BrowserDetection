@@ -8,8 +8,8 @@
     "authors": [
         {
             "name": "Alexandre Valiquette",
-            "homepage": "http://wolfcast.com/",
-            "role": "Main developer"
+            "homepage": "https://wolfcast.com/",
+            "role": "Lead developer"
         }
     ],
     "require": {

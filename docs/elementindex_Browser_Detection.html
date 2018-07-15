@@ -66,18 +66,18 @@
 		<dl>
 							<dt><b>$_agent</b></dt>
 				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_agent">BrowserDetection::$_agent</a></dd>
-							<dt><b>$_aolVersion</b></dt>
-				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_aolVersion">BrowserDetection::$_aolVersion</a></dd>
 							<dt><b>$_browserName</b></dt>
 				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_browserName">BrowserDetection::$_browserName</a></dd>
 							<dt><b>$_compatibilityViewName</b></dt>
 				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_compatibilityViewName">BrowserDetection::$_compatibilityViewName</a></dd>
 							<dt><b>$_compatibilityViewVer</b></dt>
 				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_compatibilityViewVer">BrowserDetection::$_compatibilityViewVer</a></dd>
+							<dt><b>$_customBrowserDetection</b></dt>
+				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_customBrowserDetection">BrowserDetection::$_customBrowserDetection</a></dd>
+							<dt><b>$_customPlatformDetection</b></dt>
+				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_customPlatformDetection">BrowserDetection::$_customPlatformDetection</a></dd>
 							<dt><b>$_is64bit</b></dt>
 				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_is64bit">BrowserDetection::$_is64bit</a></dd>
-							<dt><b>$_isAol</b></dt>
-				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_isAol">BrowserDetection::$_isAol</a></dd>
 							<dt><b>$_isMobile</b></dt>
 				<dd>in file BrowserDetection.php, variable <a href="Browser_Detection/BrowserDetection.html#var$_isMobile">BrowserDetection::$_isMobile</a></dd>
 							<dt><b>$_isRobot</b></dt>
@@ -100,6 +100,10 @@
 	<div>
 		<h2>a</h2>
 		<dl>
+							<dt><b>addCustomBrowserDetection</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodaddCustomBrowserDetection">BrowserDetection::addCustomBrowserDetection()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Dynamically add support for a new Web browser.</dd>
+							<dt><b>addCustomPlatformDetection</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodaddCustomPlatformDetection">BrowserDetection::addCustomPlatformDetection()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Dynamically add support for a new platform.</dd>
 							<dt><b>androidVerToStr</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodandroidVerToStr">BrowserDetection::androidVerToStr()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Convert the Android version numbers to the operating system name. For instance '1.6' returns 'Donut'.</dd>
 					</dl>
@@ -111,11 +115,9 @@
 		<h2>b</h2>
 		<dl>
 							<dt><b>BrowserDetection</b></dt>
-				<dd>in file BrowserDetection.php, class <a href="Browser_Detection/BrowserDetection.html">BrowserDetection</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,  platform or if it's a mobile device.</dd>
+				<dd>in file BrowserDetection.php, class <a href="Browser_Detection/BrowserDetection.html">BrowserDetection</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,  platform and device type.</dd>
 							<dt><b>BrowserDetection.php</b></dt>
 				<dd>procedural page <a href="Browser_Detection/_BrowserDetection.php.html">BrowserDetection.php</a></dd>
-							<dt><b>BROWSER_AMAYA</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_AMAYA">BrowserDetection::BROWSER_AMAYA</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_ANDROID</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_ANDROID">BrowserDetection::BROWSER_ANDROID</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_BINGBOT</b></dt>
@@ -130,8 +132,6 @@
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_FIREBIRD">BrowserDetection::BROWSER_FIREBIRD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_FIREFOX</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_FIREFOX">BrowserDetection::BROWSER_FIREFOX</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
-							<dt><b>BROWSER_GALEON</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_GALEON">BrowserDetection::BROWSER_GALEON</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_GOOGLEBOT</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_GOOGLEBOT">BrowserDetection::BROWSER_GOOGLEBOT</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_ICAB</b></dt>
@@ -154,14 +154,10 @@
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_MSNBOT">BrowserDetection::BROWSER_MSNBOT</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_MSNTV</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_MSNTV">BrowserDetection::BROWSER_MSNTV</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
-							<dt><b>BROWSER_NETPOSITIVE</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_NETPOSITIVE">BrowserDetection::BROWSER_NETPOSITIVE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_NETSCAPE</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_NETSCAPE">BrowserDetection::BROWSER_NETSCAPE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_NOKIA</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_NOKIA">BrowserDetection::BROWSER_NOKIA</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
-							<dt><b>BROWSER_OMNIWEB</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_OMNIWEB">BrowserDetection::BROWSER_OMNIWEB</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_OPERA</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_OPERA">BrowserDetection::BROWSER_OPERA</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_OPERA_MINI</b></dt>
@@ -178,10 +174,10 @@
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_SLURP">BrowserDetection::BROWSER_SLURP</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_TABLET_OS</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_TABLET_OS">BrowserDetection::BROWSER_TABLET_OS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
+							<dt><b>BROWSER_UC</b></dt>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_UC">BrowserDetection::BROWSER_UC</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_UNKNOWN</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_UNKNOWN">BrowserDetection::BROWSER_UNKNOWN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
-							<dt><b>BROWSER_VIVALDI</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_VIVALDI">BrowserDetection::BROWSER_VIVALDI</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_W3CVALIDATOR</b></dt>
 				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constBROWSER_W3CVALIDATOR">BrowserDetection::BROWSER_W3CVALIDATOR</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the Web browser.</dd>
 							<dt><b>BROWSER_YAHOO_MM</b></dt>
@@ -194,8 +190,6 @@
 	<div>
 		<h2>c</h2>
 		<dl>
-							<dt><b>checkBrowserAmaya</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserAmaya">BrowserDetection::checkBrowserAmaya()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the Amaya Web editor or not.</dd>
 							<dt><b>checkBrowserAndroid</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserAndroid">BrowserDetection::checkBrowserAndroid()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the Android browser (based on the WebKit layout engine and coupled with Chrome's  JavaScript engine) or not.</dd>
 							<dt><b>checkBrowserBingbot</b></dt>
@@ -204,14 +198,14 @@
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserBlackBerry">BrowserDetection::checkBrowserBlackBerry()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the BlackBerry browser or not.</dd>
 							<dt><b>checkBrowserChrome</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserChrome">BrowserDetection::checkBrowserChrome()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Chrome or not.</dd>
+							<dt><b>checkBrowserCustom</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserCustom">BrowserDetection::checkBrowserCustom()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is among the custom browser rules or not. Rules are checked in the order they were  added.</dd>
 							<dt><b>checkBrowserEdge</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserEdge">BrowserDetection::checkBrowserEdge()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Edge or not.</dd>
 							<dt><b>checkBrowserFirebird</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserFirebird">BrowserDetection::checkBrowserFirebird()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Firebird or not. Firebird was the name of Firefox from version 0.6 to 0.7.1.</dd>
 							<dt><b>checkBrowserFirefox</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserFirefox">BrowserDetection::checkBrowserFirefox()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Firefox or not.</dd>
-							<dt><b>checkBrowserGaleon</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserGaleon">BrowserDetection::checkBrowserGaleon()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Galeon or not. The browser was discontinued on September 27, 2008.</dd>
 							<dt><b>checkBrowserGooglebot</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserGooglebot">BrowserDetection::checkBrowserGooglebot()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the Googlebot crawler or not.</dd>
 							<dt><b>checkBrowserIcab</b></dt>
@@ -232,14 +226,10 @@
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserMsnBot">BrowserDetection::checkBrowserMsnBot()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the MSNBot crawler or not. In October 2010 it was replaced by the Bingbot robot.</dd>
 							<dt><b>checkBrowserMsnTv</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserMsnTv">BrowserDetection::checkBrowserMsnTv()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is MSN TV (formerly WebTV) or not.</dd>
-							<dt><b>checkBrowserNetPositive</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserNetPositive">BrowserDetection::checkBrowserNetPositive()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is NetPositive or not. The browser is discontinued since November 2001.</dd>
 							<dt><b>checkBrowserNetscape</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserNetscape">BrowserDetection::checkBrowserNetscape()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Netscape or not. Official support for this browser ended on March 1st, 2008.</dd>
 							<dt><b>checkBrowserNokia</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserNokia">BrowserDetection::checkBrowserNokia()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is a Nokia browser or not.</dd>
-							<dt><b>checkBrowserOmniWeb</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserOmniWeb">BrowserDetection::checkBrowserOmniWeb()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is OmniWeb or not.</dd>
 							<dt><b>checkBrowserOpera</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserOpera">BrowserDetection::checkBrowserOpera()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Opera or not.</dd>
 							<dt><b>checkBrowserPhoenix</b></dt>
@@ -254,16 +244,16 @@
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserSlurp">BrowserDetection::checkBrowserSlurp()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the Yahoo! Slurp crawler or not.</dd>
 							<dt><b>checkBrowserUAWithVersion</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserUAWithVersion">BrowserDetection::checkBrowserUAWithVersion()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Test the user agent for a specific browser that use a &quot;Version&quot; string (like Safari and Opera). The user agent  should look like: &quot;Version/1.0 Browser name/123.456&quot; or &quot;Browser name/123.456 Version/1.0&quot;.</dd>
-							<dt><b>checkBrowserVivaldi</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserVivaldi">BrowserDetection::checkBrowserVivaldi()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is Vivaldi or not.</dd>
+							<dt><b>checkBrowserUC</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserUC">BrowserDetection::checkBrowserUC()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is UC Browser or not.</dd>
 							<dt><b>checkBrowserW3CValidator</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserW3CValidator">BrowserDetection::checkBrowserW3CValidator()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the W3C Validator or not.</dd>
 							<dt><b>checkBrowserYahooMultimedia</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckBrowserYahooMultimedia">BrowserDetection::checkBrowserYahooMultimedia()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is the Yahoo! multimedia crawler or not.</dd>
-							<dt><b>checkForAol</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckForAol">BrowserDetection::checkForAol()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the user is using an AOL &quot;optimized&quot; browser or not.</dd>
 							<dt><b>checkPlatform</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckPlatform">BrowserDetection::checkPlatform()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine the user's platform.</dd>
+							<dt><b>checkPlatformCustom</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckPlatformCustom">BrowserDetection::checkPlatformCustom()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the platform is among the custom platform rules or not. Rules are checked in the order they were  added.</dd>
 							<dt><b>checkPlatformVersion</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodcheckPlatformVersion">BrowserDetection::checkPlatformVersion()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine the user's platform version.</dd>
 							<dt><b>checkSimpleBrowserUA</b></dt>
@@ -292,14 +282,14 @@
 	<div>
 		<h2>g</h2>
 		<dl>
-							<dt><b>getAolVersion</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetAolVersion">BrowserDetection::getAolVersion()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the version of AOL (if any). AOL releases &quot;optimized&quot; Internet Explorer and Firefox versions. In the making  they add their version number in the user agent string of these browsers.</dd>
 							<dt><b>getIECompatibilityView</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetIECompatibilityView">BrowserDetection::getIECompatibilityView()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the name and version of the browser emulated in the compatibility view mode (if any). Since Internet  Explorer 8, IE can be put in compatibility mode to make websites that were created for older browsers, especially  IE 6 and 7, look better in IE 8+ which renders web pages closer to the standards and thus differently from those  older versions of IE.</dd>
+							<dt><b>getLibVersion</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetLibVersion">BrowserDetection::getLibVersion()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Return the BrowserDetection class version.</dd>
 							<dt><b>getName</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetName">BrowserDetection::getName()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the name of the browser. All of the return values are class constants. You can compare them like this:  $myBrowserInstance-&gt;getName() == BrowserDetection::BROWSER_FIREFOX.</dd>
 							<dt><b>getPlatform</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetPlatform">BrowserDetection::getPlatform()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the name of the platform family on which the browser is run on (such as Windows, Apple, iPhone, etc.). All of  the return values are class constants. You can compare them like this:  $myBrowserInstance-&gt;getPlatform() == BrowserDetection::PLATFORM_ANDROID.</dd>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetPlatform">BrowserDetection::getPlatform()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the name of the platform family on which the browser is run on (such as Windows, Apple, etc.). All of  the return values are class constants. You can compare them like this:  $myBrowserInstance-&gt;getPlatform() == BrowserDetection::PLATFORM_ANDROID.</dd>
 							<dt><b>getPlatformVersion</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodgetPlatformVersion">BrowserDetection::getPlatformVersion()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the platform version on which the browser is run on. It can be returned as a string number like 'NT 6.3' or  as a name like 'Windows 8.1'. When returning version string numbers for Windows NT OS families the number is  prefixed by 'NT ' to differentiate from older Windows 3.x &amp; 9x release. At the moment only the Windows and  Android operating systems are supported.</dd>
 							<dt><b>getUserAgent</b></dt>
@@ -314,10 +304,10 @@
 	<div>
 		<h2>i</h2>
 		<dl>
+							<dt><b>iOSVerToStr</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodiOSVerToStr">BrowserDetection::iOSVerToStr()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Convert the iOS version numbers to the operating system name. For instance '2.0' returns 'iPhone OS 2.0'.</dd>
 							<dt><b>is64bitPlatform</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodis64bitPlatform">BrowserDetection::is64bitPlatform()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is executed from a 64-bit platform. Keep in mind that not all platforms/browsers report  this and the result may not always be accurate.</dd>
-							<dt><b>isAol</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodisAol">BrowserDetection::isAol()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser is from AOL. AOL releases &quot;optimized&quot; Internet Explorer and Firefox versions. In the  making they add their details in the user agent string of these browsers.</dd>
 							<dt><b>isChromeFrame</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodisChromeFrame">BrowserDetection::isChromeFrame()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Determine if the browser runs Google Chrome Frame (it's a plug-in designed for Internet Explorer 6+ based on the  open-source Chromium project - it's like a Chrome browser within IE).</dd>
 							<dt><b>isInIECompatibilityView</b></dt>
@@ -347,47 +337,37 @@
 							<dt><b>parseInt</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodparseInt">BrowserDetection::parseInt()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Get the integer value of a string variable.</dd>
 							<dt><b>PLATFORM_ANDROID</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_ANDROID">BrowserDetection::PLATFORM_ANDROID</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
-							<dt><b>PLATFORM_BEOS</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_BEOS">BrowserDetection::PLATFORM_BEOS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_ANDROID">BrowserDetection::PLATFORM_ANDROID</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_BLACKBERRY</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_BLACKBERRY">BrowserDetection::PLATFORM_BLACKBERRY</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_BLACKBERRY">BrowserDetection::PLATFORM_BLACKBERRY</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_FREEBSD</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_FREEBSD">BrowserDetection::PLATFORM_FREEBSD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
-							<dt><b>PLATFORM_IPAD</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_IPAD">BrowserDetection::PLATFORM_IPAD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
-							<dt><b>PLATFORM_IPHONE</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_IPHONE">BrowserDetection::PLATFORM_IPHONE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
-							<dt><b>PLATFORM_IPOD</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_IPOD">BrowserDetection::PLATFORM_IPOD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_FREEBSD">BrowserDetection::PLATFORM_FREEBSD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
+							<dt><b>PLATFORM_IOS</b></dt>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_IOS">BrowserDetection::PLATFORM_IOS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_LINUX</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_LINUX">BrowserDetection::PLATFORM_LINUX</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_LINUX">BrowserDetection::PLATFORM_LINUX</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_MACINTOSH</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_MACINTOSH">BrowserDetection::PLATFORM_MACINTOSH</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_MACINTOSH">BrowserDetection::PLATFORM_MACINTOSH</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_NETBSD</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_NETBSD">BrowserDetection::PLATFORM_NETBSD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_NETBSD">BrowserDetection::PLATFORM_NETBSD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_NOKIA</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_NOKIA">BrowserDetection::PLATFORM_NOKIA</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_NOKIA">BrowserDetection::PLATFORM_NOKIA</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_OPENBSD</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_OPENBSD">BrowserDetection::PLATFORM_OPENBSD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_OPENBSD">BrowserDetection::PLATFORM_OPENBSD</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_OPENSOLARIS</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_OPENSOLARIS">BrowserDetection::PLATFORM_OPENSOLARIS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
-							<dt><b>PLATFORM_OS2</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_OS2">BrowserDetection::PLATFORM_OS2</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
-							<dt><b>PLATFORM_SUNOS</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_SUNOS">BrowserDetection::PLATFORM_SUNOS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_OPENSOLARIS">BrowserDetection::PLATFORM_OPENSOLARIS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_SYMBIAN</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_SYMBIAN">BrowserDetection::PLATFORM_SYMBIAN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_SYMBIAN">BrowserDetection::PLATFORM_SYMBIAN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_UNKNOWN</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_UNKNOWN">BrowserDetection::PLATFORM_UNKNOWN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_UNKNOWN">BrowserDetection::PLATFORM_UNKNOWN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_VERSION_UNKNOWN</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_VERSION_UNKNOWN">BrowserDetection::PLATFORM_VERSION_UNKNOWN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_VERSION_UNKNOWN">BrowserDetection::PLATFORM_VERSION_UNKNOWN</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_WINDOWS</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_WINDOWS">BrowserDetection::PLATFORM_WINDOWS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_WINDOWS">BrowserDetection::PLATFORM_WINDOWS</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_WINDOWS_CE</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_WINDOWS_CE">BrowserDetection::PLATFORM_WINDOWS_CE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_WINDOWS_CE">BrowserDetection::PLATFORM_WINDOWS_CE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 							<dt><b>PLATFORM_WINDOWS_PHONE</b></dt>
-				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_WINDOWS_PHONE">BrowserDetection::PLATFORM_WINDOWS_PHONE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform of the Web browser.</dd>
+				<dd>in file BrowserDetection.php, class constant <a href="Browser_Detection/BrowserDetection.html#constPLATFORM_WINDOWS_PHONE">BrowserDetection::PLATFORM_WINDOWS_PHONE</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constant for the name of the platform on which the Web browser runs.</dd>
 					</dl>
 	</div>
 	<a href="elementindex_Browser_Detection.html#top">top</a><br>
@@ -396,6 +376,10 @@
 	<div>
 		<h2>r</h2>
 		<dl>
+							<dt><b>removeCustomBrowserDetection</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodremoveCustomBrowserDetection">BrowserDetection::removeCustomBrowserDetection()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Remove support for a previously added Web browser.</dd>
+							<dt><b>removeCustomPlatformDetection</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodremoveCustomPlatformDetection">BrowserDetection::removeCustomPlatformDetection()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Remove support for a previously added platform.</dd>
 							<dt><b>reset</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodreset">BrowserDetection::reset()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Reset all the properties of the class.</dd>
 					</dl>
@@ -410,10 +394,6 @@
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodsafariBuildToSafariVer">BrowserDetection::safariBuildToSafariVer()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Convert a Safari build number to a Safari version number.</dd>
 							<dt><b>set64bit</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodset64bit">BrowserDetection::set64bit()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Set if the browser is executed from a 64-bit platform.</dd>
-							<dt><b>setAol</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodsetAol">BrowserDetection::setAol()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Set the browser to be from AOL or not.</dd>
-							<dt><b>setAolVersion</b></dt>
-				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodsetAolVersion">BrowserDetection::setAolVersion()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Set the version of AOL.</dd>
 							<dt><b>setBrowser</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodsetBrowser">BrowserDetection::setBrowser()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Set the name of the browser.</dd>
 							<dt><b>setMobile</b></dt>
@@ -452,12 +432,14 @@
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodwindowsNTVerToStr">BrowserDetection::windowsNTVerToStr()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Convert the Windows NT family version numbers to the operating system name. For instance '5.1' returns  'Windows XP'.</dd>
 							<dt><b>windowsVerToStr</b></dt>
 				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodwindowsVerToStr">BrowserDetection::windowsVerToStr()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Convert the Windows 3.x &amp; 9x family version numbers to the operating system name. For instance '4.10.1998'  returns 'Windows 98'.</dd>
+							<dt><b>wordPos</b></dt>
+				<dd>in file BrowserDetection.php, method <a href="Browser_Detection/BrowserDetection.html#methodwordPos">BrowserDetection::wordPos()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Find the position of the first occurrence of a word in a string.</dd>
 					</dl>
 	</div>
 	<a href="elementindex_Browser_Detection.html#top">top</a><br>
         <div class="credit">
 		    <hr />
-		    Documentation generated on Mon, 28 Nov 2016 10:05:52 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Sun, 15 Jul 2018 10:02:35 -0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

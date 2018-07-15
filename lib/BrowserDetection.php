@@ -2,7 +2,7 @@
 
 /**
  * Browser detection class file.
- * This file contains everything required to use the BrowserDetection class.
+ * This file contains everything required to use the BrowserDetection class. Tested with PHP 5.3.29 - 7.2.4.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
  * Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any
@@ -13,30 +13,45 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.5.1
- * @last-modified November 28, 2016
+ * @version 2.9.0
+ * @last-modified July 15, 2018
  * @author Alexandre Valiquette
- * @copyright Copyright (c) 2016, Wolfcast
- * @link http://wolfcast.com/
+ * @copyright Copyright (c) 2018, Wolfcast
+ * @link https://wolfcast.com/
  */
+
+
+namespace Wolfcast;
 
 
 /**
  * The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,
- * platform or if it's a mobile device.
+ * platform and device type.
  *
  * Typical usage:
  *
- * $browser = new BrowserDetection();
- * if ($browser->getName() == BrowserDetection::BROWSER_FIREFOX &&
+ * $browser = new Wolfcast\BrowserDetection();
+ * if ($browser->getName() == Wolfcast\BrowserDetection::BROWSER_FIREFOX &&
  *     $browser->compareVersions($browser->getVersion(), '5.0') >= 0) {
  *     echo 'You are using FireFox version 5 or greater.';
  * }
  *
- * The class is an updated version of Chris Schuld's Browser class version 1.9 which is unmaintained since August 20th,
+ * The class is a rewrite of Chris Schuld's Browser class version 1.9 which is mostly unmaintained since August 20th,
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
+ *
+ * 2018-07-15: Version 2.9.0
+ *  + WARNING! Breaking change: new Wolfcast namespace. Use new Wolfcast\BrowserDetection().
+ *  + iPad, iPhone and iPod are all under iOS now.
+ *  + Added Android Oreo detection.
+ *  + Added macOS High Sierra detection.
+ *  + Added UC Browser detection.
+ *  + Improved regular expressions (even less false positives).
+ *  + Removed AOL detection.
+ *  + Removed the following Web browsers detection: Amaya, Galeon, NetPositive, OmniWeb, Vivaldi detection (use
+ *    addCustomBrowserDetection()).
+ *  + Removed the following legacy platforms detection: BeOS, OS/2, SunOS (use addCustomPlatformDetection()).
  *
  * 2016-11-28: Version 2.5.1
  *  + Better detection of 64-bit platforms.
@@ -95,13 +110,13 @@
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.5.1
- * @last-modified November 28, 2016
+ * @version 2.9.0
+ * @last-modified July 15, 2018
  * @author Alexandre Valiquette, Chris Schuld, Gary White
- * @copyright Copyright (c) 2016, Wolfcast
+ * @copyright Copyright (c) 2018, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
- * @link http://wolfcast.com/
- * @link http://wolfcast.com/open-source/browser-detection/tutorial.php
+ * @link https://wolfcast.com/
+ * @link https://wolfcast.com/open-source/browser-detection/tutorial.php
  * @link http://chrisschuld.com/
  * @link http://www.apptools.com/phptools/browser/
  */
@@ -111,7 +126,6 @@ class BrowserDetection
     /**#@+
      * Constant for the name of the Web browser.
      */
-    const BROWSER_AMAYA = 'Amaya';
     const BROWSER_ANDROID = 'Android';
     const BROWSER_BINGBOT = 'Bingbot';
     const BROWSER_BLACKBERRY = 'BlackBerry';
@@ -119,7 +133,6 @@ class BrowserDetection
     const BROWSER_EDGE = 'Edge';
     const BROWSER_FIREBIRD = 'Firebird';
     const BROWSER_FIREFOX = 'Firefox';
-    const BROWSER_GALEON = 'Galeon';
     const BROWSER_GOOGLEBOT = 'Googlebot';
     const BROWSER_ICAB = 'iCab';
     const BROWSER_ICECAT = 'GNU IceCat';
@@ -131,10 +144,8 @@ class BrowserDetection
     const BROWSER_MOZILLA = 'Mozilla';
     const BROWSER_MSNBOT = 'MSNBot';
     const BROWSER_MSNTV = 'MSN TV';
-    const BROWSER_NETPOSITIVE = 'NetPositive';
     const BROWSER_NETSCAPE = 'Netscape';
     const BROWSER_NOKIA = 'Nokia Browser';
-    const BROWSER_OMNIWEB = 'OmniWeb';
     const BROWSER_OPERA = 'Opera';
     const BROWSER_OPERA_MINI = 'Opera Mini';
     const BROWSER_OPERA_MOBILE = 'Opera Mobile';
@@ -143,30 +154,25 @@ class BrowserDetection
     const BROWSER_SAMSUNG = 'Samsung Internet';
     const BROWSER_SLURP = 'Yahoo! Slurp';
     const BROWSER_TABLET_OS = 'BlackBerry Tablet OS';
+    const BROWSER_UC = 'UC Browser';
     const BROWSER_UNKNOWN = 'unknown';
-    const BROWSER_VIVALDI = 'Vivaldi';
     const BROWSER_W3CVALIDATOR = 'W3C Validator';
     const BROWSER_YAHOO_MM = 'Yahoo! Multimedia';
     /**#@-*/
 
     /**#@+
-     * Constant for the name of the platform of the Web browser.
+     * Constant for the name of the platform on which the Web browser runs.
      */
     const PLATFORM_ANDROID = 'Android';
-    const PLATFORM_BEOS = 'BeOS';
     const PLATFORM_BLACKBERRY = 'BlackBerry';
     const PLATFORM_FREEBSD = 'FreeBSD';
-    const PLATFORM_IPAD = 'iPad';
-    const PLATFORM_IPHONE = 'iPhone';
-    const PLATFORM_IPOD = 'iPod';
+    const PLATFORM_IOS = 'iOS';
     const PLATFORM_LINUX = 'Linux';
     const PLATFORM_MACINTOSH = 'Macintosh';
     const PLATFORM_NETBSD = 'NetBSD';
     const PLATFORM_NOKIA = 'Nokia';
     const PLATFORM_OPENBSD = 'OpenBSD';
     const PLATFORM_OPENSOLARIS = 'OpenSolaris';
-    const PLATFORM_OS2 = 'OS/2';
-    const PLATFORM_SUNOS = 'SunOS';
     const PLATFORM_SYMBIAN = 'Symbian';
     const PLATFORM_UNKNOWN = 'unknown';
     const PLATFORM_VERSION_UNKNOWN = 'unknown';
@@ -191,12 +197,6 @@ class BrowserDetection
      * @var string
      * @access private
      */
-    private $_aolVersion = '';
-
-    /**
-     * @var string
-     * @access private
-     */
     private $_browserName = '';
 
     /**
@@ -212,16 +212,22 @@ class BrowserDetection
     private $_compatibilityViewVer = '';
 
     /**
-     * @var boolean
+     * @var array
      * @access private
      */
-    private $_is64bit = false;
+    private $_customBrowserDetection = array();
+
+    /**
+     * @var array
+     * @access private
+     */
+    private $_customPlatformDetection = array();
 
     /**
      * @var boolean
      * @access private
      */
-    private $_isAol = false;
+    private $_is64bit = false;
 
     /**
      * @var boolean
@@ -288,8 +294,6 @@ class BrowserDetection
         $values[] = array('label' => 'IE is in compatibility view', 'value' => $this->isInIECompatibilityView() ? 'true' : 'false');
         $values[] = array('label' => 'Emulated IE version', 'value' => $this->isInIECompatibilityView() ? $this->getIECompatibilityView() : 'Not applicable');
         $values[] = array('label' => 'Is Chrome Frame', 'value' => $this->isChromeFrame() ? 'true' : 'false');
-        $values[] = array('label' => 'Is AOL optimized', 'value' => $this->isAol() ? 'true' : 'false');
-        $values[] = array('label' => 'AOL version', 'value' => $this->isAol() ? $this->getAolVersion() : 'Not applicable');
 
         foreach ($values as $currVal) {
             $result .= '<strong>' . htmlspecialchars($currVal['label'], ENT_NOQUOTES) . ':</strong> ' . $currVal['value'] . '<br />' . PHP_EOL;
@@ -301,6 +305,61 @@ class BrowserDetection
 
     //--- PUBLIC MEMBERS -----------------------------------------------------------------------------------------------
 
+
+    /**
+     * Dynamically add support for a new Web browser.
+     * @param string $browserName The Web browser name (used for display).
+     * @param mixed $uaNameToLookFor (optional) The string (or array of strings) representing the browser name to find
+     * in the user agent. If omitted, $browserName will be used.
+     * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
+     * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
+     * @param string $separator (optional) The separator string used to split the browser name and the version number in
+     * the user agent.
+     * @param boolean $uaNameFindWords (optional) Determines if the browser name to find should match a word instead of
+     * a part of a word. For example "Bar" would not be found in "FooBar" when true but would be found in "Foo Bar".
+     * When set to false, the browser name can be found anywhere in the user agent string.
+     * @see removeCustomBrowserDetection()
+     * @return boolean Returns true if the custom rule has been added, false otherwise.
+     */
+    public function addCustomBrowserDetection($browserName, $uaNameToLookFor = '', $isMobile = false, $isRobot = false, $separator = '/', $uaNameFindWords = true)
+    {
+        if ($browserName == '') {
+            return false;
+        }
+        if (array_key_exists($browserName, $this->_customBrowserDetection)) {
+            unset($this->_customBrowserDetection[$browserName]);
+        }
+        if ($uaNameToLookFor == '') {
+            $uaNameToLookFor = $browserName;
+        }
+        $this->_customBrowserDetection[$browserName] = array('uaNameToLookFor' => $uaNameToLookFor, 'isMobile' => $isMobile == true, 'isRobot' => $isRobot == true,
+                                                             'separator' => $separator, 'uaNameFindWords' => $uaNameFindWords == true);
+        return true;
+    }
+
+    /**
+     * Dynamically add support for a new platform.
+     * @param string $platformName The platform name (used for display).
+     * @param mixed $platformNameToLookFor (optional) The string (or array of strings) representing the platform name to
+     * find in the user agent. If omitted, $platformName will be used.
+     * @param boolean $isMobile (optional) Determines if the platform is from a mobile device.
+     * @see removeCustomPlatformDetection()
+     * @return boolean Returns true if the custom rule has been added, false otherwise.
+     */
+    public function addCustomPlatformDetection($platformName, $platformNameToLookFor = '', $isMobile = false)
+    {
+        if ($platformName == '') {
+            return false;
+        }
+        if (array_key_exists($platformName, $this->_customPlatformDetection)) {
+            unset($this->_customPlatformDetection[$platformName]);
+        }
+        if ($platformNameToLookFor == '') {
+            $platformNameToLookFor = $platformName;
+        }
+        $this->_customPlatformDetection[$platformName] = array('platformNameToLookFor' => $platformNameToLookFor, 'isMobile' => $isMobile == true);
+        return true;
+    }
 
     /**
      * Compare two version number strings.
@@ -347,16 +406,6 @@ class BrowserDetection
     }
 
     /**
-     * Get the version of AOL (if any). AOL releases "optimized" Internet Explorer and Firefox versions. In the making
-     * they add their version number in the user agent string of these browsers.
-     * @return string Returns the version of AOL or an empty string if no AOL version was found.
-     */
-    public function getAolVersion()
-    {
-        return $this->_aolVersion;
-    }
-
-    /**
      * Get the name of the browser. All of the return values are class constants. You can compare them like this:
      * $myBrowserInstance->getName() == BrowserDetection::BROWSER_FIREFOX.
      * @return string Returns the name of the browser.
@@ -372,8 +421,8 @@ class BrowserDetection
      * IE 6 and 7, look better in IE 8+ which renders web pages closer to the standards and thus differently from those
      * older versions of IE.
      * @param boolean $asArray (optional) Determines if the return value must be an array (true) or a string (false).
-     * @return mixed If a string was requested, the function returns the name and version of the browser emulated in the
-     * compatibility view mode or an empty string if the browser is not in compatibility view mode. If an array was
+     * @return mixed If a string was requested, the function returns the name and version of the browser emulated in
+     * the compatibility view mode or an empty string if the browser is not in compatibility view mode. If an array was
      * requested, an array with the keys 'browser' and 'version' is returned.
      */
     public function getIECompatibilityView($asArray = false)
@@ -386,7 +435,16 @@ class BrowserDetection
     }
 
     /**
-     * Get the name of the platform family on which the browser is run on (such as Windows, Apple, iPhone, etc.). All of
+     * Return the BrowserDetection class version.
+     * @return string Returns the version as a sting with the #.#.# format.
+     */
+    public function getLibVersion()
+    {
+        return '2.9.0';
+    }
+
+    /**
+     * Get the name of the platform family on which the browser is run on (such as Windows, Apple, etc.). All of
      * the return values are class constants. You can compare them like this:
      * $myBrowserInstance->getPlatform() == BrowserDetection::PLATFORM_ANDROID.
      * @return string Returns the name of the platform or BrowserDetection::PLATFORM_UNKNOWN if unknown.
@@ -435,6 +493,10 @@ class BrowserDetection
                     return $this->androidVerToStr($this->_platformVersion);
                     break;
 
+                case self::PLATFORM_IOS:
+                    return $this->iOSVerToStr($this->_platformVersion);
+                    break;
+
                 default: return self::PLATFORM_VERSION_UNKNOWN;
             }
         }
@@ -469,23 +531,13 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the browser is from AOL. AOL releases "optimized" Internet Explorer and Firefox versions. In the
-     * making they add their details in the user agent string of these browsers.
-     * @return boolean Returns true if the browser is from AOL, false otherwise.
-     */
-    public function isAol()
-    {
-        return $this->_isAol;
-    }
-
-    /**
      * Determine if the browser runs Google Chrome Frame (it's a plug-in designed for Internet Explorer 6+ based on the
      * open-source Chromium project - it's like a Chrome browser within IE).
      * @return boolean Returns true if the browser is using Google Chrome Frame, false otherwise.
      */
     public function isChromeFrame()
     {
-        return stripos($this->_agent, 'chromeframe') !== false;
+        return $this->containString($this->_agent, 'chromeframe');
     }
 
     /**
@@ -515,6 +567,38 @@ class BrowserDetection
     public function isRobot()
     {
         return $this->_isRobot;
+    }
+
+    /**
+     * Remove support for a previously added Web browser.
+     * @param string $browserName The Web browser name as used when added.
+     * @see addCustomBrowserDetection()
+     * @return boolean Returns true if the custom rule has been found and removed, false otherwise.
+     */
+    public function removeCustomBrowserDetection($browserName)
+    {
+        if (array_key_exists($browserName, $this->_customBrowserDetection)) {
+            unset($this->_customBrowserDetection[$browserName]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove support for a previously added platform.
+     * @param string $platformName The platform name as used when added.
+     * @see addCustomPlatformDetection()
+     * @return boolean Returns true if the custom rule has been found and removed, false otherwise.
+     */
+    public function removeCustomPlatformDetection($platformName)
+    {
+        if (array_key_exists($platformName, $this->_customPlatformDetection)) {
+            unset($this->_customPlatformDetection[$platformName]);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -552,7 +636,9 @@ class BrowserDetection
     {
         //https://en.wikipedia.org/wiki/Android_version_history
 
-        if ($this->compareVersions($androidVer, '7') >= 0 && $this->compareVersions($androidVer, '8') < 0) {
+        if ($this->compareVersions($androidVer, '8') >= 0 && $this->compareVersions($androidVer, '9') < 0) {
+            return 'Oreo';
+        } else if ($this->compareVersions($androidVer, '7') >= 0 && $this->compareVersions($androidVer, '8') < 0) {
             return 'Nougat';
         } else if ($this->compareVersions($androidVer, '6') >= 0 && $this->compareVersions($androidVer, '7') < 0) {
             return 'Marshmallow';
@@ -579,17 +665,6 @@ class BrowserDetection
         } else {
             return self::PLATFORM_VERSION_UNKNOWN; //Unknown/unnamed Android version
         }
-    }
-
-    /**
-     * Determine if the browser is the Amaya Web editor or not.
-     * @access protected
-     * @link http://www.w3.org/Amaya/
-     * @return boolean Returns true if the browser is Amaya, false otherwise.
-     */
-    protected function checkBrowserAmaya()
-    {
-        return $this->checkSimpleBrowserUA('amaya', $this->_agent, self::BROWSER_AMAYA);
     }
 
     /**
@@ -640,7 +715,7 @@ class BrowserDetection
         }
 
         //Version 4.2 to 5.0 check
-        if ($this->checkSimpleBrowserUA('BlackBerry', $this->_agent, self::BROWSER_BLACKBERRY, true)) {
+        if ($this->checkSimpleBrowserUA('BlackBerry', $this->_agent, self::BROWSER_BLACKBERRY, true, false, '/', false)) {
             if ($this->getVersion() == self::VERSION_UNKNOWN) {
                 $found = true;
             } else {
@@ -660,6 +735,27 @@ class BrowserDetection
     protected function checkBrowserChrome()
     {
         return $this->checkSimpleBrowserUA('Chrome', $this->_agent, self::BROWSER_CHROME);
+    }
+
+    /**
+     * Determine if the browser is among the custom browser rules or not. Rules are checked in the order they were
+     * added.
+     * @access protected
+     * @return boolean Returns true if we found the browser we were looking for in the custom rules, false otherwise.
+     */
+    protected function checkBrowserCustom()
+    {
+        foreach ($this->_customBrowserDetection as $browserName => $customBrowser) {
+            $uaNameToLookFor = $customBrowser['uaNameToLookFor'];
+            $isMobile = $customBrowser['isMobile'];
+            $isRobot = $customBrowser['isRobot'];
+            $separator = $customBrowser['separator'];
+            $uaNameFindWords = $customBrowser['uaNameFindWords'];
+            if ($this->checkSimpleBrowserUA($uaNameToLookFor, $this->_agent, $browserName, $isMobile, $isRobot, $separator, $uaNameFindWords)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -692,7 +788,7 @@ class BrowserDetection
     {
         //Safari heavily matches with Firefox, ensure that Safari is filtered out...
         if (preg_match('/.*Firefox[ (\/]*([a-z0-9.-]*)/i', $this->_agent, $matches) &&
-                stripos($this->_agent, 'Safari') === false) {
+                !$this->containString($this->_agent, 'Safari')) {
             $this->setBrowser(self::BROWSER_FIREFOX);
             $this->setVersion($matches[1]);
             $this->setMobile(false);
@@ -705,17 +801,6 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the browser is Galeon or not. The browser was discontinued on September 27, 2008.
-     * @access protected
-     * @link http://en.wikipedia.org/wiki/Galeon
-     * @return boolean Returns true if the browser is Galeon, false otherwise.
-     */
-    protected function checkBrowserGaleon()
-    {
-        return $this->checkSimpleBrowserUA('Galeon', $this->_agent, self::BROWSER_GALEON);
-    }
-
-    /**
      * Determine if the browser is the Googlebot crawler or not.
      * @access protected
      * @return boolean Returns true if the browser is Googlebot, false otherwise.
@@ -723,7 +808,8 @@ class BrowserDetection
     protected function checkBrowserGooglebot()
     {
         if ($this->checkSimpleBrowserUA('Googlebot', $this->_agent, self::BROWSER_GOOGLEBOT, false, true)) {
-            if (strpos(strtolower($this->_agent), 'googlebot-mobile') !== false) {
+
+            if ($this->containString($this->_agent, 'googlebot-mobile')) {
                 $this->setMobile(true);
             }
 
@@ -782,7 +868,7 @@ class BrowserDetection
         }
 
         //Several browsers uses IE compatibility UAs filter these browsers out (but after testing for IE Mobile)
-        if ($this->containString($this->_agent, array('Opera', 'BlackBerry', 'Nokia'))) {
+        if ($this->containString($this->_agent, 'Opera') || $this->containString($this->_agent, array('BlackBerry', 'Nokia'), true, false)) {
             return false;
         }
 
@@ -802,9 +888,9 @@ class BrowserDetection
         if ($this->containString($this->_agent, array('MSIE', 'Trident'))) {
             $version = '';
 
-            if (stripos($this->_agent, 'Trident') !== false) {
+            if ($this->containString($this->_agent, 'Trident')) {
                 //Test for Internet Explorer 11+ (check the rv: string)
-                if (stripos($this->_agent, 'rv:') !== false) {
+                if ($this->containString($this->_agent, 'rv:', true, false)) {
                     if ($this->checkSimpleBrowserUA('Trident', $this->_agent, self::BROWSER_IE, false, false, 'rv:')) {
                         return true;
                     }
@@ -915,17 +1001,6 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the browser is NetPositive or not. The browser is discontinued since November 2001.
-     * @access protected
-     * @link http://en.wikipedia.org/wiki/NetPositive
-     * @return boolean Returns true if the browser is NetPositive, false otherwise.
-     */
-    protected function checkBrowserNetPositive()
-    {
-        return $this->checkSimpleBrowserUA('NetPositive', $this->_agent, self::BROWSER_NETPOSITIVE);
-    }
-
-    /**
      * Determine if the browser is Netscape or not. Official support for this browser ended on March 1st, 2008.
      * @access protected
      * @link http://en.wikipedia.org/wiki/Netscape
@@ -934,7 +1009,7 @@ class BrowserDetection
     protected function checkBrowserNetscape()
     {
         //BlackBerry & Nokia UAs can conflict with Netscape UAs
-        if ($this->containString($this->_agent, array('BlackBerry', 'Nokia'))) {
+        if ($this->containString($this->_agent, array('BlackBerry', 'Nokia'), true, false)) {
             return false;
         }
 
@@ -945,7 +1020,7 @@ class BrowserDetection
 
         //Netscape v1-4 (v5 don't exists)
         $found = false;
-        if (stripos($this->_agent, 'Mozilla') !== false && stripos($this->_agent, 'rv:') === false) {
+        if ($this->containString($this->_agent, 'Mozilla') && !$this->containString($this->_agent, 'rv:', true, false)) {
             $version = '';
             $verParts = explode('/', stristr($this->_agent, 'Mozilla'));
             if (count($verParts) > 1) {
@@ -986,7 +1061,7 @@ class BrowserDetection
      */
     protected function checkBrowserNokia()
     {
-        if ($this->containString($this->_agent, array('Nokia5800', 'Nokia5530', 'Nokia5230'))) {
+        if ($this->containString($this->_agent, array('Nokia5800', 'Nokia5530', 'Nokia5230'), true, false)) {
             $this->setBrowser(self::BROWSER_NOKIA);
             $this->setVersion('7.0');
             $this->setMobile(true);
@@ -996,25 +1071,6 @@ class BrowserDetection
         }
 
         if ($this->checkSimpleBrowserUA(array('NokiaBrowser', 'BrowserNG', 'Series60', 'S60', 'S40OviBrowser'), $this->_agent, self::BROWSER_NOKIA, true)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if the browser is OmniWeb or not.
-     * @access protected
-     * @link http://www.omnigroup.com/products/omniweb/
-     * @return boolean Returns true if the browser is OmniWeb, false otherwise.
-     */
-    protected function checkBrowserOmniWeb()
-    {
-        if ($this->checkSimpleBrowserUA('OmniWeb', $this->_agent, self::BROWSER_OMNIWEB)) {
-            //Some versions of OmniWeb prefix the version number with "v"
-            if ($this->getVersion() != self::VERSION_UNKNOWN && strtolower(substr($this->getVersion(), 0, 1)) == 'v') {
-                $this->setVersion(substr($this->getVersion(), 1));
-            }
             return true;
         }
 
@@ -1081,25 +1137,22 @@ class BrowserDetection
         //Changing the check order can break the class detection results!
         return
                /* Major browsers and browsers that need to be detected in a special order */
+               $this->checkBrowserCustom() ||           /* Customs rules are always checked first */
                $this->checkBrowserMsnTv() ||            /* MSN TV is based on IE so we must check for MSN TV before IE */
                $this->checkBrowserInternetExplorer() ||
                $this->checkBrowserOpera() ||            /* Opera must be checked before Firefox, Netscape and Chrome to avoid conflicts */
                $this->checkBrowserEdge() ||             /* Edge must be checked before Firefox, Safari and Chrome to avoid conflicts */
-               $this->checkBrowserVivaldi() ||          /* Vivaldi must be checked before Chrome and Safari to avoid conflicts */
                $this->checkBrowserSamsung() ||          /* Samsung Internet browser must be checked before Chrome and Safari to avoid conflicts */
+               $this->checkBrowserUC() ||               /* UC Browser must be checked before Chrome and Safari to avoid conflicts */
                $this->checkBrowserChrome() ||           /* Chrome must be checked before Netscaoe and Mozilla to avoid conflicts */
-               $this->checkBrowserOmniWeb() ||          /* OmniWeb must be checked before Safari (on which it's based on) and Netscape (since it have Mozilla UAs) */
                $this->checkBrowserIcab() ||             /* Check iCab before Netscape since iCab have Mozilla UAs */
-               $this->checkBrowserNetPositive() ||      /* Check NetPositive before Netscape since NetPositive have Mozilla UAs */
                $this->checkBrowserNetscape() ||         /* Must be checked before Firefox since Netscape 8-9 are based on Firefox */
                $this->checkBrowserIceCat() ||           /* Check IceCat and IceWeasel before Firefox since they are GNU builds of Firefox */
                $this->checkBrowserIceWeasel() ||
-               $this->checkBrowserGaleon() ||           /* Galeon is based on Firefox and needs to be tested before Firefox is tested */
                $this->checkBrowserFirefox() ||
                /* Current browsers that don't need to be detected in any special order */
                $this->checkBrowserKonqueror() ||
                $this->checkBrowserLynx() ||
-               $this->checkBrowserAmaya() ||
                /* Mobile */
                $this->checkBrowserAndroid() ||
                $this->checkBrowserBlackBerry() ||
@@ -1192,16 +1245,19 @@ class BrowserDetection
      * @param string $browserName The literal browser name. Always use a class constant!
      * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
      * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
+     * @param boolean $findWords (optional) Determines if the needle should match a word to be found. For example "Bar"
+     * would not be found in "FooBar" when true but would be found in "Foo Bar". When set to false, the needle can be
+     * found anywhere in the haystack.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
-    protected function checkBrowserUAWithVersion($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false)
+    protected function checkBrowserUAWithVersion($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false, $findWords = true)
     {
         if (!is_array($uaNameToLookFor)) {
             $uaNameToLookFor = array($uaNameToLookFor);
         }
 
         foreach ($uaNameToLookFor as $currUANameToLookFor) {
-            if (stripos($userAgent, $currUANameToLookFor) !== false) {
+            if ($this->containString($userAgent, $currUANameToLookFor, true, $findWords)) {
                 $version = '';
                 $verParts = explode('/', stristr($this->_agent, 'Version'));
                 if (count($verParts) > 1) {
@@ -1223,13 +1279,13 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the browser is Vivaldi or not.
+     * Determine if the browser is UC Browser or not.
      * @access protected
-     * @return boolean Returns true if the browser is Vivaldi, false otherwise.
+     * @return boolean Returns true if the browser is UC Browser, false otherwise.
      */
-    protected function checkBrowserVivaldi()
+    protected function checkBrowserUC()
     {
-        return $this->checkSimpleBrowserUA('Vivaldi', $this->_agent, self::BROWSER_VIVALDI);
+        return $this->checkSimpleBrowserUA('UCBrowser', $this->_agent, self::BROWSER_UC, true, false);
     }
 
     /**
@@ -1281,97 +1337,59 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the user is using an AOL "optimized" browser or not.
-     * @access protected
-     * @return boolean Returns true if the browser is AOL optimized, false otherwise.
-     */
-    protected function checkForAol()
-    {
-        //AOL UAs don't use the "AOL/1.0" format, they uses "AOL 1.0; AOLBuild 100.00;"
-        if (stripos($this->_agent, 'AOL ') !== false) {
-            $version = '';
-            $verParts = explode('AOL ', stristr($this->_agent, 'AOL '));
-            if (count($verParts) > 1) {
-                $verParts = explode(' ', $verParts[1]);
-                $version = $verParts[0];
-            }
-
-            $this->setAol(true);
-            $this->setAolVersion($version);
-
-            return true;
-        } else {
-            $this->setAol(false);
-            $this->setAolVersion('');
-
-            return false;
-        }
-    }
-
-    /**
      * Determine the user's platform.
      * @access protected
      */
     protected function checkPlatform()
     {
-        /* Mobile platforms */
-        if ($this->containString($this->_agent, array('Windows Phone', 'IEMobile'))) { /* Check Windows Phone (formerly Windows Mobile) before Windows */
-            $this->setPlatform(self::PLATFORM_WINDOWS_PHONE);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Windows CE') !== false) { /* Check Windows CE before Windows */
-            $this->setPlatform(self::PLATFORM_WINDOWS_CE);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'iPhone') !== false) {     /* Check iPad/iPod/iPhone before Macintosh */
-            $this->setPlatform(self::PLATFORM_IPHONE);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'iPad') !== false) {
-            $this->setPlatform(self::PLATFORM_IPAD);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'iPod') !== false) {
-            $this->setPlatform(self::PLATFORM_IPOD);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Android') !== false) {
-            $this->setPlatform(self::PLATFORM_ANDROID);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Symbian') !== false) {
-            $this->setPlatform(self::PLATFORM_SYMBIAN);
-            $this->setMobile(true);
-        } else if ($this->containString($this->_agent, array('BlackBerry', 'BB10', 'RIM Tablet OS'))) {
-            $this->setPlatform(self::PLATFORM_BLACKBERRY);
-            $this->setMobile(true);
-        } else if (stripos($this->_agent, 'Nokia') !== false) {
-            $this->setPlatform(self::PLATFORM_NOKIA);
-            $this->setMobile(true);
+        if (!$this->checkPlatformCustom()) { /* Customs rules are always checked first */
+            /* Mobile platforms */
+            if ($this->containString($this->_agent, array('Windows Phone', 'IEMobile'))) { /* Check Windows Phone (formerly Windows Mobile) before Windows */
+                $this->setPlatform(self::PLATFORM_WINDOWS_PHONE);
+                $this->setMobile(true);
+            } else if ($this->containString($this->_agent, 'Windows CE')) { /* Check Windows CE before Windows */
+                $this->setPlatform(self::PLATFORM_WINDOWS_CE);
+                $this->setMobile(true);
+            } else if ($this->containString($this->_agent, array('CPU OS', 'CPU iPhone OS', 'iPhone', 'iPad', 'iPod'))) { /* Check iOS (iPad/iPod/iPhone) before Macintosh */
+                $this->setPlatform(self::PLATFORM_IOS);
+                $this->setMobile(true);
+            } else if ($this->containString($this->_agent, 'Android')) {
+                $this->setPlatform(self::PLATFORM_ANDROID);
+                $this->setMobile(true);
+            } else if ($this->containString($this->_agent, 'BlackBerry', true, false) || $this->containString($this->_agent, array('BB10', 'RIM Tablet OS'))) {
+                $this->setPlatform(self::PLATFORM_BLACKBERRY);
+                $this->setMobile(true);
+            } else if ($this->containString($this->_agent, 'Nokia', true, false)) {
+                $this->setPlatform(self::PLATFORM_NOKIA);
+                $this->setMobile(true);
 
-        /* Desktop platforms */
-        } else if (stripos($this->_agent, 'Windows') !== false) {
-            $this->setPlatform(self::PLATFORM_WINDOWS);
-        } else if (stripos($this->_agent, 'Macintosh') !== false) {
-            $this->setPlatform(self::PLATFORM_MACINTOSH);
-        } else if (stripos($this->_agent, 'Linux') !== false) {
-            $this->setPlatform(self::PLATFORM_LINUX);
-        } else if (stripos($this->_agent, 'FreeBSD') !== false) {
-            $this->setPlatform(self::PLATFORM_FREEBSD);
-        } else if (stripos($this->_agent, 'OpenBSD') !== false) {
-            $this->setPlatform(self::PLATFORM_OPENBSD);
-        } else if (stripos($this->_agent, 'NetBSD') !== false) {
-            $this->setPlatform(self::PLATFORM_NETBSD);
+            /* Desktop platforms */
+            } else if ($this->containString($this->_agent, 'Windows')) {
+                $this->setPlatform(self::PLATFORM_WINDOWS);
+            } else if ($this->containString($this->_agent, 'Macintosh')) {
+                $this->setPlatform(self::PLATFORM_MACINTOSH);
+            } else if ($this->containString($this->_agent, 'Linux')) {
+                $this->setPlatform(self::PLATFORM_LINUX);
+            } else if ($this->containString($this->_agent, 'FreeBSD')) {
+                $this->setPlatform(self::PLATFORM_FREEBSD);
+            } else if ($this->containString($this->_agent, 'OpenBSD')) {
+                $this->setPlatform(self::PLATFORM_OPENBSD);
+            } else if ($this->containString($this->_agent, 'NetBSD')) {
+                $this->setPlatform(self::PLATFORM_NETBSD);
 
-        /* Discontinued */
-        } else if (stripos($this->_agent, 'OpenSolaris') !== false) {
-            $this->setPlatform(self::PLATFORM_OPENSOLARIS);
-        } else if (stripos($this->_agent, 'OS/2') !== false) {
-            $this->setPlatform(self::PLATFORM_OS2);
-        } else if (stripos($this->_agent, 'BeOS') !== false) {
-            $this->setPlatform(self::PLATFORM_BEOS);
-        } else if (stripos($this->_agent, 'SunOS') !== false) {
-            $this->setPlatform(self::PLATFORM_SUNOS);
+            /* Discontinued */
+            } else if ($this->containString($this->_agent, array('Symbian', 'SymbianOS'))) {
+                $this->setPlatform(self::PLATFORM_SYMBIAN);
+                $this->setMobile(true);
+            } else if ($this->containString($this->_agent, 'OpenSolaris')) {
+                $this->setPlatform(self::PLATFORM_OPENSOLARIS);
 
-        /* Generic */
-        } else if (stripos($this->_agent, 'Win') !== false) {
-            $this->setPlatform(self::PLATFORM_WINDOWS);
-        } else if (stripos($this->_agent, 'Mac') !== false) {
-            $this->setPlatform(self::PLATFORM_MACINTOSH);
+            /* Generic */
+            } else if ($this->containString($this->_agent, 'Win', true, false)) {
+                $this->setPlatform(self::PLATFORM_WINDOWS);
+            } else if ($this->containString($this->_agent, 'Mac', true, false)) {
+                $this->setPlatform(self::PLATFORM_MACINTOSH);
+            }
         }
 
         //Check if it's a 64-bit platform
@@ -1384,47 +1402,80 @@ class BrowserDetection
     }
 
     /**
+     * Determine if the platform is among the custom platform rules or not. Rules are checked in the order they were
+     * added.
+     * @access protected
+     * @return boolean Returns true if we found the platform we were looking for in the custom rules, false otherwise.
+     */
+    protected function checkPlatformCustom()
+    {
+        foreach ($this->_customPlatformDetection as $platformName => $customPlatform) {
+            $platformNameToLookFor = $customPlatform['platformNameToLookFor'];
+            $isMobile = $customPlatform['isMobile'];
+            if ($this->containString($this->_agent, $platformNameToLookFor)) {
+                $this->setPlatform($platformName);
+                if ($isMobile) {
+                    $this->setMobile(true);
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Determine the user's platform version.
      * @access protected
      */
     protected function checkPlatformVersion()
     {
         $result = '';
-
         switch ($this->getPlatform()) {
             case self::PLATFORM_WINDOWS:
-                if (preg_match('/Windows NT\s*([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
-                    //Windows NT family
+                if (preg_match('/Windows NT\s*(\d+(?:\.\d+)*)/i', $this->_agent, $foundVersion)) {
                     $result = 'NT ' . $foundVersion[1];
                 } else {
-                    //Windows 3.x / 9x family
                     //https://support.microsoft.com/en-us/kb/158238
 
-                    if ($this->containString($this->_agent, array('Win 9x 4.90', 'Windows ME'))) {
+                    if ($this->containString($this->_agent, array('Windows XP', 'WinXP', 'Win XP'))) {
+                        $result = '5.1';
+                    } else if ($this->containString($this->_agent, 'Windows 2000', 'Win 2000', 'Win2000')) {
+                        $result = '5.0';
+                    } else if ($this->containString($this->_agent, array('Win 9x 4.90', 'Windows ME', 'WinME', 'Win ME'))) {
                         $result = '4.90.3000'; //Windows Me version range from 4.90.3000 to 4.90.3000A
-                    } else if (stripos($this->_agent, 'Windows 98') !== false) {
+                    } else if ($this->containString($this->_agent, array('Windows 98', 'Win98', 'Win 98'))) {
                         $result = '4.10'; //Windows 98 version range from 4.10.1998 to 4.10.2222B
-                    } else if (stripos($this->_agent, 'Windows 95') !== false) {
+                    } else if ($this->containString($this->_agent, array('Windows 95', 'Win95', 'Win 95'))) {
                         $result = '4.00'; //Windows 95 version range from 4.00.950 to 4.03.1214
-                    } else if (preg_match('/Windows 3\.([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
-                        $result = '3.' . $foundVersion[1];
-                    } else if (stripos($this->_agent, 'Win16') !== false) {
+                    } else if (($foundAt = stripos($this->_agent, 'Windows 3')) !== false) {
+                        $result = '3';
+                        if (preg_match('/\d+(?:\.\d+)*/', substr($this->_agent, $foundAt + strlen('Windows 3')), $foundVersion)) {
+                            $result .= '.' . $foundVersion[0];
+                        }
+                    } else if ($this->containString($this->_agent, 'Win16')) {
                         $result = '3.1';
                     }
                 }
                 break;
 
             case self::PLATFORM_MACINTOSH:
-                if (preg_match('/Mac OS X\s*([^\s;\)$]+)/i', $this->_agent, $foundVersion)) {
-                    $result = str_replace('_', '.', $foundVersion[1]);
-                } else if (stripos($this->_agent, 'Mac OS X') !== false) {
+                if (preg_match('/Mac OS X\s*(\d+(?:_\d+)+)/i', $this->_agent, $foundVersion)) {
+                    $result = str_replace('_', '.', $this->cleanVersion($foundVersion[1]));
+                } else if ($this->containString($this->_agent, 'Mac OS X')) {
                     $result = '10';
                 }
                 break;
 
             case self::PLATFORM_ANDROID:
                 if (preg_match('/Android\s+([^\s;$]+)/i', $this->_agent, $foundVersion)) {
-                    $result = $foundVersion[1];
+                    $result = $this->cleanVersion($foundVersion[1]);
+                }
+                break;
+
+            case self::PLATFORM_IOS:
+                if (preg_match('/(?:CPU OS|iPhone OS|iOS)[\s_]*([\d_]+)/i', $this->_agent, $foundVersion)) {
+                    $result = str_replace('_', '.', $this->cleanVersion($foundVersion[1]));
                 }
                 break;
         }
@@ -1447,16 +1498,20 @@ class BrowserDetection
      * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
      * @param string $separator (optional) The separator string used to split the browser name and the version number in
      * the user agent.
+     * @param boolean $uaNameFindWords (optional) Determines if the browser name to find should match a word instead of
+     * a part of a word. For example "Bar" would not be found in "FooBar" when true but would be found in "Foo Bar".
+     * When set to false, the browser name can be found anywhere in the user agent string.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
-    protected function checkSimpleBrowserUA($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false, $separator = '/')
+    protected function checkSimpleBrowserUA($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false, $separator = '/', $uaNameFindWords = true)
     {
         if (!is_array($uaNameToLookFor)) {
             $uaNameToLookFor = array($uaNameToLookFor);
         }
 
         foreach ($uaNameToLookFor as $currUANameToLookFor) {
-            if (stripos($userAgent, $currUANameToLookFor) !== false) {
+
+            if ($this->containString($userAgent, $currUANameToLookFor, true, $uaNameFindWords)) {
                 //Many browsers don't use the standard "Browser/1.0" format, they uses "Browser 1.0;" instead
                 if (stripos($userAgent, $currUANameToLookFor . $separator) === false) {
                     $userAgent = str_ireplace($currUANameToLookFor . ' ', $currUANameToLookFor . $separator, $this->_agent);
@@ -1484,25 +1539,33 @@ class BrowserDetection
 
     /**
      * Find if one or more substring is contained in a string.
+     * @access protected
      * @param string $haystack The string to search in.
      * @param mixed $needle The string to search for. Can be a string or an array of strings if multiples values are to
      * be searched.
-     * @param boolean $insensitive (optional) Determines if we do a case-sensitive search (false) or a case-insensitive one
-     * (true).
+     * @param boolean $insensitive (optional) Determines if we do a case-sensitive search (false) or a case-insensitive
+     * one (true).
+     * @param boolean $findWords (optional) Determines if the needle should match a word to be found. For example "Bar"
+     * would not be found in "FooBar" when true but would be found in "Foo Bar". When set to false, the needle can be
+     * found anywhere in the haystack.
      * @return boolean Returns true if the needle (or one of the needles) has been found in the haystack, false
      * otherwise.
      */
-    protected function containString($haystack, $needle, $insensitive = true)
+    protected function containString($haystack, $needle, $insensitive = true, $findWords = true)
     {
         if (!is_array($needle)) {
             $needle = array($needle);
         }
 
         foreach ($needle as $currNeedle) {
-            if ($insensitive) {
-                $found = stripos($haystack, $currNeedle) !== false;
+            if ($findWords) {
+                 $found = $this->wordPos($haystack, $currNeedle, $insensitive) !== false;
             } else {
-                $found = strpos($haystack, $currNeedle) !== false;
+                if ($insensitive) {
+                    $found = stripos($haystack, $currNeedle) !== false;
+                } else {
+                    $found = strpos($haystack, $currNeedle) !== false;
+                }
             }
 
             if ($found) {
@@ -1521,7 +1584,6 @@ class BrowserDetection
     {
         $this->checkBrowsers();
         $this->checkPlatform(); //Check the platform after the browser since some platforms can change the mobile value
-        $this->checkForAol();
     }
 
     /**
@@ -1536,14 +1598,40 @@ class BrowserDetection
         $cleanVer = preg_replace('/\([^)]+\)?/', '', $version);
         //Replace with a space any character which is NOT an alphanumeric, dot (.), hyphen (-), underscore (_) or space
         $cleanVer = preg_replace('/[^0-9.a-zA-Z_ -]/', ' ', $cleanVer);
+
         //Remove trailing and leading spaces
         $cleanVer = trim($cleanVer);
+
+        //Remove trailing dot (.), hyphen (-), underscore (_)
+        while (in_array(substr($cleanVer, -1), array('.', '-', '_'))) {
+            $cleanVer = substr($cleanVer, 0, -1);
+        }
+        //Remove leading dot (.), hyphen (-), underscore (_) and character v
+        while (in_array(substr($cleanVer, 0, 1), array('.', '-', '_', 'v', 'V'))) {
+            $cleanVer = substr($cleanVer, 1);
+        }
+
         //Remove double spaces if any
         while (strpos($cleanVer, '  ') !== false) {
             $cleanVer = str_replace('  ', ' ', $cleanVer);
         }
 
-        return $cleanVer;
+        return trim($cleanVer);
+    }
+
+    /**
+     * Convert the iOS version numbers to the operating system name. For instance '2.0' returns 'iPhone OS 2.0'.
+     * @access protected
+     * @param string $iOSVer The iOS version numbers as a string.
+     * @return string The operating system name.
+     */
+    protected function iOSVerToStr($iOSVer)
+    {
+        if ($this->compareVersions($iOSVer, '3.0') <= 0) {
+            return 'iPhone OS ' . $iOSVer;
+        } else {
+            return 'iOS ' . $iOSVer;
+        }
     }
 
     /**
@@ -1559,6 +1647,8 @@ class BrowserDetection
 
         if ($this->_platformVersion === '10') {
             return 'Mac OS X'; //Unspecified Mac OS X version
+        } else if ($this->compareVersions($macVer, '10.13') >= 0 && $this->compareVersions($macVer, '10.14') < 0) {
+            return 'macOS High Sierra';
         } else if ($this->compareVersions($macVer, '10.12') >= 0 && $this->compareVersions($macVer, '10.13') < 0) {
             return 'macOS Sierra';
         } else if ($this->compareVersions($macVer, '10.11') >= 0 && $this->compareVersions($macVer, '10.12') < 0) {
@@ -1608,12 +1698,10 @@ class BrowserDetection
     protected function reset()
     {
         $this->_agent = '';
-        $this->_aolVersion = '';
         $this->_browserName = self::BROWSER_UNKNOWN;
         $this->_compatibilityViewName = '';
         $this->_compatibilityViewVer = '';
         $this->_is64bit = false;
-        $this->_isAol = false;
         $this->_isMobile = false;
         $this->_isRobot = false;
         $this->_platform = self::PLATFORM_UNKNOWN;
@@ -1726,28 +1814,6 @@ class BrowserDetection
     protected function set64bit($is64bit)
     {
         $this->_is64bit = $is64bit == true;
-    }
-
-    /**
-     * Set the browser to be from AOL or not.
-     * @access protected
-     * @param boolean $isAol Value that tells if the browser is AOL or not.
-     */
-    protected function setAol($isAol)
-    {
-        $this->_isAol = $isAol == true;
-    }
-
-    /**
-     * Set the version of AOL.
-     * @access protected
-     * @param string $version The version of AOL (will be cleaned).
-     */
-    protected function setAolVersion($version)
-    {
-        $cleanVer = $this->cleanVersion($version);
-
-        $this->_aolVersion = $cleanVer;
     }
 
     /**
@@ -1997,5 +2063,44 @@ class BrowserDetection
         } else {
             return self::PLATFORM_VERSION_UNKNOWN; //Invalid Windows version
         }
+    }
+
+    /**
+     * Find the position of the first occurrence of a word in a string.
+     * @access protected
+     * @param string $haystack The string to search in.
+     * @param string $needle The string to search for.
+     * @param boolean $insensitive (optional) Determines if we do a case-sensitive search (false) or a case-insensitive
+     * one (true).
+     * @param int $offset If specified, search will start this number of characters counted from the beginning of the
+     * string. If the offset is negative, the search will start this number of characters counted from the end of the
+     * string.
+     * @param string $foundString String buffer that will contain the exact matching needle found. Set to NULL when
+     * return value of the function is false.
+     * @return mixed Returns the position of the needle (int) if found, false otherwise. Warning this function may
+     * return Boolean false, but may also return a non-Boolean value which evaluates to false.
+     */
+    protected function wordPos($haystack, $needle, $insensitive = true, $offset = 0, &$foundString = NULL)
+    {
+        if ($offset != 0) {
+            $haystack = substr($haystack, $offset);
+        }
+
+        $parts = explode(' ', $needle);
+        foreach ($parts as $i => $currPart) {
+            $parts[$i] = preg_quote($currPart, '/');
+        }
+
+        $regex = '/(?<=\A|[\s\/\\.,;:_()-])' . implode('[\s\/\\.,;:_()-]', $parts) . '(?=[\s\/\\.,;:_()-]|$)/';
+        if ($insensitive) {
+             $regex .= 'i';
+        }
+
+        if (preg_match($regex, $haystack, $matches, PREG_OFFSET_CAPTURE)) {
+            $foundString = $matches[0][0];
+            return (int)$matches[0][1];
+        }
+
+        return false;
     }
 }
