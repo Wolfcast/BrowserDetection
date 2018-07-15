@@ -66,6 +66,11 @@ Natively detects the following platforms:
 
 You can also easily add custom rules to support other platforms not natively supported!
 
+Requirements
+------------
+
+Requires PHP 5.3 or newer (tested with PHP 5.3.29 - 7.2.4).
+
 Demo and full documentation
 ---------------------------
 
