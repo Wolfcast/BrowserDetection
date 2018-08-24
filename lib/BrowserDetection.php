@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.9.0
- * @last-modified July 15, 2018
+ * @version 2.9.1
+ * @last-modified August 23, 2018
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2018, Wolfcast
  * @link https://wolfcast.com/
@@ -41,6 +41,10 @@ namespace Wolfcast;
  *
  * Updates:
  *
+ * 2018-08-23: Version 2.9.1
+ *  + Fixed Chrome detection under iOS.
+ *  + Added Android Pie detection.
+ *  + Added macOS Mojave detection.
  * 2018-07-15: Version 2.9.0
  *  + WARNING! Breaking change: new Wolfcast namespace. Use new Wolfcast\BrowserDetection().
  *  + iPad, iPhone and iPod are all under iOS now.
@@ -110,8 +114,8 @@ namespace Wolfcast;
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.9.0
- * @last-modified July 15, 2018
+ * @version 2.9.1
+ * @last-modified August 23, 2018
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2018, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -440,7 +444,7 @@ class BrowserDetection
      */
     public function getLibVersion()
     {
-        return '2.9.0';
+        return '2.9.1';
     }
 
     /**
@@ -636,31 +640,33 @@ class BrowserDetection
     {
         //https://en.wikipedia.org/wiki/Android_version_history
 
-        if ($this->compareVersions($androidVer, '8') >= 0 && $this->compareVersions($androidVer, '9') < 0) {
+        if ($this->compareVersions($androidVer, '9') >= 0 && $this->compareVersions($androidVer, '10') < 0) {
+            return 'Pie';
+        } else if ($this->compareVersions($androidVer, '8') >= 0 && $this->compareVersions($androidVer, '9') < 0) {
             return 'Oreo';
         } else if ($this->compareVersions($androidVer, '7') >= 0 && $this->compareVersions($androidVer, '8') < 0) {
             return 'Nougat';
         } else if ($this->compareVersions($androidVer, '6') >= 0 && $this->compareVersions($androidVer, '7') < 0) {
             return 'Marshmallow';
-        } else if ($this->compareVersions($androidVer, '5') >= 0 && $this->compareVersions($androidVer, '6') < 0) {
+        } else if ($this->compareVersions($androidVer, '5') >= 0 && $this->compareVersions($androidVer, '5.2') < 0) {
             return 'Lollipop';
-        } else if ($this->compareVersions($androidVer, '4.4') >= 0 && $this->compareVersions($androidVer, '5') < 0) {
+        } else if ($this->compareVersions($androidVer, '4.4') >= 0 && $this->compareVersions($androidVer, '4.5') < 0) {
             return 'KitKat';
         } else if ($this->compareVersions($androidVer, '4.1') >= 0 && $this->compareVersions($androidVer, '4.4') < 0) {
             return 'Jelly Bean';
         } else if ($this->compareVersions($androidVer, '4') >= 0 && $this->compareVersions($androidVer, '4.1') < 0) {
             return 'Ice Cream Sandwich';
-        } else if ($this->compareVersions($androidVer, '3') >= 0 && $this->compareVersions($androidVer, '4') < 0) {
+        } else if ($this->compareVersions($androidVer, '3') >= 0 && $this->compareVersions($androidVer, '3.3') < 0) {
             return 'Honeycomb';
-        } else if ($this->compareVersions($androidVer, '2.3') >= 0 && $this->compareVersions($androidVer, '3') < 0) {
+        } else if ($this->compareVersions($androidVer, '2.3') >= 0 && $this->compareVersions($androidVer, '2.4') < 0) {
             return 'Gingerbread';
         } else if ($this->compareVersions($androidVer, '2.2') >= 0 && $this->compareVersions($androidVer, '2.3') < 0) {
             return 'Froyo';
         } else if ($this->compareVersions($androidVer, '2') >= 0 && $this->compareVersions($androidVer, '2.2') < 0) {
             return 'Eclair';
-        } else if ($this->compareVersions($androidVer, '1.6') >= 0 && $this->compareVersions($androidVer, '2') < 0) {
+        } else if ($this->compareVersions($androidVer, '1.6') == 0) {
             return 'Donut';
-        } else if ($this->compareVersions($androidVer, '1.5') >= 0 && $this->compareVersions($androidVer, '1.6') < 0) {
+        } else if ($this->compareVersions($androidVer, '1.5') == 0) {
             return 'Cupcake';
         } else {
             return self::PLATFORM_VERSION_UNKNOWN; //Unknown/unnamed Android version
@@ -734,7 +740,7 @@ class BrowserDetection
      */
     protected function checkBrowserChrome()
     {
-        return $this->checkSimpleBrowserUA('Chrome', $this->_agent, self::BROWSER_CHROME);
+        return $this->checkSimpleBrowserUA(array('Chrome', 'CriOS'), $this->_agent, self::BROWSER_CHROME);
     }
 
     /**
@@ -1647,6 +1653,8 @@ class BrowserDetection
 
         if ($this->_platformVersion === '10') {
             return 'Mac OS X'; //Unspecified Mac OS X version
+        } else if ($this->compareVersions($macVer, '10.14') >= 0 && $this->compareVersions($macVer, '10.15') < 0) {
+            return 'macOS Mojave';
         } else if ($this->compareVersions($macVer, '10.13') >= 0 && $this->compareVersions($macVer, '10.14') < 0) {
             return 'macOS High Sierra';
         } else if ($this->compareVersions($macVer, '10.12') >= 0 && $this->compareVersions($macVer, '10.13') < 0) {
