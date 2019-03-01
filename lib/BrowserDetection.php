@@ -13,10 +13,10 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.9.1
- * @last-modified August 23, 2018
+ * @version 2.9.2
+ * @last-modified February 28, 2019
  * @author Alexandre Valiquette
- * @copyright Copyright (c) 2018, Wolfcast
+ * @copyright Copyright (c) 2019, Wolfcast
  * @link https://wolfcast.com/
  */
 
@@ -41,6 +41,8 @@ namespace Wolfcast;
  *
  * Updates:
  *
+ * 2019-02-28: Version 2.9.2
+ *  + Fixed Opera detection.
  * 2018-08-23: Version 2.9.1
  *  + Fixed Chrome detection under iOS.
  *  + Added Android Pie detection.
@@ -114,10 +116,10 @@ namespace Wolfcast;
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.9.1
- * @last-modified August 23, 2018
+ * @version 2.9.2
+ * @last-modified February 28, 2019
  * @author Alexandre Valiquette, Chris Schuld, Gary White
- * @copyright Copyright (c) 2018, Wolfcast
+ * @copyright Copyright (c) 2019, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
  * @link https://wolfcast.com/
  * @link https://wolfcast.com/open-source/browser-detection/tutorial.php
@@ -444,7 +446,7 @@ class BrowserDetection
      */
     public function getLibVersion()
     {
-        return '2.9.1';
+        return '2.9.2';
     }
 
     /**
@@ -1115,7 +1117,7 @@ class BrowserDetection
         }
 
         if (!$found && $this->checkSimpleBrowserUA('Chrome', $this->_agent, self::BROWSER_CHROME) ) {
-            if ($this->checkSimpleBrowserUA('OPR/', $this->_agent, self::BROWSER_OPERA)) {
+            if ($this->checkSimpleBrowserUA('OPR', $this->_agent, self::BROWSER_OPERA)) {
                 return true;
             }
         }

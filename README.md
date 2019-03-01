@@ -18,10 +18,10 @@ Natively detects the following broswers:
   * Bingbot
   * BlackBerry
   * BlackBerry Tablet OS
-  * Chrome 0.2 - 67+
+  * Chrome 0.2 - 72+
   * Edge
   * Firebird
-  * Firefox 0.10 - 61+
+  * Firefox 0.10 - 65+
   * GNU IceCat
   * GNU IceWeasel
   * Googlebot
@@ -35,7 +35,7 @@ Natively detects the following broswers:
   * MSNBot
   * Netscape
   * Nokia Browser
-  * Opera 4.02 - 54+
+  * Opera 4.02 - 58+
   * Opera Mini
   * Opera Mobile
   * Phoenix
