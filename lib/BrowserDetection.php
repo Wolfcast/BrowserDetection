@@ -13,8 +13,8 @@
  * details at: http://www.gnu.org/licenses/lgpl.html
  *
  * @package Browser_Detection
- * @version 2.9.2
- * @last-modified February 28, 2019
+ * @version 2.9.3
+ * @last-modified March 27, 2019
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2019, Wolfcast
  * @link https://wolfcast.com/
@@ -41,12 +41,19 @@ namespace Wolfcast;
  *
  * Updates:
  *
+ * 2019-03-27: Version 2.9.3
+ *  + Fixed Edge detection on Android.
+ *  + Added Android Q detection.
+ *  + Now filtering superglobals.
+ *
  * 2019-02-28: Version 2.9.2
  *  + Fixed Opera detection.
+ *
  * 2018-08-23: Version 2.9.1
  *  + Fixed Chrome detection under iOS.
  *  + Added Android Pie detection.
  *  + Added macOS Mojave detection.
+ *
  * 2018-07-15: Version 2.9.0
  *  + WARNING! Breaking change: new Wolfcast namespace. Use new Wolfcast\BrowserDetection().
  *  + iPad, iPhone and iPod are all under iOS now.
@@ -116,8 +123,8 @@ namespace Wolfcast;
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.9.2
- * @last-modified February 28, 2019
+ * @version 2.9.3
+ * @last-modified March 27, 2019
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2019, Wolfcast
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -446,7 +453,7 @@ class BrowserDetection
      */
     public function getLibVersion()
     {
-        return '2.9.2';
+        return '2.9.3';
     }
 
     /**
@@ -493,15 +500,12 @@ class BrowserDetection
 
                 case self::PLATFORM_MACINTOSH:
                     return $this->macVerToStr($this->_platformVersion);
-                    break;
 
                 case self::PLATFORM_ANDROID:
                     return $this->androidVerToStr($this->_platformVersion);
-                    break;
 
                 case self::PLATFORM_IOS:
                     return $this->iOSVerToStr($this->_platformVersion);
-                    break;
 
                 default: return self::PLATFORM_VERSION_UNKNOWN;
             }
@@ -615,9 +619,17 @@ class BrowserDetection
     public function setUserAgent($agentString = '')
     {
         if (!is_string($agentString) || trim($agentString) == '') {
-            if (array_key_exists('HTTP_USER_AGENT', $_SERVER) && is_string($_SERVER['HTTP_USER_AGENT'])) {
-                $agentString = $_SERVER['HTTP_USER_AGENT'];
+            //https://bugs.php.net/bug.php?id=49184
+            if (filter_has_var(INPUT_SERVER, 'HTTP_USER_AGENT')) {
+                $agentString = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+            } else if (array_key_exists('HTTP_USER_AGENT', $_SERVER) && is_string($_SERVER['HTTP_USER_AGENT'])) {
+                $agentString = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
             } else {
+                $agentString = '';
+            }
+
+            if ($agentString === false || $agentString === NULL) {
+                //filter_input or filter_var failed
                 $agentString = '';
             }
         }
@@ -642,7 +654,9 @@ class BrowserDetection
     {
         //https://en.wikipedia.org/wiki/Android_version_history
 
-        if ($this->compareVersions($androidVer, '9') >= 0 && $this->compareVersions($androidVer, '10') < 0) {
+        if ($this->compareVersions($androidVer, '10') >= 0 && $this->compareVersions($androidVer, '11') < 0) {
+            return 'Android Q'; //Still in beta will replace with final name when released
+        } else if ($this->compareVersions($androidVer, '9') >= 0 && $this->compareVersions($androidVer, '10') < 0) {
             return 'Pie';
         } else if ($this->compareVersions($androidVer, '8') >= 0 && $this->compareVersions($androidVer, '9') < 0) {
             return 'Oreo';
@@ -773,7 +787,7 @@ class BrowserDetection
      */
     protected function checkBrowserEdge()
     {
-        return $this->checkSimpleBrowserUA('Edge', $this->_agent, self::BROWSER_EDGE);
+        return $this->checkSimpleBrowserUA(array('Edge', 'EdgA'), $this->_agent, self::BROWSER_EDGE);
     }
 
     /**
