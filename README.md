@@ -15,16 +15,14 @@ The [Wolfcast](https://wolfcast.com/) BrowserDetection PHP class is the most acc
 Natively detects the following broswers:
 
   * Android
-  * Bingbot
   * BlackBerry
   * BlackBerry Tablet OS
-  * Chrome 0.2 - 73+
-  * Edge
+  * Chrome 0.2 - 79+
+  * Edge (Including the new Edge based on Chromium)
   * Firebird
-  * Firefox 0.10 - 66+
+  * Firefox 0.10 - 72+
   * GNU IceCat
   * GNU IceWeasel
-  * Googlebot
   * iCab
   * Internet Explorer 1 - 11
   * Internet Explorer Mobile
@@ -32,21 +30,28 @@ Natively detects the following broswers:
   * Lynx
   * Mozilla
   * MSN TV
-  * MSNBot
   * Netscape
   * Nokia Browser
-  * Opera 4.02 - 58+
+  * Opera 4.02 - 66+
   * Opera Mini
   * Opera Mobile
   * Phoenix
-  * Safari 1 - 12+
+  * Safari 1 - 13+
   * Samsung Internet
   * UC Browser
+
+You can also easily add custom rules to support other browsers not natively supported!
+
+Natively detects the following robots:
+
+  * Bingbot
+  * Googlebot
+  * MSNBot
   * W3C Validator
   * Yahoo! Multimedia
   * Yahoo! Slurp
 
-You can also easily add custom rules to support other browsers not natively supported!
+You can also easily add custom rules to support other robots not natively supported!
 
 Natively detects the following platforms:
   * Android
@@ -69,7 +74,7 @@ You can also easily add custom rules to support other platforms not natively sup
 Requirements
 ------------
 
-Requires PHP 5.3 or newer (tested with PHP 5.3.29 - 7.2.4).
+Requires PHP 5.3 or newer (tested with PHP 5.3.29 - 7.4.0).
 
 Demo and full documentation
 ---------------------------
@@ -104,4 +109,4 @@ License
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version (if any).
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details at: [http://www.gnu.org/licenses/lgpl.html](http://www.gnu.org/licenses/lgpl.html)
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details at: [https://www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html)

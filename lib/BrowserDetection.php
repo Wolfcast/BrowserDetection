@@ -10,13 +10,13 @@
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details at: http://www.gnu.org/licenses/lgpl.html
+ * details at: https://www.gnu.org/licenses/lgpl-3.0.html
  *
  * @package Browser_Detection
- * @version 2.9.3
- * @last-modified March 27, 2019
+ * @version 2.9.5
+ * @last-modified February 2, 2020
  * @author Alexandre Valiquette
- * @copyright Copyright (c) 2019, Wolfcast
+ * @copyright Copyright (c) 2020, Wolfcast
  * @link https://wolfcast.com/
  */
 
@@ -40,6 +40,18 @@ namespace Wolfcast;
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
+ *
+ * 2020-02-02: Version 2.9.5
+ *  + WARNING! Breaking change: complete rework of robots detection. Now robot name and version is detected in addition
+ *    of browser name and version. Use getRobotName() and getRobotVersion() when isRobot() is true.
+ *  + WARNING! Breaking change: due to robots detection rework the following methods signatures has changed (isRobot
+ *    parameter removed): addCustomBrowserDetection(), checkSimpleBrowserUA(), checkBrowserUAWithVersion().
+ *  + Added possibility to support new robots with addCustomRobotDetection().
+ *  + Added support for the new Microsoft Edge based on Chromium.
+ *  + Added version names for Android 10 and later (Google no longer use candy names for new versions).
+ *  + Added macOS Catalina detection.
+ *  + Added Windows Server 2019 detection (Windows Server 2016 can be no longer detected due to the fact that they both
+ *    use the same version number and that the build is not included in the user agent).
  *
  * 2019-03-27: Version 2.9.3
  *  + Fixed Edge detection on Android.
@@ -123,15 +135,15 @@ namespace Wolfcast;
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.9.3
- * @last-modified March 27, 2019
+ * @version 2.9.5
+ * @last-modified February 2, 2020
  * @author Alexandre Valiquette, Chris Schuld, Gary White
- * @copyright Copyright (c) 2019, Wolfcast
- * @license http://www.gnu.org/licenses/lgpl.html
+ * @copyright Copyright (c) 2020, Wolfcast
+ * @license https://www.gnu.org/licenses/lgpl-3.0.html
  * @link https://wolfcast.com/
  * @link https://wolfcast.com/open-source/browser-detection/tutorial.php
- * @link http://chrisschuld.com/
- * @link http://www.apptools.com/phptools/browser/
+ * @link https://chrisschuld.com/
+ * @link https://www.apptools.com/phptools/browser/
  */
 class BrowserDetection
 {
@@ -140,13 +152,11 @@ class BrowserDetection
      * Constant for the name of the Web browser.
      */
     const BROWSER_ANDROID = 'Android';
-    const BROWSER_BINGBOT = 'Bingbot';
     const BROWSER_BLACKBERRY = 'BlackBerry';
     const BROWSER_CHROME = 'Chrome';
     const BROWSER_EDGE = 'Edge';
     const BROWSER_FIREBIRD = 'Firebird';
     const BROWSER_FIREFOX = 'Firefox';
-    const BROWSER_GOOGLEBOT = 'Googlebot';
     const BROWSER_ICAB = 'iCab';
     const BROWSER_ICECAT = 'GNU IceCat';
     const BROWSER_ICEWEASEL = 'GNU IceWeasel';
@@ -155,7 +165,6 @@ class BrowserDetection
     const BROWSER_KONQUEROR = 'Konqueror';
     const BROWSER_LYNX = 'Lynx';
     const BROWSER_MOZILLA = 'Mozilla';
-    const BROWSER_MSNBOT = 'MSNBot';
     const BROWSER_MSNTV = 'MSN TV';
     const BROWSER_NETSCAPE = 'Netscape';
     const BROWSER_NOKIA = 'Nokia Browser';
@@ -165,12 +174,9 @@ class BrowserDetection
     const BROWSER_PHOENIX = 'Phoenix';
     const BROWSER_SAFARI = 'Safari';
     const BROWSER_SAMSUNG = 'Samsung Internet';
-    const BROWSER_SLURP = 'Yahoo! Slurp';
     const BROWSER_TABLET_OS = 'BlackBerry Tablet OS';
     const BROWSER_UC = 'UC Browser';
     const BROWSER_UNKNOWN = 'unknown';
-    const BROWSER_W3CVALIDATOR = 'W3C Validator';
-    const BROWSER_YAHOO_MM = 'Yahoo! Multimedia';
     /**#@-*/
 
     /**#@+
@@ -192,6 +198,19 @@ class BrowserDetection
     const PLATFORM_WINDOWS = 'Windows';
     const PLATFORM_WINDOWS_CE = 'Windows CE';
     const PLATFORM_WINDOWS_PHONE = 'Windows Phone';
+    /**#@-*/
+
+    /**#@+
+     * Constant for the name of the robot.
+     */
+    const ROBOT_BINGBOT = 'Bingbot';
+    const ROBOT_GOOGLEBOT = 'Googlebot';
+    const ROBOT_MSNBOT = 'MSNBot';
+    const ROBOT_SLURP = 'Yahoo! Slurp';
+    const ROBOT_UNKNOWN = '';
+    const ROBOT_VERSION_UNKNOWN = '';
+    const ROBOT_W3CVALIDATOR = 'W3C Validator';
+    const ROBOT_YAHOO_MM = 'Yahoo! Multimedia';
     /**#@-*/
 
     /**
@@ -237,6 +256,12 @@ class BrowserDetection
     private $_customPlatformDetection = array();
 
     /**
+     * @var array
+     * @access private
+     */
+    private $_customRobotDetection = array();
+
+    /**
      * @var boolean
      * @access private
      */
@@ -265,6 +290,18 @@ class BrowserDetection
      * @access private
      */
     private $_platformVersion = '';
+
+    /**
+     * @var string
+     * @access private
+     */
+    private $_robotName = '';
+
+    /**
+     * @var string
+     * @access private
+     */
+    private $_robotVersion = '';
 
     /**
      * @var string
@@ -304,6 +341,8 @@ class BrowserDetection
         $values[] = array('label' => 'Platform is 64-bit', 'value' => $this->is64bitPlatform() ? 'true' : 'false');
         $values[] = array('label' => 'Is mobile', 'value' => $this->isMobile() ? 'true' : 'false');
         $values[] = array('label' => 'Is robot', 'value' => $this->isRobot() ? 'true' : 'false');
+        $values[] = array('label' => 'Robot name', 'value' => $this->isRobot() ? ($this->getRobotName() != self::ROBOT_UNKNOWN ? $this->getRobotName() : 'Unknown') : 'Not applicable');
+        $values[] = array('label' => 'Robot version', 'value' => $this->isRobot() ? ($this->getRobotVersion() != self::ROBOT_VERSION_UNKNOWN ? $this->getRobotVersion() : 'Unknown') : 'Not applicable');
         $values[] = array('label' => 'IE is in compatibility view', 'value' => $this->isInIECompatibilityView() ? 'true' : 'false');
         $values[] = array('label' => 'Emulated IE version', 'value' => $this->isInIECompatibilityView() ? $this->getIECompatibilityView() : 'Not applicable');
         $values[] = array('label' => 'Is Chrome Frame', 'value' => $this->isChromeFrame() ? 'true' : 'false');
@@ -325,7 +364,6 @@ class BrowserDetection
      * @param mixed $uaNameToLookFor (optional) The string (or array of strings) representing the browser name to find
      * in the user agent. If omitted, $browserName will be used.
      * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
-     * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
      * @param string $separator (optional) The separator string used to split the browser name and the version number in
      * the user agent.
      * @param boolean $uaNameFindWords (optional) Determines if the browser name to find should match a word instead of
@@ -334,7 +372,7 @@ class BrowserDetection
      * @see removeCustomBrowserDetection()
      * @return boolean Returns true if the custom rule has been added, false otherwise.
      */
-    public function addCustomBrowserDetection($browserName, $uaNameToLookFor = '', $isMobile = false, $isRobot = false, $separator = '/', $uaNameFindWords = true)
+    public function addCustomBrowserDetection($browserName, $uaNameToLookFor = '', $isMobile = false, $separator = '/', $uaNameFindWords = true)
     {
         if ($browserName == '') {
             return false;
@@ -345,7 +383,7 @@ class BrowserDetection
         if ($uaNameToLookFor == '') {
             $uaNameToLookFor = $browserName;
         }
-        $this->_customBrowserDetection[$browserName] = array('uaNameToLookFor' => $uaNameToLookFor, 'isMobile' => $isMobile == true, 'isRobot' => $isRobot == true,
+        $this->_customBrowserDetection[$browserName] = array('uaNameToLookFor' => $uaNameToLookFor, 'isMobile' => $isMobile == true,
                                                              'separator' => $separator, 'uaNameFindWords' => $uaNameFindWords == true);
         return true;
     }
@@ -356,10 +394,12 @@ class BrowserDetection
      * @param mixed $platformNameToLookFor (optional) The string (or array of strings) representing the platform name to
      * find in the user agent. If omitted, $platformName will be used.
      * @param boolean $isMobile (optional) Determines if the platform is from a mobile device.
+     * @param boolean $uaNameFindWords (optional) Determines if the platform name to find should match a word instead of
+     * a part of a word. For example "Bar" would not be found in "FooBar" when true but would be found in "Foo Bar".
      * @see removeCustomPlatformDetection()
      * @return boolean Returns true if the custom rule has been added, false otherwise.
      */
-    public function addCustomPlatformDetection($platformName, $platformNameToLookFor = '', $isMobile = false)
+    public function addCustomPlatformDetection($platformName, $platformNameToLookFor = '', $isMobile = false, $uaNameFindWords = true)
     {
         if ($platformName == '') {
             return false;
@@ -370,7 +410,39 @@ class BrowserDetection
         if ($platformNameToLookFor == '') {
             $platformNameToLookFor = $platformName;
         }
-        $this->_customPlatformDetection[$platformName] = array('platformNameToLookFor' => $platformNameToLookFor, 'isMobile' => $isMobile == true);
+        $this->_customPlatformDetection[$platformName] = array('platformNameToLookFor' => $platformNameToLookFor,
+                                                               'isMobile' => $isMobile == true,
+                                                               'uaNameFindWords' => $uaNameFindWords == true);
+        return true;
+    }
+
+    /**
+     * Dynamically add support for a new robot.
+     * @param string $robotName The robot name (used for display).
+     * @param mixed $uaNameToLookFor (optional) The string (or array of strings) representing the robot name to find
+     * in the user agent. If omitted, $robotName will be used.
+     * @param boolean $isMobile (optional) Determines if the robot should be considered as mobile or not.
+     * @param string $separator (optional) The separator string used to split the robot name and the version number in
+     * the user agent.
+     * @param boolean $uaNameFindWords (optional) Determines if the robot name to find should match a word instead of
+     * a part of a word. For example "Bar" would not be found in "FooBar" when true but would be found in "Foo Bar".
+     * When set to false, the robot name can be found anywhere in the user agent string.
+     * @see removeCustomRobotDetection()
+     * @return boolean Returns true if the custom rule has been added, false otherwise.
+     */
+    public function addCustomRobotDetection($robotName, $uaNameToLookFor = '', $isMobile = false, $separator = '/', $uaNameFindWords = true)
+    {
+        if ($robotName == '') {
+            return false;
+        }
+        if (array_key_exists($robotName, $this->_customRobotDetection)) {
+            unset($this->_customRobotDetection[$robotName]);
+        }
+        if ($uaNameToLookFor == '') {
+            $uaNameToLookFor = $robotName;
+        }
+        $this->_customRobotDetection[$robotName] = array('uaNameToLookFor' => $uaNameToLookFor, 'isMobile' => $isMobile == true,
+                                                         'separator' => $separator, 'uaNameFindWords' => $uaNameFindWords == true);
         return true;
     }
 
@@ -419,16 +491,6 @@ class BrowserDetection
     }
 
     /**
-     * Get the name of the browser. All of the return values are class constants. You can compare them like this:
-     * $myBrowserInstance->getName() == BrowserDetection::BROWSER_FIREFOX.
-     * @return string Returns the name of the browser.
-     */
-    public function getName()
-    {
-        return $this->_browserName;
-    }
-
-    /**
      * Get the name and version of the browser emulated in the compatibility view mode (if any). Since Internet
      * Explorer 8, IE can be put in compatibility mode to make websites that were created for older browsers, especially
      * IE 6 and 7, look better in IE 8+ which renders web pages closer to the standards and thus differently from those
@@ -453,7 +515,17 @@ class BrowserDetection
      */
     public function getLibVersion()
     {
-        return '2.9.3';
+        return '2.9.5';
+    }
+
+    /**
+     * Get the name of the browser. All of the return values are class constants. You can compare them like this:
+     * $myBrowserInstance->getName() == BrowserDetection::BROWSER_FIREFOX.
+     * @return string Returns the name of the browser or BrowserDetection::BROWSER_UNKNOWN if unknown.
+     */
+    public function getName()
+    {
+        return $this->_browserName;
     }
 
     /**
@@ -510,6 +582,25 @@ class BrowserDetection
                 default: return self::PLATFORM_VERSION_UNKNOWN;
             }
         }
+    }
+
+    /**
+     * Get the name of the robot. All of the return values are class constants. You can compare them like this:
+     * $myBrowserInstance->getRobotName() == BrowserDetection::ROBOT_GOOGLEBOT.
+     * @return string Returns the name of the robot or BrowserDetection::ROBOT_UNKNOWN if unknown.
+     */
+    public function getRobotName()
+    {
+        return $this->_robotName;
+    }
+
+    /**
+     * Get the version of the robot.
+     * @return string Returns the version of the robot or BrowserDetection::ROBOT_VERSION_UNKNOWN if unknown.
+     */
+    public function getRobotVersion()
+    {
+        return $this->_robotVersion;
     }
 
     /**
@@ -612,6 +703,22 @@ class BrowserDetection
     }
 
     /**
+     * Remove support for a previously added robot.
+     * @param string $robotName The robot name as used when added.
+     * @see addCustomRobotDetection()
+     * @return boolean Returns true if the custom rule has been found and removed, false otherwise.
+     */
+    public function removeCustomRobotDetection($robotName)
+    {
+        if (array_key_exists($robotName, $this->_customRobotDetection)) {
+            unset($this->_customRobotDetection[$robotName]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Set the user agent to use with the class.
      * @param string $agentString (optional) The value of the user agent. If an empty string is sent (default),
      * $_SERVER['HTTP_USER_AGENT'] will be used.
@@ -654,8 +761,12 @@ class BrowserDetection
     {
         //https://en.wikipedia.org/wiki/Android_version_history
 
-        if ($this->compareVersions($androidVer, '10') >= 0 && $this->compareVersions($androidVer, '11') < 0) {
-            return 'Android Q'; //Still in beta will replace with final name when released
+        if ($this->compareVersions($androidVer, '10') >= 0) {
+            $majorVer = strstr($androidVer, '.', true);
+            if ($majorVer == '') {
+                $majorVer = $androidVer;
+            }
+            return self::BROWSER_ANDROID . ' ' . $majorVer;
         } else if ($this->compareVersions($androidVer, '9') >= 0 && $this->compareVersions($androidVer, '10') < 0) {
             return 'Pie';
         } else if ($this->compareVersions($androidVer, '8') >= 0 && $this->compareVersions($androidVer, '9') < 0) {
@@ -702,20 +813,9 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the browser is the Bingbot crawler or not.
-     * @access protected
-     * @link http://www.bing.com/webmaster/help/which-crawlers-does-bing-use-8c184ec0
-     * @return boolean Returns true if the browser is Bingbot, false otherwise.
-     */
-    protected function checkBrowserBingbot()
-    {
-        return $this->checkSimpleBrowserUA('bingbot', $this->_agent, self::BROWSER_BINGBOT, false, true);
-    }
-
-    /**
      * Determine if the browser is the BlackBerry browser or not.
      * @access protected
-     * @link http://supportforums.blackberry.com/t5/Web-and-WebWorks-Development/How-to-detect-the-BlackBerry-Browser/ta-p/559862
+     * @link https://web.archive.org/web/20170328000854/http://supportforums.blackberry.com/t5/Web-and-WebWorks-Development/How-to-detect-the-BlackBerry-Browser/ta-p/559862
      * @return boolean Returns true if the browser is the BlackBerry browser, false otherwise.
      */
     protected function checkBrowserBlackBerry()
@@ -737,7 +837,7 @@ class BrowserDetection
         }
 
         //Version 4.2 to 5.0 check
-        if ($this->checkSimpleBrowserUA('BlackBerry', $this->_agent, self::BROWSER_BLACKBERRY, true, false, '/', false)) {
+        if ($this->checkSimpleBrowserUA('BlackBerry', $this->_agent, self::BROWSER_BLACKBERRY, true, '/', false)) {
             if ($this->getVersion() == self::VERSION_UNKNOWN) {
                 $found = true;
             } else {
@@ -751,7 +851,7 @@ class BrowserDetection
     /**
      * Determine if the browser is Chrome or not.
      * @access protected
-     * @link http://www.google.com/chrome/
+     * @link https://www.google.com/chrome/
      * @return boolean Returns true if the browser is Chrome, false otherwise.
      */
     protected function checkBrowserChrome()
@@ -770,10 +870,9 @@ class BrowserDetection
         foreach ($this->_customBrowserDetection as $browserName => $customBrowser) {
             $uaNameToLookFor = $customBrowser['uaNameToLookFor'];
             $isMobile = $customBrowser['isMobile'];
-            $isRobot = $customBrowser['isRobot'];
             $separator = $customBrowser['separator'];
             $uaNameFindWords = $customBrowser['uaNameFindWords'];
-            if ($this->checkSimpleBrowserUA($uaNameToLookFor, $this->_agent, $browserName, $isMobile, $isRobot, $separator, $uaNameFindWords)) {
+            if ($this->checkSimpleBrowserUA($uaNameToLookFor, $this->_agent, $browserName, $isMobile, $separator, $uaNameFindWords)) {
                 return true;
             }
         }
@@ -787,7 +886,7 @@ class BrowserDetection
      */
     protected function checkBrowserEdge()
     {
-        return $this->checkSimpleBrowserUA(array('Edge', 'EdgA'), $this->_agent, self::BROWSER_EDGE);
+        return $this->checkSimpleBrowserUA(array('Edg', 'Edge', 'EdgA'), $this->_agent, self::BROWSER_EDGE);
     }
 
     /**
@@ -803,7 +902,7 @@ class BrowserDetection
     /**
      * Determine if the browser is Firefox or not.
      * @access protected
-     * @link http://www.mozilla.org/en-US/firefox/new/
+     * @link https://www.mozilla.org/en-US/firefox/new/
      * @return boolean Returns true if the browser is Firefox, false otherwise.
      */
     protected function checkBrowserFirefox()
@@ -815,25 +914,6 @@ class BrowserDetection
             $this->setVersion($matches[1]);
             $this->setMobile(false);
             $this->setRobot(false);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if the browser is the Googlebot crawler or not.
-     * @access protected
-     * @return boolean Returns true if the browser is Googlebot, false otherwise.
-     */
-    protected function checkBrowserGooglebot()
-    {
-        if ($this->checkSimpleBrowserUA('Googlebot', $this->_agent, self::BROWSER_GOOGLEBOT, false, true)) {
-
-            if ($this->containString($this->_agent, 'googlebot-mobile')) {
-                $this->setMobile(true);
-            }
 
             return true;
         }
@@ -856,7 +936,7 @@ class BrowserDetection
     /**
      * Determine if the browser is GNU IceCat (formerly known as GNU IceWeasel) or not.
      * @access protected
-     * @link http://www.gnu.org/software/gnuzilla/
+     * @link https://www.gnu.org/software/gnuzilla/
      * @return boolean Returns true if the browser is GNU IceCat, false otherwise.
      */
     protected function checkBrowserIceCat()
@@ -878,8 +958,8 @@ class BrowserDetection
     /**
      * Determine if the browser is Internet Explorer or not.
      * @access protected
-     * @link http://www.microsoft.com/ie/
-     * @link http://en.wikipedia.org/wiki/Internet_Explorer_Mobile
+     * @link https://www.microsoft.com/ie/
+     * @link https://en.wikipedia.org/wiki/Internet_Explorer_Mobile
      * @return boolean Returns true if the browser is Internet Explorer, false otherwise.
      */
     protected function checkBrowserInternetExplorer()
@@ -913,7 +993,7 @@ class BrowserDetection
             if ($this->containString($this->_agent, 'Trident')) {
                 //Test for Internet Explorer 11+ (check the rv: string)
                 if ($this->containString($this->_agent, 'rv:', true, false)) {
-                    if ($this->checkSimpleBrowserUA('Trident', $this->_agent, self::BROWSER_IE, false, false, 'rv:')) {
+                    if ($this->checkSimpleBrowserUA('Trident', $this->_agent, self::BROWSER_IE, false, 'rv:')) {
                         return true;
                     }
                 } else {
@@ -970,7 +1050,7 @@ class BrowserDetection
     /**
      * Determine if the browser is Konqueror or not.
      * @access protected
-     * @link http://www.konqueror.org/
+     * @link https://www.konqueror.org/
      * @return boolean Returns true if the browser is Konqueror, false otherwise.
      */
     protected function checkBrowserKonqueror()
@@ -982,7 +1062,7 @@ class BrowserDetection
      * Determine if the browser is Lynx or not. It is the oldest web browser currently in general use and development.
      * It is a text-based only Web browser.
      * @access protected
-     * @link http://en.wikipedia.org/wiki/Lynx
+     * @link https://en.wikipedia.org/wiki/Lynx_(web_browser)
      * @return boolean Returns true if the browser is Lynx, false otherwise.
      */
     protected function checkBrowserLynx()
@@ -997,24 +1077,13 @@ class BrowserDetection
      */
     protected function checkBrowserMozilla()
     {
-        return $this->checkSimpleBrowserUA('Mozilla', $this->_agent, self::BROWSER_MOZILLA, false, false, 'rv:');
-    }
-
-    /**
-     * Determine if the browser is the MSNBot crawler or not. In October 2010 it was replaced by the Bingbot robot.
-     * @access protected
-     * @see checkBrowserBingbot()
-     * @return boolean Returns true if the browser is MSNBot, false otherwise.
-     */
-    protected function checkBrowserMsnBot()
-    {
-        return $this->checkSimpleBrowserUA('msnbot', $this->_agent, self::BROWSER_MSNBOT, false, true);
+        return $this->checkSimpleBrowserUA('Mozilla', $this->_agent, self::BROWSER_MOZILLA, false, 'rv:');
     }
 
     /**
      * Determine if the browser is MSN TV (formerly WebTV) or not.
      * @access protected
-     * @link http://en.wikipedia.org/wiki/MSN_TV
+     * @link https://en.wikipedia.org/wiki/MSN_TV
      * @return boolean Returns true if the browser is WebTv, false otherwise.
      */
     protected function checkBrowserMsnTv()
@@ -1025,7 +1094,7 @@ class BrowserDetection
     /**
      * Determine if the browser is Netscape or not. Official support for this browser ended on March 1st, 2008.
      * @access protected
-     * @link http://en.wikipedia.org/wiki/Netscape
+     * @link https://en.wikipedia.org/wiki/Netscape
      * @return boolean Returns true if the browser is Netscape, false otherwise.
      */
     protected function checkBrowserNetscape()
@@ -1078,7 +1147,7 @@ class BrowserDetection
     /**
      * Determine if the browser is a Nokia browser or not.
      * @access protected
-     * @link http://www.developer.nokia.com/Community/Wiki/User-Agent_headers_for_Nokia_devices
+     * @link https://web.archive.org/web/20141012034159/http://www.developer.nokia.com/Community/Wiki/User-Agent_headers_for_Nokia_devices
      * @return boolean Returns true if the browser is a Nokia browser, false otherwise.
      */
     protected function checkBrowserNokia()
@@ -1102,10 +1171,9 @@ class BrowserDetection
     /**
      * Determine if the browser is Opera or not.
      * @access protected
-     * @link http://www.opera.com/
-     * @link http://www.opera.com/mini/
-     * @link http://www.opera.com/mobile/
-     * @link http://my.opera.com/community/openweb/idopera/
+     * @link https://www.opera.com/
+     * @link https://www.opera.com/mobile/
+     * @link https://web.archive.org/web/20140220123653/http://my.opera.com/community/openweb/idopera/
      * @return boolean Returns true if the browser is Opera, false otherwise.
      */
     protected function checkBrowserOpera()
@@ -1154,7 +1222,7 @@ class BrowserDetection
      * @access protected
      * @return boolean Returns true if the browser has been identified, false otherwise.
      */
-    protected function checkBrowsers()
+    protected function checkBrowser()
     {
         //Changing the check order can break the class detection results!
         return
@@ -1179,13 +1247,6 @@ class BrowserDetection
                $this->checkBrowserAndroid() ||
                $this->checkBrowserBlackBerry() ||
                $this->checkBrowserNokia() ||
-               /* Bots */
-               $this->checkBrowserGooglebot() ||
-               $this->checkBrowserBingbot() ||
-               $this->checkBrowserMsnBot() ||
-               $this->checkBrowserSlurp() ||
-               $this->checkBrowserYahooMultimedia() ||
-               $this->checkBrowserW3CValidator() ||
                /* WebKit base check (after most other checks) */
                $this->checkBrowserSafari() ||
                /* Deprecated browsers that don't need to be detected in any special order */
@@ -1198,9 +1259,9 @@ class BrowserDetection
     /**
      * Determine if the browser is Safari or not.
      * @access protected
-     * @link http://www.apple.com/safari/
-     * @link http://web.archive.org/web/20080514173941/http://developer.apple.com/internet/safari/uamatrix.html
-     * @link http://en.wikipedia.org/wiki/Safari_version_history#Release_history
+     * @link https://www.apple.com/safari/
+     * @link https://web.archive.org/web/20080514173941/http://developer.apple.com/internet/safari/uamatrix.html
+     * @link https://en.wikipedia.org/wiki/Safari_version_history#Release_history
      * @return boolean Returns true if the browser is Safari, false otherwise.
      */
     protected function checkBrowserSafari()
@@ -1248,16 +1309,6 @@ class BrowserDetection
     }
 
     /**
-     * Determine if the browser is the Yahoo! Slurp crawler or not.
-     * @access protected
-     * @return boolean Returns true if the browser is Yahoo! Slurp, false otherwise.
-     */
-    protected function checkBrowserSlurp()
-    {
-        return $this->checkSimpleBrowserUA('Yahoo! Slurp', $this->_agent, self::BROWSER_SLURP, false, true);
-    }
-
-    /**
      * Test the user agent for a specific browser that use a "Version" string (like Safari and Opera). The user agent
      * should look like: "Version/1.0 Browser name/123.456" or "Browser name/123.456 Version/1.0".
      * @access protected
@@ -1266,13 +1317,12 @@ class BrowserDetection
      * @param string $userAgent The user agent string to work with.
      * @param string $browserName The literal browser name. Always use a class constant!
      * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
-     * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
      * @param boolean $findWords (optional) Determines if the needle should match a word to be found. For example "Bar"
      * would not be found in "FooBar" when true but would be found in "Foo Bar". When set to false, the needle can be
      * found anywhere in the haystack.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
-    protected function checkBrowserUAWithVersion($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false, $findWords = true)
+    protected function checkBrowserUAWithVersion($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $findWords = true)
     {
         if (!is_array($uaNameToLookFor)) {
             $uaNameToLookFor = array($uaNameToLookFor);
@@ -1291,7 +1341,6 @@ class BrowserDetection
                 $this->setVersion($version);
 
                 $this->setMobile($isMobile);
-                $this->setRobot($isRobot);
 
                 return true;
             }
@@ -1307,55 +1356,7 @@ class BrowserDetection
      */
     protected function checkBrowserUC()
     {
-        return $this->checkSimpleBrowserUA('UCBrowser', $this->_agent, self::BROWSER_UC, true, false);
-    }
-
-    /**
-     * Determine if the browser is the W3C Validator or not.
-     * @access protected
-     * @link http://validator.w3.org/
-     * @return boolean Returns true if the browser is the W3C Validator, false otherwise.
-     */
-    protected function checkBrowserW3CValidator()
-    {
-        //Since the W3C validates pages with different robots we will prefix our versions with the part validated on the page...
-
-        //W3C Link Checker (prefixed with "Link-")
-        if ($this->checkSimpleBrowserUA('W3C-checklink', $this->_agent, self::BROWSER_W3CVALIDATOR, false, true)) {
-            if ($this->getVersion() != self::VERSION_UNKNOWN) {
-                $this->setVersion('Link-' . $this->getVersion());
-            }
-            return true;
-        }
-
-        //W3C CSS Validation Service (prefixed with "CSS-")
-        if ($this->checkSimpleBrowserUA('Jigsaw', $this->_agent, self::BROWSER_W3CVALIDATOR, false, true)) {
-            if ($this->getVersion() != self::VERSION_UNKNOWN) {
-                $this->setVersion('CSS-' . $this->getVersion());
-            }
-            return true;
-        }
-
-        //W3C mobileOK Checker (prefixed with "mobileOK-")
-        if ($this->checkSimpleBrowserUA('W3C-mobileOK', $this->_agent, self::BROWSER_W3CVALIDATOR, false, true)) {
-            if ($this->getVersion() != self::VERSION_UNKNOWN) {
-                $this->setVersion('mobileOK-' . $this->getVersion());
-            }
-            return true;
-        }
-
-        //W3C Markup Validation Service (no prefix)
-        return $this->checkSimpleBrowserUA('W3C_Validator', $this->_agent, self::BROWSER_W3CVALIDATOR, false, true);
-    }
-
-    /**
-     * Determine if the browser is the Yahoo! multimedia crawler or not.
-     * @access protected
-     * @return boolean Returns true if the browser is the Yahoo! multimedia crawler, false otherwise.
-     */
-    protected function checkBrowserYahooMultimedia()
-    {
-        return $this->checkSimpleBrowserUA('Yahoo-MMCrawler', $this->_agent, self::BROWSER_YAHOO_MM, false, true);
+        return $this->checkSimpleBrowserUA('UCBrowser', $this->_agent, self::BROWSER_UC, true);
     }
 
     /**
@@ -1434,7 +1435,8 @@ class BrowserDetection
         foreach ($this->_customPlatformDetection as $platformName => $customPlatform) {
             $platformNameToLookFor = $customPlatform['platformNameToLookFor'];
             $isMobile = $customPlatform['isMobile'];
-            if ($this->containString($this->_agent, $platformNameToLookFor)) {
+            $findWords = $customPlatform['uaNameFindWords'];
+            if ($this->containString($this->_agent, $platformNameToLookFor, true, $findWords)) {
                 $this->setPlatform($platformName);
                 if ($isMobile) {
                     $this->setMobile(true);
@@ -1509,6 +1511,139 @@ class BrowserDetection
     }
 
     /**
+     * Determine if the robot is the Bingbot crawler or not.
+     * @access protected
+     * @link https://www.bing.com/webmaster/help/which-crawlers-does-bing-use-8c184ec0
+     * @return boolean Returns true if the robot is Bingbot, false otherwise.
+     */
+    protected function checkRobotBingbot()
+    {
+        return $this->checkSimpleRobot('bingbot', $this->_agent, self::ROBOT_BINGBOT);
+    }
+
+    /**
+     * Determine if the robot is the Googlebot crawler or not.
+     * @access protected
+     * @return boolean Returns true if the robot is Googlebot, false otherwise.
+     */
+    protected function checkRobotGooglebot()
+    {
+        if ($this->checkSimpleRobot('Googlebot', $this->_agent, self::ROBOT_GOOGLEBOT)) {
+            if ($this->containString($this->_agent, 'googlebot-mobile')) {
+                $this->setMobile(true);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the robot is the MSNBot crawler or not. In October 2010 it was replaced by the Bingbot robot.
+     * @access protected
+     * @see checkRobotBingbot()
+     * @return boolean Returns true if the robot is MSNBot, false otherwise.
+     */
+    protected function checkRobotMsnBot()
+    {
+        return $this->checkSimpleRobot('msnbot', $this->_agent, self::ROBOT_MSNBOT);
+    }
+
+    /**
+     * Determine if it's a robot crawling the page and find it's name and version.
+     * @access protected
+     */
+    protected function checkRobot()
+    {
+        $this->checkRobotCustom() || /* Customs rules are always checked first */
+        $this->checkRobotGooglebot() ||
+        $this->checkRobotBingbot() ||
+        $this->checkRobotMsnBot() ||
+        $this->checkRobotSlurp() ||
+        $this->checkRobotYahooMultimedia() ||
+        $this->checkRobotW3CValidator();
+    }
+
+    /**
+     * Determine if the robot is among the custom robot rules or not. Rules are checked in the order they were added.
+     * @access protected
+     * @return boolean Returns true if we found the robot we were looking for in the custom rules, false otherwise.
+     */
+    protected function checkRobotCustom()
+    {
+        foreach ($this->_customRobotDetection as $robotName => $customRobot) {
+            $uaNameToLookFor = $customRobot['uaNameToLookFor'];
+            $isMobile = $customRobot['isMobile'];
+            $separator = $customRobot['separator'];
+            $uaNameFindWords = $customRobot['uaNameFindWords'];
+
+            if ($this->checkSimpleRobot($uaNameToLookFor, $this->_agent, $robotName, $separator, $uaNameFindWords)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determine if the robot is the Yahoo! Slurp crawler or not.
+     * @access protected
+     * @return boolean Returns true if the robot is Yahoo! Slurp, false otherwise.
+     */
+    protected function checkRobotSlurp()
+    {
+        return $this->checkSimpleRobot('Yahoo! Slurp', $this->_agent, self::ROBOT_SLURP);
+    }
+
+    /**
+     * Determine if the robot is the W3C Validator or not.
+     * @access protected
+     * @link https://validator.w3.org/
+     * @return boolean Returns true if the robot is the W3C Validator, false otherwise.
+     */
+    protected function checkRobotW3CValidator()
+    {
+        //Since the W3C validates pages with different robots we will prefix our versions with the part validated on the page...
+
+        //W3C Link Checker (prefixed with "Link-")
+        if ($this->checkSimpleRobot('W3C-checklink', $this->_agent, self::ROBOT_W3CVALIDATOR)) {
+            if ($this->getRobotVersion() != self::ROBOT_VERSION_UNKNOWN) {
+                $this->setRobotVersion('Link-' . $this->getRobotVersion());
+            }
+            return true;
+        }
+
+        //W3C CSS Validation Service (prefixed with "CSS-")
+        if ($this->checkSimpleRobot('Jigsaw', $this->_agent, self::ROBOT_W3CVALIDATOR)) {
+            if ($this->getRobotVersion() != self::ROBOT_VERSION_UNKNOWN) {
+                $this->setRobotVersion('CSS-' . $this->getRobotVersion());
+            }
+            return true;
+        }
+
+        //W3C mobileOK Checker (prefixed with "mobileOK-")
+        if ($this->checkSimpleRobot('W3C-mobileOK', $this->_agent, self::ROBOT_W3CVALIDATOR)) {
+            if ($this->getRobotVersion() != self::ROBOT_VERSION_UNKNOWN) {
+                $this->setRobotVersion('mobileOK-' . $this->getRobotVersion());
+            }
+            return true;
+        }
+
+        //W3C Markup Validation Service (no prefix)
+        return $this->checkSimpleRobot('W3C_Validator', $this->_agent, self::ROBOT_W3CVALIDATOR);
+    }
+
+    /**
+     * Determine if the robot is the Yahoo! multimedia crawler or not.
+     * @access protected
+     * @return boolean Returns true if the robot is the Yahoo! multimedia crawler, false otherwise.
+     */
+    protected function checkRobotYahooMultimedia()
+    {
+        return $this->checkSimpleRobot('Yahoo-MMCrawler', $this->_agent, self::ROBOT_YAHOO_MM);
+    }
+
+    /**
      * Test the user agent for a specific browser where the browser name is immediately followed by the version number.
      * The user agent should look like: "Browser name/1.0" or "Browser 1.0;".
      * @access protected
@@ -1517,7 +1652,6 @@ class BrowserDetection
      * @param string $userAgent The user agent string to work with.
      * @param string $browserName The literal browser name. Always use a class constant!
      * @param boolean $isMobile (optional) Determines if the browser is from a mobile device.
-     * @param boolean $isRobot (optional) Determines if the browser is a robot or not.
      * @param string $separator (optional) The separator string used to split the browser name and the version number in
      * the user agent.
      * @param boolean $uaNameFindWords (optional) Determines if the browser name to find should match a word instead of
@@ -1525,38 +1659,79 @@ class BrowserDetection
      * When set to false, the browser name can be found anywhere in the user agent string.
      * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
-    protected function checkSimpleBrowserUA($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $isRobot = false, $separator = '/', $uaNameFindWords = true)
+    protected function checkSimpleBrowserUA($uaNameToLookFor, $userAgent, $browserName, $isMobile = false, $separator = '/', $uaNameFindWords = true)
     {
-        if (!is_array($uaNameToLookFor)) {
-            $uaNameToLookFor = array($uaNameToLookFor);
-        }
+        if ($this->findAndGetVersion($uaNameToLookFor, $userAgent, $version, $separator, $uaNameFindWords)) {
+            $this->setBrowser($browserName);
+            $this->setVersion($version);
 
-        foreach ($uaNameToLookFor as $currUANameToLookFor) {
+            $this->setMobile($isMobile);
 
-            if ($this->containString($userAgent, $currUANameToLookFor, true, $uaNameFindWords)) {
-                //Many browsers don't use the standard "Browser/1.0" format, they uses "Browser 1.0;" instead
-                if (stripos($userAgent, $currUANameToLookFor . $separator) === false) {
-                    $userAgent = str_ireplace($currUANameToLookFor . ' ', $currUANameToLookFor . $separator, $this->_agent);
-                }
-
-                $version = '';
-                $verParts = explode($separator, stristr($userAgent, $currUANameToLookFor));
-                if (count($verParts) > 1) {
-                    $verParts = explode(' ', $verParts[1]);
-                    $version = $verParts[0];
-                }
-
-                $this->setBrowser($browserName);
-                $this->setVersion($version);
-
-                $this->setMobile($isMobile);
-                $this->setRobot($isRobot);
-
-                return true;
-            }
+            return true;
         }
 
         return false;
+    }
+
+    /**
+     * Test the user agent for a specific robot where the robot name is immediately followed by the version number.
+     * The user agent should look like: "Robot name/1.0" or "Robot 1.0;".
+     * @access protected
+     * @param mixed $uaNameToLookFor The string (or array of strings) representing the robot name to find in the user
+     * agent.
+     * @param string $userAgent The user agent string to work with.
+     * @param string $robotName The literal robot name. Always use a class constant!
+     * @param string $separator (optional) The separator string used to split the robot name and the version number in
+     * the user agent.
+     * @param boolean $uaNameFindWords (optional) Determines if the robot name to find should match a word instead of
+     * a part of a word. For example "Bar" would not be found in "FooBar" when true but would be found in "Foo Bar".
+     * When set to false, the robot name can be found anywhere in the user agent string.
+     * @return boolean Returns true if we found the robot we were looking for, false otherwise.
+     */
+    protected function checkSimpleRobot($uaNameToLookFor, $userAgent, $robotName, $separator = '/', $uaNameFindWords = true)
+    {
+        if ($this->findAndGetVersion($uaNameToLookFor, $userAgent, $version, $separator, $uaNameFindWords)) {
+            $this->setRobot(true);
+            $this->setRobotName($robotName);
+            $this->setRobotVersion($version);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Clean a version string from unwanted characters.
+     * @access protected
+     * @param string $version The version string to clean.
+     * @return string Returns the cleaned version number string.
+     */
+    protected function cleanVersion($version)
+    {
+        //Clear anything that is in parentheses (and the parentheses themselves) - will clear started but unclosed ones too
+        $cleanVer = preg_replace('/\([^)]+\)?/', '', $version);
+        //Replace with a space any character which is NOT an alphanumeric, dot (.), hyphen (-), underscore (_) or space
+        $cleanVer = preg_replace('/[^0-9.a-zA-Z_ -]/', ' ', $cleanVer);
+
+        //Remove trailing and leading spaces
+        $cleanVer = trim($cleanVer);
+
+        //Remove trailing dot (.), hyphen (-), underscore (_)
+        while (in_array(substr($cleanVer, -1), array('.', '-', '_'))) {
+            $cleanVer = substr($cleanVer, 0, -1);
+        }
+        //Remove leading dot (.), hyphen (-), underscore (_) and character v
+        while (in_array(substr($cleanVer, 0, 1), array('.', '-', '_', 'v', 'V'))) {
+            $cleanVer = substr($cleanVer, 1);
+        }
+
+        //Remove double spaces if any
+        while (strpos($cleanVer, '  ') !== false) {
+            $cleanVer = str_replace('  ', ' ', $cleanVer);
+        }
+
+        return trim($cleanVer);
     }
 
     /**
@@ -1604,41 +1779,50 @@ class BrowserDetection
      */
     protected function detect()
     {
-        $this->checkBrowsers();
+        $this->checkBrowser();
         $this->checkPlatform(); //Check the platform after the browser since some platforms can change the mobile value
+        $this->checkRobot();
     }
 
     /**
-     * Clean a version string from unwanted characters.
+     * Test the user agent for a specific browser and extract it's version.
      * @access protected
-     * @param string $version The version string to clean.
-     * @return string Returns the cleaned version number string.
+     * @param type $uaNameToLookFor The string (or array of strings) representing the browser name to find in the user
+     * agent.
+     * @param type $userAgent The user agent string to work with.
+     * @param type $version String buffer that will contain the version found (if any).
+     * @param type $separator (optional) The separator string used to split the browser name and the version number in
+     * the user agent.
+     * @param type $uaNameFindWords (optional) Determines if the browser name to find should match a word instead of
+     * a part of a word. For example "Bar" would not be found in "FooBar" when true but would be found in "Foo Bar".
+     * When set to false, the browser name can be found anywhere in the user agent string.
+     * @return boolean Returns true if we found the browser we were looking for, false otherwise.
      */
-    protected function cleanVersion($version)
+    protected function findAndGetVersion($uaNameToLookFor, $userAgent, &$version, $separator = '/', $uaNameFindWords = true)
     {
-        //Clear anything that is in parentheses (and the parentheses themselves) - will clear started but unclosed ones too
-        $cleanVer = preg_replace('/\([^)]+\)?/', '', $version);
-        //Replace with a space any character which is NOT an alphanumeric, dot (.), hyphen (-), underscore (_) or space
-        $cleanVer = preg_replace('/[^0-9.a-zA-Z_ -]/', ' ', $cleanVer);
-
-        //Remove trailing and leading spaces
-        $cleanVer = trim($cleanVer);
-
-        //Remove trailing dot (.), hyphen (-), underscore (_)
-        while (in_array(substr($cleanVer, -1), array('.', '-', '_'))) {
-            $cleanVer = substr($cleanVer, 0, -1);
-        }
-        //Remove leading dot (.), hyphen (-), underscore (_) and character v
-        while (in_array(substr($cleanVer, 0, 1), array('.', '-', '_', 'v', 'V'))) {
-            $cleanVer = substr($cleanVer, 1);
+        $version = '';
+        if (!is_array($uaNameToLookFor)) {
+            $uaNameToLookFor = array($uaNameToLookFor);
         }
 
-        //Remove double spaces if any
-        while (strpos($cleanVer, '  ') !== false) {
-            $cleanVer = str_replace('  ', ' ', $cleanVer);
+        foreach ($uaNameToLookFor as $currUANameToLookFor) {
+            if ($this->containString($userAgent, $currUANameToLookFor, true, $uaNameFindWords)) {
+                //Many browsers don't use the standard "Browser/1.0" format, they uses "Browser 1.0;" instead
+                if (stripos($userAgent, $currUANameToLookFor . $separator) === false) {
+                    $userAgent = str_ireplace($currUANameToLookFor . ' ', $currUANameToLookFor . $separator, $userAgent);
+                }
+
+                $verParts = explode($separator, stristr($userAgent, $currUANameToLookFor));
+                if (count($verParts) > 1) {
+                    $verParts = explode(' ', $verParts[1]);
+                    $version = $verParts[0];
+                }
+
+                return true;
+            }
         }
 
-        return trim($cleanVer);
+        return false;
     }
 
     /**
@@ -1669,6 +1853,8 @@ class BrowserDetection
 
         if ($this->_platformVersion === '10') {
             return 'Mac OS X'; //Unspecified Mac OS X version
+        } else if ($this->compareVersions($macVer, '10.15') >= 0 && $this->compareVersions($macVer, '10.16') < 0) {
+            return 'macOS Catalina';
         } else if ($this->compareVersions($macVer, '10.14') >= 0 && $this->compareVersions($macVer, '10.15') < 0) {
             return 'macOS Mojave';
         } else if ($this->compareVersions($macVer, '10.13') >= 0 && $this->compareVersions($macVer, '10.14') < 0) {
@@ -1730,6 +1916,8 @@ class BrowserDetection
         $this->_isRobot = false;
         $this->_platform = self::PLATFORM_UNKNOWN;
         $this->_platformVersion = self::PLATFORM_VERSION_UNKNOWN;
+        $this->_robotName = self::ROBOT_UNKNOWN;
+        $this->_robotVersion = self::ROBOT_VERSION_UNKNOWN;
         $this->_version = self::VERSION_UNKNOWN;
     }
 
@@ -1737,7 +1925,7 @@ class BrowserDetection
      * Convert a Safari build number to a Safari version number.
      * @access protected
      * @param string $version A string representing the version number.
-     * @link http://web.archive.org/web/20080514173941/http://developer.apple.com/internet/safari/uamatrix.html
+     * @link https://web.archive.org/web/20080514173941/http://developer.apple.com/internet/safari/uamatrix.html
      * @return string Returns the Safari version string. If the version can't be determined, an empty string is
      * returned.
      */
@@ -1891,6 +2079,32 @@ class BrowserDetection
     }
 
     /**
+     * Set the name of the robot.
+     * @access protected
+     * @param string $robotName The name of the robot.
+     */
+    protected function setRobotName($robotName)
+    {
+        $this->_robotName = $robotName;
+    }
+
+    /**
+     * Set the version of the robot.
+     * @access protected
+     * @param string $robotVersion The version of the robot.
+     */
+    protected function setRobotVersion($robotVersion)
+    {
+        $cleanVer = $this->cleanVersion($robotVersion);
+
+        if ($cleanVer == '') {
+            $this->_robotVersion = self::ROBOT_VERSION_UNKNOWN;
+        } else {
+            $this->_robotVersion = $cleanVer;
+        }
+    }
+
+    /**
      * Set the version of the browser.
      * @access protected
      * @param string $version The version of the browser.
@@ -1910,7 +2124,7 @@ class BrowserDetection
      * Convert a WebKit build number to a Safari version number.
      * @access protected
      * @param string $version A string representing the version number.
-     * @link http://web.archive.org/web/20080514173941/http://developer.apple.com/internet/safari/uamatrix.html
+     * @link https://web.archive.org/web/20080514173941/http://developer.apple.com/internet/safari/uamatrix.html
      * @return string Returns the Safari version string. If the version can't be determined, an empty string is
      * returned.
      */
@@ -2038,7 +2252,8 @@ class BrowserDetection
             return self::PLATFORM_WINDOWS . ' ' . $winVer;
         } else if ($this->compareVersions($cleanWinVer, '10') >= 0) {
             //Current version of Windows
-            return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2016') : (self::PLATFORM_WINDOWS . ' 10');
+            //(Windows Server 2019 & 2016 have the same version number. Only the build can separate the two - which is not included in the UA)
+            return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2019') : (self::PLATFORM_WINDOWS . ' 10');
         } else if ($this->compareVersions($cleanWinVer, '7') < 0) {
             if ($this->compareVersions($cleanWinVer, '6.3') == 0) {
                 return $returnServerFlavor ? (self::PLATFORM_WINDOWS . ' Server 2012 R2') : (self::PLATFORM_WINDOWS . ' 8.1');
