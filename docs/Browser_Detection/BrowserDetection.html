@@ -66,12 +66,12 @@ Source Location: /BrowserDetection.php<br /><br />
                           
 <h4>Version:</h4>
 <ul>
-  <li>2.9.5</li>
+  <li>2.9.6</li>
 </ul>
 
 <h4>Copyright:</h4>
 <ul>
-  <li>Copyright (c) 2020, Wolfcast</li>
+  <li>Copyright (c) 2022, Wolfcast</li>
 </ul>
         
 </td>
@@ -128,6 +128,7 @@ Source Location: /BrowserDetection.php<br /><br />
     <li><a href="../Browser_Detection/BrowserDetection.html#constBROWSER_UNKNOWN">BROWSER_UNKNOWN</a></li>
     <li><a href="../Browser_Detection/BrowserDetection.html#constPLATFORM_ANDROID">PLATFORM_ANDROID</a></li>
     <li><a href="../Browser_Detection/BrowserDetection.html#constPLATFORM_BLACKBERRY">PLATFORM_BLACKBERRY</a></li>
+    <li><a href="../Browser_Detection/BrowserDetection.html#constPLATFORM_CHROME_OS">PLATFORM_CHROME_OS</a></li>
     <li><a href="../Browser_Detection/BrowserDetection.html#constPLATFORM_FREEBSD">PLATFORM_FREEBSD</a></li>
     <li><a href="../Browser_Detection/BrowserDetection.html#constPLATFORM_IOS">PLATFORM_IOS</a></li>
     <li><a href="../Browser_Detection/BrowserDetection.html#constPLATFORM_LINUX">PLATFORM_LINUX</a></li>
@@ -260,8 +261,8 @@ Source Location: /BrowserDetection.php<br /><br />
 <a name="class_details"></a>
 <h3>Class Details</h3>
 <div class="tags">
-[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a148">148</a>]<br />
-The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,  platform and device type.<br /><br /><p>Typical usage:</p><p>$browser = new Wolfcast\BrowserDetection();  if ($browser-&gt;getName() == Wolfcast\BrowserDetection::BROWSER_FIREFOX &amp;&amp;      $browser-&gt;compareVersions($browser-&gt;getVersion(), '5.0') &gt;= 0) {      echo 'You are using FireFox version 5 or greater.';  }</p><p>The class is a rewrite of Chris Schuld's Browser class version 1.9 which is mostly unmaintained since August 20th,  2010. Chris' class was based on the original work from Gary White.</p><p>Updates:</p><p>2020-02-02: Version 2.9.5 <ul><li>WARNING! Breaking change: complete rework of robots detection. Now robot name and version is detected in addition
+[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a155">155</a>]<br />
+The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,  platform and device type.<br /><br /><p>Typical usage:</p><p>$browser = new Wolfcast\BrowserDetection();  if ($browser-&gt;getName() == Wolfcast\BrowserDetection::BROWSER_FIREFOX &amp;&amp;      $browser-&gt;compareVersions($browser-&gt;getVersion(), '5.0') &gt;= 0) {      echo 'You are using FireFox version 5 or greater.';  }</p><p>The class is a rewrite of Chris Schuld's Browser class version 1.9 which is mostly unmaintained since August 20th,  2010. Chris' class was based on the original work from Gary White.</p><p>Updates:</p><p>2022-05-01: Version 2.9.6 <ul><li>Added support for Chrome OS.</li><li>Added support for macOS Monterey and macOS Big Sur.</li><li>Now correctly detects AArch64 as 64-bit.</li><li>Added support for PHP 8.</li><li>Tested with latest Web Browsers and platforms.</li></ul>  2020-02-02: Version 2.9.5 <ul><li>WARNING! Breaking change: complete rework of robots detection. Now robot name and version is detected in addition
     of browser name and version. Use getRobotName() and getRobotVersion() when isRobot() is true.</li><li>WARNING! Breaking change: due to robots detection rework the following methods signatures has changed (isRobot
     parameter removed): addCustomBrowserDetection(), checkSimpleBrowserUA(), checkBrowserUAWithVersion().</li><li>Added possibility to support new robots with addCustomRobotDetection().</li><li>Added support for the new Microsoft Edge based on Chromium.</li><li>Added version names for Android 10 and later (Google no longer use candy names for new versions).</li><li>Added macOS Catalina detection.</li><li>Added Windows Server 2019 detection (Windows Server 2016 can be no longer detected due to the fact that they both
     use the same version number and that the build is not included in the user agent).</li></ul>  2019-03-27: Version 2.9.3 <ul><li>Fixed Edge detection on Android.</li><li>Added Android Q detection.</li><li>Now filtering superglobals.</li></ul>  2019-02-28: Version 2.9.2 <ul><li>Fixed Opera detection.</li></ul>  2018-08-23: Version 2.9.1 <ul><li>Fixed Chrome detection under iOS.</li><li>Added Android Pie detection.</li><li>Added macOS Mojave detection.</li></ul>  2018-07-15: Version 2.9.0 <ul><li>WARNING! Breaking change: new Wolfcast namespace. Use new Wolfcast\BrowserDetection().</li><li>iPad, iPhone and iPod are all under iOS now.</li><li>Added Android Oreo detection.</li><li>Added macOS High Sierra detection.</li><li>Added UC Browser detection.</li><li>Improved regular expressions (even less false positives).</li><li>Removed AOL detection.</li><li>Removed the following Web browsers detection: Amaya, Galeon, NetPositive, OmniWeb, Vivaldi detection (use
@@ -274,10 +275,10 @@ The BrowserDetection class facilitates the identification of the user's environm
     <td><b>author:</b>&nbsp;&nbsp;</td><td>Alexandre Valiquette, Chris Schuld, Gary White</td>
   </tr>
   <tr>
-    <td><b>version:</b>&nbsp;&nbsp;</td><td>2.9.5</td>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>2.9.6</td>
   </tr>
   <tr>
-    <td><b>copyright:</b>&nbsp;&nbsp;</td><td>Copyright (c) 2020, Wolfcast</td>
+    <td><b>copyright:</b>&nbsp;&nbsp;</td><td>Copyright (c) 2022, Wolfcast</td>
   </tr>
   <tr>
     <td><b>link:</b>&nbsp;&nbsp;</td><td><a href="https://chrisschuld.com/">https://chrisschuld.com/</a></td>
@@ -292,7 +293,7 @@ The BrowserDetection class facilitates the identification of the user's environm
     <td><b>link:</b>&nbsp;&nbsp;</td><td><a href="https://www.apptools.com/phptools/browser/">https://www.apptools.com/phptools/browser/</a></td>
   </tr>
   <tr>
-    <td><b>last-modified:</b>&nbsp;&nbsp;</td><td>February 2, 2020</td>
+    <td><b>last-modified:</b>&nbsp;&nbsp;</td><td>May 1, 2022</td>
   </tr>
   <tr>
     <td><b>license:</b>&nbsp;&nbsp;</td><td><a href="https://www.gnu.org/licenses/lgpl-3.0.html">https://www.gnu.org/licenses/lgpl-3.0.html</a></td>
@@ -309,7 +310,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_agent"></a>
 	<p></p>
 	<h4>$_agent = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a226">226</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a234">234</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -333,7 +334,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_browserName"></a>
 	<p></p>
 	<h4>$_browserName = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a232">232</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a240">240</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -357,7 +358,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_compatibilityViewName"></a>
 	<p></p>
 	<h4>$_compatibilityViewName = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a238">238</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a246">246</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -381,7 +382,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_compatibilityViewVer"></a>
 	<p></p>
 	<h4>$_compatibilityViewVer = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a244">244</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a252">252</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -405,7 +406,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_customBrowserDetection"></a>
 	<p></p>
 	<h4>$_customBrowserDetection = <span class="value">array()</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a250">250</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a258">258</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -429,7 +430,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_customPlatformDetection"></a>
 	<p></p>
 	<h4>$_customPlatformDetection = <span class="value">array()</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a256">256</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a264">264</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -453,7 +454,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_customRobotDetection"></a>
 	<p></p>
 	<h4>$_customRobotDetection = <span class="value">array()</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a262">262</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a270">270</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -477,7 +478,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_is64bit"></a>
 	<p></p>
 	<h4>$_is64bit = <span class="value">&nbsp;false</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a268">268</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a276">276</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -501,7 +502,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_isMobile"></a>
 	<p></p>
 	<h4>$_isMobile = <span class="value">&nbsp;false</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a274">274</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a282">282</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -525,7 +526,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_isRobot"></a>
 	<p></p>
 	<h4>$_isRobot = <span class="value">&nbsp;false</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a280">280</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a288">288</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -549,7 +550,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_platform"></a>
 	<p></p>
 	<h4>$_platform = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a286">286</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a294">294</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -573,7 +574,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_platformVersion"></a>
 	<p></p>
 	<h4>$_platformVersion = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a292">292</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a300">300</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -597,7 +598,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_robotName"></a>
 	<p></p>
 	<h4>$_robotName = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a298">298</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a306">306</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -621,7 +622,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_robotVersion"></a>
 	<p></p>
 	<h4>$_robotVersion = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a304">304</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a312">312</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -645,7 +646,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 	<a name="var$_version"></a>
 	<p></p>
 	<h4>$_version = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a310">310</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a318">318</a>]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -675,7 +676,7 @@ The BrowserDetection class facilitates the identification of the user's environm
 
   <hr />
 	<a name="method__construct"></a>
-	<h3>constructor __construct <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a321">321</a>]</span></h3>
+	<h3>constructor __construct <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a329">329</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -711,7 +712,7 @@ $useragent = ''])</code>
   </div>
   <hr />
 	<a name="methodaddCustomBrowserDetection"></a>
-	<h3>method addCustomBrowserDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a375">375</a>]</span></h3>
+	<h3>method addCustomBrowserDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a383">383</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -777,7 +778,7 @@ $uaNameFindWords = true])</code>
   </div>
   <hr />
 	<a name="methodaddCustomPlatformDetection"></a>
-	<h3>method addCustomPlatformDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a402">402</a>]</span></h3>
+	<h3>method addCustomPlatformDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a410">410</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -837,7 +838,7 @@ $uaNameFindWords = true])</code>
   </div>
   <hr />
 	<a name="methodaddCustomRobotDetection"></a>
-	<h3>method addCustomRobotDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a433">433</a>]</span></h3>
+	<h3>method addCustomRobotDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a441">441</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -903,7 +904,7 @@ $uaNameFindWords = true])</code>
   </div>
   <hr />
 	<a name="methodandroidVerToStr"></a>
-	<h3>method androidVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a760">760</a>]</span></h3>
+	<h3>method androidVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a768">768</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -942,7 +943,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowser"></a>
-	<h3>method checkBrowser <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1225">1225</a>]</span></h3>
+	<h3>method checkBrowser <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1233">1233</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -970,7 +971,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserAndroid"></a>
-	<h3>method checkBrowserAndroid <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a809">809</a>]</span></h3>
+	<h3>method checkBrowserAndroid <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a817">817</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -998,7 +999,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserBlackBerry"></a>
-	<h3>method checkBrowserBlackBerry <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a821">821</a>]</span></h3>
+	<h3>method checkBrowserBlackBerry <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a829">829</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1029,7 +1030,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserChrome"></a>
-	<h3>method checkBrowserChrome <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a857">857</a>]</span></h3>
+	<h3>method checkBrowserChrome <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a865">865</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1060,7 +1061,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserCustom"></a>
-	<h3>method checkBrowserCustom <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a868">868</a>]</span></h3>
+	<h3>method checkBrowserCustom <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a876">876</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1088,7 +1089,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserEdge"></a>
-	<h3>method checkBrowserEdge <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a887">887</a>]</span></h3>
+	<h3>method checkBrowserEdge <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a895">895</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1116,7 +1117,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserFirebird"></a>
-	<h3>method checkBrowserFirebird <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a897">897</a>]</span></h3>
+	<h3>method checkBrowserFirebird <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a905">905</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1144,7 +1145,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserFirefox"></a>
-	<h3>method checkBrowserFirefox <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a908">908</a>]</span></h3>
+	<h3>method checkBrowserFirefox <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a916">916</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1175,7 +1176,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserIcab"></a>
-	<h3>method checkBrowserIcab <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a930">930</a>]</span></h3>
+	<h3>method checkBrowserIcab <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a938">938</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1206,7 +1207,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserIceCat"></a>
-	<h3>method checkBrowserIceCat <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a942">942</a>]</span></h3>
+	<h3>method checkBrowserIceCat <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a950">950</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1237,7 +1238,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserIceWeasel"></a>
-	<h3>method checkBrowserIceWeasel <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a953">953</a>]</span></h3>
+	<h3>method checkBrowserIceWeasel <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a961">961</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1268,7 +1269,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserInternetExplorer"></a>
-	<h3>method checkBrowserInternetExplorer <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a965">965</a>]</span></h3>
+	<h3>method checkBrowserInternetExplorer <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a973">973</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1302,7 +1303,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserKonqueror"></a>
-	<h3>method checkBrowserKonqueror <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1056">1056</a>]</span></h3>
+	<h3>method checkBrowserKonqueror <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1064">1064</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1333,7 +1334,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserLynx"></a>
-	<h3>method checkBrowserLynx <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1068">1068</a>]</span></h3>
+	<h3>method checkBrowserLynx <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1076">1076</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1364,7 +1365,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserMozilla"></a>
-	<h3>method checkBrowserMozilla <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1078">1078</a>]</span></h3>
+	<h3>method checkBrowserMozilla <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1086">1086</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1392,7 +1393,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserMsnTv"></a>
-	<h3>method checkBrowserMsnTv <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1089">1089</a>]</span></h3>
+	<h3>method checkBrowserMsnTv <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1097">1097</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1423,7 +1424,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserNetscape"></a>
-	<h3>method checkBrowserNetscape <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1100">1100</a>]</span></h3>
+	<h3>method checkBrowserNetscape <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1108">1108</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1454,7 +1455,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserNokia"></a>
-	<h3>method checkBrowserNokia <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1153">1153</a>]</span></h3>
+	<h3>method checkBrowserNokia <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1161">1161</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1485,7 +1486,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserOpera"></a>
-	<h3>method checkBrowserOpera <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1179">1179</a>]</span></h3>
+	<h3>method checkBrowserOpera <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1187">1187</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1522,7 +1523,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserPhoenix"></a>
-	<h3>method checkBrowserPhoenix <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1215">1215</a>]</span></h3>
+	<h3>method checkBrowserPhoenix <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1223">1223</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1550,7 +1551,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserSafari"></a>
-	<h3>method checkBrowserSafari <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1267">1267</a>]</span></h3>
+	<h3>method checkBrowserSafari <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1275">1275</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1587,7 +1588,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserSamsung"></a>
-	<h3>method checkBrowserSamsung <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1306">1306</a>]</span></h3>
+	<h3>method checkBrowserSamsung <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1314">1314</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1615,7 +1616,7 @@ $androidVer)</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserUAWithVersion"></a>
-	<h3>method checkBrowserUAWithVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1325">1325</a>]</span></h3>
+	<h3>method checkBrowserUAWithVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1333">1333</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1678,7 +1679,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckBrowserUC"></a>
-	<h3>method checkBrowserUC <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1357">1357</a>]</span></h3>
+	<h3>method checkBrowserUC <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1365">1365</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1706,7 +1707,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckPlatform"></a>
-	<h3>method checkPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1366">1366</a>]</span></h3>
+	<h3>method checkPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1374">1374</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1731,7 +1732,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckPlatformCustom"></a>
-	<h3>method checkPlatformCustom <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1433">1433</a>]</span></h3>
+	<h3>method checkPlatformCustom <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1444">1444</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1759,7 +1760,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckPlatformVersion"></a>
-	<h3>method checkPlatformVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1455">1455</a>]</span></h3>
+	<h3>method checkPlatformVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1466">1466</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1784,7 +1785,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobot"></a>
-	<h3>method checkRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1557">1557</a>]</span></h3>
+	<h3>method checkRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1577">1577</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1809,7 +1810,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotBingbot"></a>
-	<h3>method checkRobotBingbot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1519">1519</a>]</span></h3>
+	<h3>method checkRobotBingbot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1539">1539</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1840,7 +1841,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotCustom"></a>
-	<h3>method checkRobotCustom <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1573">1573</a>]</span></h3>
+	<h3>method checkRobotCustom <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1593">1593</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1868,7 +1869,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotGooglebot"></a>
-	<h3>method checkRobotGooglebot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1529">1529</a>]</span></h3>
+	<h3>method checkRobotGooglebot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1549">1549</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1896,7 +1897,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotMsnBot"></a>
-	<h3>method checkRobotMsnBot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1548">1548</a>]</span></h3>
+	<h3>method checkRobotMsnBot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1568">1568</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1927,7 +1928,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotSlurp"></a>
-	<h3>method checkRobotSlurp <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1593">1593</a>]</span></h3>
+	<h3>method checkRobotSlurp <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1613">1613</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1955,7 +1956,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotW3CValidator"></a>
-	<h3>method checkRobotW3CValidator <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1604">1604</a>]</span></h3>
+	<h3>method checkRobotW3CValidator <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1624">1624</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1986,7 +1987,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckRobotYahooMultimedia"></a>
-	<h3>method checkRobotYahooMultimedia <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1641">1641</a>]</span></h3>
+	<h3>method checkRobotYahooMultimedia <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1661">1661</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2014,7 +2015,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckSimpleBrowserUA"></a>
-	<h3>method checkSimpleBrowserUA <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1662">1662</a>]</span></h3>
+	<h3>method checkSimpleBrowserUA <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1682">1682</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2083,7 +2084,7 @@ $uaNameFindWords = true])</code>
   </div>
   <hr />
 	<a name="methodcheckSimpleRobot"></a>
-	<h3>method checkSimpleRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1691">1691</a>]</span></h3>
+	<h3>method checkSimpleRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1711">1711</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2146,13 +2147,14 @@ $uaNameFindWords = true])</code>
   </div>
   <hr />
 	<a name="methodcleanVersion"></a>
-	<h3>method cleanVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1710">1710</a>]</span></h3>
+	<h3>method cleanVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1731">1731</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
 		<code>string cleanVersion(
 string
-$version)</code>
+$version, [mixed
+$toRemove = NULL])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -2179,13 +2181,18 @@ $version)</code>
         <td><b>$version</b>&nbsp;&nbsp;</td>
         <td>The version string to clean.</td>
       </tr>
+          <tr>
+        <td class="type">mixed&nbsp;&nbsp;</td>
+        <td><b>$toRemove</b>&nbsp;&nbsp;</td>
+        <td>(optional) String or array of strings representing additional string(s) to remove.</td>
+      </tr>
         </table>
     </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methodcompareVersions"></a>
-	<h3>method compareVersions <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a456">456</a>]</span></h3>
+	<h3>method compareVersions <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a464">464</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2230,7 +2237,7 @@ $compareVer)</code>
   </div>
   <hr />
 	<a name="methodcontainString"></a>
-	<h3>method containString <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1751">1751</a>]</span></h3>
+	<h3>method containString <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1779">1779</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2239,7 +2246,9 @@ string
 $haystack, mixed
 $needle, [boolean
 $insensitive = true], [boolean
-$findWords = true])</code>
+$findWords = true], [
+&$foundPos = NULL], int
+$foundPos)</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -2281,13 +2290,23 @@ $findWords = true])</code>
         <td><b>$findWords</b>&nbsp;&nbsp;</td>
         <td>(optional) Determines if the needle should match a word to be found. For example &quot;Bar&quot;  would not be found in &quot;FooBar&quot; when true but would be found in &quot;Foo Bar&quot;. When set to false, the needle can be  found anywhere in the haystack.</td>
       </tr>
+          <tr>
+        <td class="type">int&nbsp;&nbsp;</td>
+        <td><b>$foundPos</b>&nbsp;&nbsp;</td>
+        <td>(optional) Integer buffer that will contain the position of the needle (if found and if a  non NULL variable has been passed).</td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>&$foundPos</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
         </table>
     </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methoddetect"></a>
-	<h3>method detect <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1780">1780</a>]</span></h3>
+	<h3>method detect <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1811">1811</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2312,7 +2331,7 @@ $findWords = true])</code>
   </div>
   <hr />
 	<a name="methodfindAndGetVersion"></a>
-	<h3>method findAndGetVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1801">1801</a>]</span></h3>
+	<h3>method findAndGetVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1832">1832</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2381,7 +2400,7 @@ $version)</code>
   </div>
   <hr />
 	<a name="methodgetIECompatibilityView"></a>
-	<h3>method getIECompatibilityView <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a503">503</a>]</span></h3>
+	<h3>method getIECompatibilityView <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a511">511</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2420,7 +2439,7 @@ $asArray = false])</code>
   </div>
   <hr />
 	<a name="methodgetLibVersion"></a>
-	<h3>method getLibVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a516">516</a>]</span></h3>
+	<h3>method getLibVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a524">524</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2448,7 +2467,7 @@ $asArray = false])</code>
   </div>
   <hr />
 	<a name="methodgetName"></a>
-	<h3>method getName <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a526">526</a>]</span></h3>
+	<h3>method getName <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a534">534</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2476,7 +2495,7 @@ $asArray = false])</code>
   </div>
   <hr />
 	<a name="methodgetPlatform"></a>
-	<h3>method getPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a537">537</a>]</span></h3>
+	<h3>method getPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a545">545</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2504,7 +2523,7 @@ $asArray = false])</code>
   </div>
   <hr />
 	<a name="methodgetPlatformVersion"></a>
-	<h3>method getPlatformVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a555">555</a>]</span></h3>
+	<h3>method getPlatformVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a563">563</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2549,7 +2568,7 @@ $returnServerFlavor = false])</code>
   </div>
   <hr />
 	<a name="methodgetRobotName"></a>
-	<h3>method getRobotName <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a592">592</a>]</span></h3>
+	<h3>method getRobotName <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a600">600</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2577,7 +2596,7 @@ $returnServerFlavor = false])</code>
   </div>
   <hr />
 	<a name="methodgetRobotVersion"></a>
-	<h3>method getRobotVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a601">601</a>]</span></h3>
+	<h3>method getRobotVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a609">609</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2605,7 +2624,7 @@ $returnServerFlavor = false])</code>
   </div>
   <hr />
 	<a name="methodgetUserAgent"></a>
-	<h3>method getUserAgent <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a610">610</a>]</span></h3>
+	<h3>method getUserAgent <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a618">618</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2633,7 +2652,7 @@ $returnServerFlavor = false])</code>
   </div>
   <hr />
 	<a name="methodgetVersion"></a>
-	<h3>method getVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a619">619</a>]</span></h3>
+	<h3>method getVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a627">627</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2661,7 +2680,7 @@ $returnServerFlavor = false])</code>
   </div>
   <hr />
 	<a name="methodiOSVerToStr"></a>
-	<h3>method iOSVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1834">1834</a>]</span></h3>
+	<h3>method iOSVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1866">1866</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2700,7 +2719,7 @@ $iOSVer)</code>
   </div>
   <hr />
 	<a name="methodis64bitPlatform"></a>
-	<h3>method is64bitPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a629">629</a>]</span></h3>
+	<h3>method is64bitPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a637">637</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2728,7 +2747,7 @@ $iOSVer)</code>
   </div>
   <hr />
 	<a name="methodisChromeFrame"></a>
-	<h3>method isChromeFrame <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a639">639</a>]</span></h3>
+	<h3>method isChromeFrame <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a647">647</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2756,7 +2775,7 @@ $iOSVer)</code>
   </div>
   <hr />
 	<a name="methodisInIECompatibilityView"></a>
-	<h3>method isInIECompatibilityView <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a650">650</a>]</span></h3>
+	<h3>method isInIECompatibilityView <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a658">658</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2784,7 +2803,7 @@ $iOSVer)</code>
   </div>
   <hr />
 	<a name="methodisMobile"></a>
-	<h3>method isMobile <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a659">659</a>]</span></h3>
+	<h3>method isMobile <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a667">667</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2812,7 +2831,7 @@ $iOSVer)</code>
   </div>
   <hr />
 	<a name="methodisRobot"></a>
-	<h3>method isRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a668">668</a>]</span></h3>
+	<h3>method isRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a676">676</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2840,7 +2859,7 @@ $iOSVer)</code>
   </div>
   <hr />
 	<a name="methodmacVerToStr"></a>
-	<h3>method macVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1850">1850</a>]</span></h3>
+	<h3>method macVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1882">1882</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2879,7 +2898,7 @@ $macVer)</code>
   </div>
   <hr />
 	<a name="methodparseInt"></a>
-	<h3>method parseInt <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1899">1899</a>]</span></h3>
+	<h3>method parseInt <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1935">1935</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2918,7 +2937,7 @@ $intStr)</code>
   </div>
   <hr />
 	<a name="methodremoveCustomBrowserDetection"></a>
-	<h3>method removeCustomBrowserDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a679">679</a>]</span></h3>
+	<h3>method removeCustomBrowserDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a687">687</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -2960,7 +2979,7 @@ $browserName)</code>
   </div>
   <hr />
 	<a name="methodremoveCustomPlatformDetection"></a>
-	<h3>method removeCustomPlatformDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a695">695</a>]</span></h3>
+	<h3>method removeCustomPlatformDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a703">703</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3002,7 +3021,7 @@ $platformName)</code>
   </div>
   <hr />
 	<a name="methodremoveCustomRobotDetection"></a>
-	<h3>method removeCustomRobotDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a711">711</a>]</span></h3>
+	<h3>method removeCustomRobotDetection <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a719">719</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3044,7 +3063,7 @@ $robotName)</code>
   </div>
   <hr />
 	<a name="methodreset"></a>
-	<h3>method reset <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1908">1908</a>]</span></h3>
+	<h3>method reset <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1944">1944</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3069,7 +3088,7 @@ $robotName)</code>
   </div>
   <hr />
 	<a name="methodsafariBuildToSafariVer"></a>
-	<h3>method safariBuildToSafariVer <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1932">1932</a>]</span></h3>
+	<h3>method safariBuildToSafariVer <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a1968">1968</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3111,7 +3130,7 @@ $version)</code>
   </div>
   <hr />
 	<a name="methodset64bit"></a>
-	<h3>method set64bit <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2026">2026</a>]</span></h3>
+	<h3>method set64bit <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2062">2062</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3147,7 +3166,7 @@ $is64bit)</code>
   </div>
   <hr />
 	<a name="methodsetBrowser"></a>
-	<h3>method setBrowser <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2036">2036</a>]</span></h3>
+	<h3>method setBrowser <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2072">2072</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3183,7 +3202,7 @@ $browserName)</code>
   </div>
   <hr />
 	<a name="methodsetMobile"></a>
-	<h3>method setMobile <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2046">2046</a>]</span></h3>
+	<h3>method setMobile <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2082">2082</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3219,7 +3238,7 @@ $isMobile = true])</code>
   </div>
   <hr />
 	<a name="methodsetPlatform"></a>
-	<h3>method setPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2056">2056</a>]</span></h3>
+	<h3>method setPlatform <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2092">2092</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3255,7 +3274,7 @@ $platform)</code>
   </div>
   <hr />
 	<a name="methodsetPlatformVersion"></a>
-	<h3>method setPlatformVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2066">2066</a>]</span></h3>
+	<h3>method setPlatformVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2102">2102</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3291,7 +3310,7 @@ $platformVer)</code>
   </div>
   <hr />
 	<a name="methodsetRobot"></a>
-	<h3>method setRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2076">2076</a>]</span></h3>
+	<h3>method setRobot <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2112">2112</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3327,7 +3346,7 @@ $isRobot = true])</code>
   </div>
   <hr />
 	<a name="methodsetRobotName"></a>
-	<h3>method setRobotName <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2086">2086</a>]</span></h3>
+	<h3>method setRobotName <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2122">2122</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3363,7 +3382,7 @@ $robotName)</code>
   </div>
   <hr />
 	<a name="methodsetRobotVersion"></a>
-	<h3>method setRobotVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2096">2096</a>]</span></h3>
+	<h3>method setRobotVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2132">2132</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3399,7 +3418,7 @@ $robotVersion)</code>
   </div>
   <hr />
 	<a name="methodsetUserAgent"></a>
-	<h3>method setUserAgent <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a726">726</a>]</span></h3>
+	<h3>method setUserAgent <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a734">734</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3435,7 +3454,7 @@ $agentString = ''])</code>
   </div>
   <hr />
 	<a name="methodsetVersion"></a>
-	<h3>method setVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2112">2112</a>]</span></h3>
+	<h3>method setVersion <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2148">2148</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3471,7 +3490,7 @@ $version)</code>
   </div>
   <hr />
 	<a name="methodwebKitBuildToSafariVer"></a>
-	<h3>method webKitBuildToSafariVer <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2131">2131</a>]</span></h3>
+	<h3>method webKitBuildToSafariVer <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2167">2167</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3513,7 +3532,7 @@ $version)</code>
   </div>
   <hr />
 	<a name="methodwindowsNTVerToStr"></a>
-	<h3>method windowsNTVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2240">2240</a>]</span></h3>
+	<h3>method windowsNTVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2276">2276</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3558,7 +3577,7 @@ $returnServerFlavor = false])</code>
   </div>
   <hr />
 	<a name="methodwindowsVerToStr"></a>
-	<h3>method windowsVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2288">2288</a>]</span></h3>
+	<h3>method windowsVerToStr <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2322">2322</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3597,7 +3616,7 @@ $winVer)</code>
   </div>
   <hr />
 	<a name="methodwordPos"></a>
-	<h3>method wordPos <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2322">2322</a>]</span></h3>
+	<h3>method wordPos <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a2356">2356</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3666,7 +3685,7 @@ $foundString)</code>
   </div>
   <hr />
 	<a name="method__toString"></a>
-	<h3>method __toString <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a330">330</a>]</span></h3>
+	<h3>method __toString <span class="smalllinenumber">[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a338">338</a>]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -3701,357 +3720,364 @@ $foundString)</code>
 	<a name="constBROWSER_ANDROID"></a>
 	<p></p>
 	<h4>BROWSER_ANDROID = <span class="value">&nbsp;'Android'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a154">154</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a161">161</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_BLACKBERRY"></a>
 	<p></p>
 	<h4>BROWSER_BLACKBERRY = <span class="value">&nbsp;'BlackBerry'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a155">155</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a162">162</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_CHROME"></a>
 	<p></p>
 	<h4>BROWSER_CHROME = <span class="value">&nbsp;'Chrome'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a156">156</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a163">163</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_EDGE"></a>
 	<p></p>
 	<h4>BROWSER_EDGE = <span class="value">&nbsp;'Edge'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a157">157</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a164">164</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_FIREBIRD"></a>
 	<p></p>
 	<h4>BROWSER_FIREBIRD = <span class="value">&nbsp;'Firebird'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a158">158</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a165">165</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_FIREFOX"></a>
 	<p></p>
 	<h4>BROWSER_FIREFOX = <span class="value">&nbsp;'Firefox'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a159">159</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a166">166</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_ICAB"></a>
 	<p></p>
 	<h4>BROWSER_ICAB = <span class="value">&nbsp;'iCab'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a160">160</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a167">167</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_ICECAT"></a>
 	<p></p>
 	<h4>BROWSER_ICECAT = <span class="value">&nbsp;'GNU&nbsp;IceCat'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a161">161</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a168">168</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_ICEWEASEL"></a>
 	<p></p>
 	<h4>BROWSER_ICEWEASEL = <span class="value">&nbsp;'GNU&nbsp;IceWeasel'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a162">162</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a169">169</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_IE"></a>
 	<p></p>
 	<h4>BROWSER_IE = <span class="value">&nbsp;'Internet&nbsp;Explorer'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a163">163</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a170">170</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_IE_MOBILE"></a>
 	<p></p>
 	<h4>BROWSER_IE_MOBILE = <span class="value">&nbsp;'Internet&nbsp;Explorer&nbsp;Mobile'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a164">164</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a171">171</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_KONQUEROR"></a>
 	<p></p>
 	<h4>BROWSER_KONQUEROR = <span class="value">&nbsp;'Konqueror'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a165">165</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a172">172</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_LYNX"></a>
 	<p></p>
 	<h4>BROWSER_LYNX = <span class="value">&nbsp;'Lynx'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a166">166</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a173">173</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_MOZILLA"></a>
 	<p></p>
 	<h4>BROWSER_MOZILLA = <span class="value">&nbsp;'Mozilla'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a167">167</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a174">174</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_MSNTV"></a>
 	<p></p>
 	<h4>BROWSER_MSNTV = <span class="value">&nbsp;'MSN&nbsp;TV'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a168">168</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a175">175</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_NETSCAPE"></a>
 	<p></p>
 	<h4>BROWSER_NETSCAPE = <span class="value">&nbsp;'Netscape'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a169">169</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a176">176</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_NOKIA"></a>
 	<p></p>
 	<h4>BROWSER_NOKIA = <span class="value">&nbsp;'Nokia&nbsp;Browser'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a170">170</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a177">177</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_OPERA"></a>
 	<p></p>
 	<h4>BROWSER_OPERA = <span class="value">&nbsp;'Opera'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a171">171</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a178">178</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_OPERA_MINI"></a>
 	<p></p>
 	<h4>BROWSER_OPERA_MINI = <span class="value">&nbsp;'Opera&nbsp;Mini'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a172">172</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a179">179</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_OPERA_MOBILE"></a>
 	<p></p>
 	<h4>BROWSER_OPERA_MOBILE = <span class="value">&nbsp;'Opera&nbsp;Mobile'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a173">173</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a180">180</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_PHOENIX"></a>
 	<p></p>
 	<h4>BROWSER_PHOENIX = <span class="value">&nbsp;'Phoenix'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a174">174</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a181">181</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_SAFARI"></a>
 	<p></p>
 	<h4>BROWSER_SAFARI = <span class="value">&nbsp;'Safari'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a175">175</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a182">182</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_SAMSUNG"></a>
 	<p></p>
 	<h4>BROWSER_SAMSUNG = <span class="value">&nbsp;'Samsung&nbsp;Internet'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a176">176</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a183">183</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_TABLET_OS"></a>
 	<p></p>
 	<h4>BROWSER_TABLET_OS = <span class="value">&nbsp;'BlackBerry&nbsp;Tablet&nbsp;OS'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a177">177</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a184">184</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_UC"></a>
 	<p></p>
 	<h4>BROWSER_UC = <span class="value">&nbsp;'UC&nbsp;Browser'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a178">178</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a185">185</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constBROWSER_UNKNOWN"></a>
 	<p></p>
 	<h4>BROWSER_UNKNOWN = <span class="value">&nbsp;'unknown'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a179">179</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a186">186</a>]</p>
   Constant for the name of the Web browser.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_ANDROID"></a>
 	<p></p>
 	<h4>PLATFORM_ANDROID = <span class="value">&nbsp;'Android'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a185">185</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a192">192</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_BLACKBERRY"></a>
 	<p></p>
 	<h4>PLATFORM_BLACKBERRY = <span class="value">&nbsp;'BlackBerry'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a186">186</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a193">193</a>]</p>
+  Constant for the name of the platform on which the Web browser runs.<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constPLATFORM_CHROME_OS"></a>
+	<p></p>
+	<h4>PLATFORM_CHROME_OS = <span class="value">&nbsp;'Chrome&nbsp;OS'</span></h4>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a194">194</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_FREEBSD"></a>
 	<p></p>
 	<h4>PLATFORM_FREEBSD = <span class="value">&nbsp;'FreeBSD'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a187">187</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a195">195</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_IOS"></a>
 	<p></p>
 	<h4>PLATFORM_IOS = <span class="value">&nbsp;'iOS'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a188">188</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a196">196</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_LINUX"></a>
 	<p></p>
 	<h4>PLATFORM_LINUX = <span class="value">&nbsp;'Linux'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a189">189</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a197">197</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_MACINTOSH"></a>
 	<p></p>
 	<h4>PLATFORM_MACINTOSH = <span class="value">&nbsp;'Macintosh'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a190">190</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a198">198</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_NETBSD"></a>
 	<p></p>
 	<h4>PLATFORM_NETBSD = <span class="value">&nbsp;'NetBSD'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a191">191</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a199">199</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_NOKIA"></a>
 	<p></p>
 	<h4>PLATFORM_NOKIA = <span class="value">&nbsp;'Nokia'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a192">192</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a200">200</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_OPENBSD"></a>
 	<p></p>
 	<h4>PLATFORM_OPENBSD = <span class="value">&nbsp;'OpenBSD'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a193">193</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a201">201</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_OPENSOLARIS"></a>
 	<p></p>
 	<h4>PLATFORM_OPENSOLARIS = <span class="value">&nbsp;'OpenSolaris'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a194">194</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a202">202</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_SYMBIAN"></a>
 	<p></p>
 	<h4>PLATFORM_SYMBIAN = <span class="value">&nbsp;'Symbian'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a195">195</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a203">203</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_UNKNOWN"></a>
 	<p></p>
 	<h4>PLATFORM_UNKNOWN = <span class="value">&nbsp;'unknown'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a196">196</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a204">204</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_VERSION_UNKNOWN"></a>
 	<p></p>
 	<h4>PLATFORM_VERSION_UNKNOWN = <span class="value">&nbsp;'unknown'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a197">197</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a205">205</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_WINDOWS"></a>
 	<p></p>
 	<h4>PLATFORM_WINDOWS = <span class="value">&nbsp;'Windows'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a198">198</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a206">206</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_WINDOWS_CE"></a>
 	<p></p>
 	<h4>PLATFORM_WINDOWS_CE = <span class="value">&nbsp;'Windows&nbsp;CE'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a199">199</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a207">207</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constPLATFORM_WINDOWS_PHONE"></a>
 	<p></p>
 	<h4>PLATFORM_WINDOWS_PHONE = <span class="value">&nbsp;'Windows&nbsp;Phone'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a200">200</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a208">208</a>]</p>
   Constant for the name of the platform on which the Web browser runs.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_BINGBOT"></a>
 	<p></p>
 	<h4>ROBOT_BINGBOT = <span class="value">&nbsp;'Bingbot'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a206">206</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a214">214</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_GOOGLEBOT"></a>
 	<p></p>
 	<h4>ROBOT_GOOGLEBOT = <span class="value">&nbsp;'Googlebot'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a207">207</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a215">215</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_MSNBOT"></a>
 	<p></p>
 	<h4>ROBOT_MSNBOT = <span class="value">&nbsp;'MSNBot'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a208">208</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a216">216</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_SLURP"></a>
 	<p></p>
 	<h4>ROBOT_SLURP = <span class="value">&nbsp;'Yahoo!&nbsp;Slurp'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a209">209</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a217">217</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_UNKNOWN"></a>
 	<p></p>
 	<h4>ROBOT_UNKNOWN = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a210">210</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a218">218</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_VERSION_UNKNOWN"></a>
 	<p></p>
 	<h4>ROBOT_VERSION_UNKNOWN = <span class="value">&nbsp;''</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a211">211</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a219">219</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_W3CVALIDATOR"></a>
 	<p></p>
 	<h4>ROBOT_W3CVALIDATOR = <span class="value">&nbsp;'W3C&nbsp;Validator'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a212">212</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a220">220</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constROBOT_YAHOO_MM"></a>
 	<p></p>
 	<h4>ROBOT_YAHOO_MM = <span class="value">&nbsp;'Yahoo!&nbsp;Multimedia'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a213">213</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a221">221</a>]</p>
   Constant for the name of the robot.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constVERSION_UNKNOWN"></a>
 	<p></p>
 	<h4>VERSION_UNKNOWN = <span class="value">&nbsp;'unknown'</span></h4>
-	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a219">219</a>]</p>
+	<p>[line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a227">227</a>]</p>
   Version unknown constant.<br /><br />
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
@@ -4059,7 +4085,7 @@ $foundString)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Sun, 02 Feb 2020 00:29:49 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Sun, 01 May 2022 21:20:33 -0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

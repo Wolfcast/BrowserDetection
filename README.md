@@ -12,19 +12,19 @@ Features
 
 The [Wolfcast](https://wolfcast.com/) BrowserDetection PHP class is the most accurate detection class. **It has been tested with 14000+ different user agent strings and it have a 99.95% accuracy ratio!**
 
-Natively detects the following broswers:
+Natively detects the following browsers:
 
   * Android
   * BlackBerry
   * BlackBerry Tablet OS
-  * Chrome 0.2 - 79+
-  * Edge (Including the new Edge based on Chromium)
+  * Chrome
+  * Edge
   * Firebird
-  * Firefox 0.10 - 72+
+  * Firefox
   * GNU IceCat
   * GNU IceWeasel
   * iCab
-  * Internet Explorer 1 - 11
+  * Internet Explorer
   * Internet Explorer Mobile
   * Konqueror
   * Lynx
@@ -32,11 +32,11 @@ Natively detects the following broswers:
   * MSN TV
   * Netscape
   * Nokia Browser
-  * Opera 4.02 - 66+
+  * Opera
   * Opera Mini
   * Opera Mobile
   * Phoenix
-  * Safari 1 - 13+
+  * Safari
   * Samsung Internet
   * UC Browser
 
@@ -56,6 +56,7 @@ You can also easily add custom rules to support other robots not natively suppor
 Natively detects the following platforms:
   * Android
   * BlackBerry
+  * Chrome OS
   * FreeBSD
   * iOS
   * Linux
@@ -74,7 +75,7 @@ You can also easily add custom rules to support other platforms not natively sup
 Requirements
 ------------
 
-Requires PHP 5.3 or newer (tested with PHP 5.3.29 - 7.4.0).
+Requires PHP 5.3 or newer (tested with PHP 8.1.0, 7.4.26 and 5.6.40).
 
 Demo and full documentation
 ---------------------------
@@ -102,7 +103,7 @@ if ($browser->getName() == Wolfcast\BrowserDetection::BROWSER_FIREFOX &&
 History
 -------
 
-Correctly identifying what Web browser your users are using is an incredibly complex task. If you ever tried to implement something like this you quickly saw how this can become a code mess. Only a few libraries exists and they often get deprecated and becomes abandonware. This is why we created our own detection engine. We didn't started from scratch. The class is a heavily updated version of Chris Schuld's Browser class version 1.9 (which was unmaintained for a couple of years). Chris' class was based on the original work from Gary White.
+Correctly identifying what Web browser your users are using is an incredibly complex task. If you ever tried to implement something like this you quickly saw how this can become a code mess. Only a few libraries exist and they often get deprecated and becomes abandonware. This is why we created our own detection engine. We didn't start from scratch. The class is a heavily updated version of Chris Schuld's Browser class version 1.9 (which was unmaintained for a couple of years). Chris' class was based on the original work from Gary White.
 
 License
 -------
