@@ -104,3 +104,8 @@ History
 -------
 
 Correctly identifying what Web browser your users are using is an incredibly complex task. If you ever tried to implement something like this you quickly saw how this can become a code mess. Only a few libraries exist and they often get deprecated and becomes abandonware. This is why we created our own detection engine. We didn't start from scratch. The class is a heavily updated version of Chris Schuld's Browser class version 1.9 (which was unmaintained for a couple of years). Chris' class was based on the original work from Gary White.
+
+License
+-------
+
+SPDX-License-Identifier: MIT OR LGPL-3.0-only
