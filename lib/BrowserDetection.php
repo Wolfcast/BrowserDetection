@@ -40,7 +40,7 @@ namespace Wolfcast;
  * Updates:
  *
  * 2022-09-20: Version 2.9.7
- *  + Changed licensing to dual licensing: MIT or LGPL-3.0-only. This has no impact on existing users you can continue
+ *  + Changed licensing to dual licensing: MIT or LGPL-3.0-only. This has no impact on existing users. You can continue
  *    under the previous license or switch to MIT.
  *
  * 2022-05-01: Version 2.9.6
