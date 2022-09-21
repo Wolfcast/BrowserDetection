@@ -1,0 +1,1 @@
+This program is free software; you can redistribute it and/or modify it under the terms of EITHER the [MIT License](LICENSE-MIT.md) (SPDX short identifier: [MIT](https://spdx.org/licenses/MIT.html)) OR the [GNU Lesser General Public License Version 3](LICENSE-LGPL-3.0-only.md) (SPDX short identifier: [LGPL-3.0-only](https://spdx.org/licenses/GPL-3.0-only.html)).
