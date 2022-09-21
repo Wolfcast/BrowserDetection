@@ -9,8 +9,8 @@
  * LGPL-3.0-only). License details can be found in the LICENSE-*.md files of this project or on the below URLs.
  *
  * @package Browser_Detection
- * @version 2.9.6
- * @last-modified May 1, 2022
+ * @version 2.9.7
+ * @last-modified September 20, 2022
  * @author Alexandre Valiquette
  * @copyright Copyright (c) 2022, Wolfcast
  * @license https://spdx.org/licenses/GPL-3.0-only.html
@@ -144,8 +144,8 @@ namespace Wolfcast;
  *  + Better Mozilla detection
  *
  * @package Browser_Detection
- * @version 2.9.6
- * @last-modified May 1, 2022
+ * @version 2.9.7
+ * @last-modified September 20, 2022
  * @author Alexandre Valiquette, Chris Schuld, Gary White
  * @copyright Copyright (c) 2022, Wolfcast
  * @license https://spdx.org/licenses/GPL-3.0-only.html
@@ -526,7 +526,7 @@ class BrowserDetection
      */
     public function getLibVersion()
     {
-        return '2.9.6';
+        return '2.9.7';
     }
 
     /**

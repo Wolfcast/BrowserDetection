@@ -66,7 +66,7 @@ Source Location: /BrowserDetection.php<br /><br />
                               
 <h4>Version:</h4>
 <ul>
-  <li>2.9.6</li>
+  <li>2.9.7</li>
 </ul>
 
 <h4>Copyright:</h4>
@@ -262,7 +262,7 @@ Source Location: /BrowserDetection.php<br /><br />
 <h3>Class Details</h3>
 <div class="tags">
 [line <a href="../__filesource/fsource_Browser_Detection__BrowserDetection.php.html#a158">158</a>]<br />
-The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,  platform and device type.<br /><br /><p>Typical usage:</p><p>$browser = new Wolfcast\BrowserDetection();  if ($browser-&gt;getName() == Wolfcast\BrowserDetection::BROWSER_FIREFOX &amp;&amp;      $browser-&gt;compareVersions($browser-&gt;getVersion(), '5.0') &gt;= 0) {      echo 'You are using FireFox version 5 or greater.';  }</p><p>The class is a rewrite of Chris Schuld's Browser class version 1.9 which is mostly unmaintained since August 20th,  2010. Chris' class was based on the original work from Gary White.</p><p>Updates:</p><p>2022-09-20: Version 2.9.7 <ul><li>Changed licensing to dual licensing: MIT or LGPL-3.0-only. This has no impact on existing users you can continue
+The BrowserDetection class facilitates the identification of the user's environment such as Web browser, version,  platform and device type.<br /><br /><p>Typical usage:</p><p>$browser = new Wolfcast\BrowserDetection();  if ($browser-&gt;getName() == Wolfcast\BrowserDetection::BROWSER_FIREFOX &amp;&amp;      $browser-&gt;compareVersions($browser-&gt;getVersion(), '5.0') &gt;= 0) {      echo 'You are using FireFox version 5 or greater.';  }</p><p>The class is a rewrite of Chris Schuld's Browser class version 1.9 which is mostly unmaintained since August 20th,  2010. Chris' class was based on the original work from Gary White.</p><p>Updates:</p><p>2022-09-20: Version 2.9.7 <ul><li>Changed licensing to dual licensing: MIT or LGPL-3.0-only. This has no impact on existing users. You can continue
     under the previous license or switch to MIT.</li></ul>  2022-05-01: Version 2.9.6 <ul><li>Added support for Chrome OS.</li><li>Added support for macOS Monterey and macOS Big Sur.</li><li>Now correctly detects AArch64 as 64-bit.</li><li>Added support for PHP 8.</li><li>Tested with latest Web Browsers and platforms.</li></ul>  2020-02-02: Version 2.9.5 <ul><li>WARNING! Breaking change: complete rework of robots detection. Now robot name and version is detected in addition
     of browser name and version. Use getRobotName() and getRobotVersion() when isRobot() is true.</li><li>WARNING! Breaking change: due to robots detection rework the following methods signatures has changed (isRobot
     parameter removed): addCustomBrowserDetection(), checkSimpleBrowserUA(), checkBrowserUAWithVersion().</li><li>Added possibility to support new robots with addCustomRobotDetection().</li><li>Added support for the new Microsoft Edge based on Chromium.</li><li>Added version names for Android 10 and later (Google no longer use candy names for new versions).</li><li>Added macOS Catalina detection.</li><li>Added Windows Server 2019 detection (Windows Server 2016 can be no longer detected due to the fact that they both
@@ -276,7 +276,7 @@ The BrowserDetection class facilitates the identification of the user's environm
     <td><b>author:</b>&nbsp;&nbsp;</td><td>Alexandre Valiquette, Chris Schuld, Gary White</td>
   </tr>
   <tr>
-    <td><b>version:</b>&nbsp;&nbsp;</td><td>2.9.6</td>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>2.9.7</td>
   </tr>
   <tr>
     <td><b>copyright:</b>&nbsp;&nbsp;</td><td>Copyright (c) 2022, Wolfcast</td>
@@ -294,7 +294,7 @@ The BrowserDetection class facilitates the identification of the user's environm
     <td><b>link:</b>&nbsp;&nbsp;</td><td><a href="https://chrisschuld.com/">https://chrisschuld.com/</a></td>
   </tr>
   <tr>
-    <td><b>last-modified:</b>&nbsp;&nbsp;</td><td>May 1, 2022</td>
+    <td><b>last-modified:</b>&nbsp;&nbsp;</td><td>September 20, 2022</td>
   </tr>
   <tr>
     <td><b>license:</b>&nbsp;&nbsp;</td><td><a href="https://spdx.org/licenses/MIT.html">https://spdx.org/licenses/MIT.html</a></td>
@@ -4089,7 +4089,7 @@ $foundString)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Tue, 20 Sep 2022 23:09:24 -0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Tue, 20 Sep 2022 23:35:16 -0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>
