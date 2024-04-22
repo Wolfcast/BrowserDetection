@@ -75,7 +75,7 @@ You can also easily add custom rules to support other platforms not natively sup
 Requirements
 ------------
 
-Requires PHP 5.3 or newer (tested with PHP 8.1.0, 7.4.26 and 5.6.40).
+Requires PHP 5.3 or newer (tested with PHP 8.3.6, 7.4.33 and 5.6.40).
 
 Demo and full documentation
 ---------------------------
@@ -85,7 +85,11 @@ You can try the [live demo](https://wolfcast.com/open-source/browser-detection/t
 Installation
 ------------
 
-To install, simply upload `BrowserDetection.php` (found in the `lib` directory) to your web host and `require_once` it in your PHP script.
+You can add this library as a local, per-project dependency to your project using [Composer](https://getcomposer.org/) ([Packagist link](https://packagist.org/packages/wolfcast/browser-detection)):
+
+    composer require wolfcast/browser-detection
+
+You can also manually install this library by adding `BrowserDetection.php` (found in the `lib` directory) to your project and then `require_once` the library where needed.
 
 Usage
 -----
