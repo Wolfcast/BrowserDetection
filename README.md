@@ -80,7 +80,7 @@ Requires PHP 5.3 or newer (tested with PHP 8.3.6, 7.4.33 and 5.6.40).
 Demo and full documentation
 ---------------------------
 
-You can try the [live demo](https://wolfcast.com/open-source/browser-detection/tutorial.php) of the class and you can read the [documentation](https://wolfcast.com/open-source/browser-detection/doc/Browser_Detection/BrowserDetection.html).
+You can try the [live demo](https://wolfcast.com/open-source/browser-detection/tutorial.php) of the class and you can read the [documentation](https://wolfcast.com/open-source/browser-detection/doc/classes/Wolfcast-BrowserDetection.html).
 
 Installation
 ------------
