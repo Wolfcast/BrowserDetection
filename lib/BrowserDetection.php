@@ -1913,6 +1913,8 @@ class BrowserDetection
 
         if ($this->_platformVersion === '10') {
             return 'Mac OS X'; //Unspecified Mac OS X version
+        } else if ($this->compareVersions($macVer, '15.0') >= 0 && $this->compareVersions($macVer, '16.0') < 0) {
+            return 'macOS Sequoia';
         } else if ($this->compareVersions($macVer, '14.0') >= 0 && $this->compareVersions($macVer, '15.0') < 0) {
             return 'macOS Sonoma';
         } else if ($this->compareVersions($macVer, '13.0') >= 0 && $this->compareVersions($macVer, '14.0') < 0) {
