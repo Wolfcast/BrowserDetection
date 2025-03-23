@@ -75,7 +75,7 @@ You can also easily add custom rules to support other platforms not natively sup
 Requirements
 ------------
 
-Requires PHP 5.3 or newer (tested with PHP 8.3.6, 7.4.33 and 5.6.40).
+Requires PHP 5.3 or newer (tested with PHP 8.4.5, 7.4.33 and 5.6.40).
 
 Demo and full documentation
 ---------------------------

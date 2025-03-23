@@ -9,10 +9,10 @@
  * LGPL-3.0-only). License details can be found in the LICENSE-*.md files of this project or on the below URLs.
  *
  * @package BrowserDetection
- * @version 2.9.8
- * @last-modified April 21, 2024
+ * @version 2.9.9
+ * @last-modified March 23, 2025
  * @author Alexandre Valiquette
- * @copyright Copyright (c) 2024, Wolfcast
+ * @copyright Copyright (c) 2025, Wolfcast
  * @license https://spdx.org/licenses/GPL-3.0-only.html
  * @license https://spdx.org/licenses/MIT.html
  * @link https://wolfcast.com/
@@ -40,6 +40,9 @@ namespace Wolfcast;
  * 2010. Chris' class was based on the original work from Gary White.
  *
  * Updates:
+ *
+ * 2025-03-23: Version 2.9.9
+ *  + Added macOS Sequoia detection for browsers that still correctly report the macOS version.
  *
  * 2024-04-21: Version 2.9.8
  *  + Added macOS Sonoma and macOS Ventura detection. Note that all the majors Web browsers have reported macOS Catalina
@@ -153,10 +156,10 @@ namespace Wolfcast;
  *  + Better Mozilla detection
  *
  * @package BrowserDetection
- * @version 2.9.8
- * @last-modified April 21, 2024
+ * @version 2.9.9
+ * @last-modified March 23, 2025
  * @author Alexandre Valiquette, Chris Schuld, Gary White
- * @copyright Copyright (c) 2024, Wolfcast
+ * @copyright Copyright (c) 2025, Wolfcast
  * @license https://spdx.org/licenses/GPL-3.0-only.html
  * @license https://spdx.org/licenses/MIT.html
  * @link https://wolfcast.com/
@@ -534,7 +537,7 @@ class BrowserDetection
      */
     public function getLibVersion()
     {
-        return '2.9.8';
+        return '2.9.9';
     }
 
     /**
@@ -1913,6 +1916,8 @@ class BrowserDetection
 
         if ($this->_platformVersion === '10') {
             return 'Mac OS X'; //Unspecified Mac OS X version
+        } else if ($this->compareVersions($macVer, '15.0') >= 0 && $this->compareVersions($macVer, '16.0') < 0) {
+            return 'macOS Sequoia';
         } else if ($this->compareVersions($macVer, '14.0') >= 0 && $this->compareVersions($macVer, '15.0') < 0) {
             return 'macOS Sonoma';
         } else if ($this->compareVersions($macVer, '13.0') >= 0 && $this->compareVersions($macVer, '14.0') < 0) {
